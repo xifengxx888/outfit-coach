@@ -1,0 +1,14 @@
+编号,名称,品类,层级,正式度,颜色HEX,版型,图案,材质,领型,厚度,衣长cm,肩宽cm,胸宽cm,袖长cm,裤长cm,平铺腰围cm,季节,照片文件名,备注
+1,灰绿薄T恤,T恤,inner,2,#4A5A5A,regular,solid,棉,圆领,thin,68,44,50,20,,,spring_fall,edge_01.jpg,与 #2 触发 R-COL-02
+2,墨绿针织衫,针织,mid,3,#4A5A4A,regular,solid,针织,圆领,medium,66,44,51,60,,,spring_fall,edge_02.jpg,与 #1 ΔE00<10 且色系不同
+3,黑色修身衬衫,衬衫,inner,3,#1A1A1A,slim,solid,棉,翻领,thin,72,43,48,60,,,spring_fall,edge_03.jpg,与 #4 触发 R-PRP-02
+4,米色修身裤,裤子,bottom,3,#C3B091,slim,solid,棉,不适用,medium,,,,,100,38,spring_fall,edge_04.jpg,与 #3 触发 R-PRP-02
+5,黑底大花西装,西装,outer,4,#1E1E1E,regular,bold,羊毛,翻领,medium,72,45,52,62,,,spring_fall,edge_05.jpg,触发 R-PAT-01/02
+6,卡其格纹直筒裤,裤子,bottom,3,#C3B091,regular,bold,棉,不适用,medium,,,,,100,40,spring_fall,edge_06.jpg,与 #5 同现则 R-PAT-01 fail
+7,白色帆布鞋,鞋,shoes,2,#EDEDED,regular,solid,帆布,不适用,medium,,,,,,,spring_fall,edge_07.jpg,--rain 时 R-SHO-03 扣分
+8,黑色橡胶靴,鞋,shoes,3,#1E1E1E,regular,solid,橡胶,不适用,medium,,,,,,,winter,edge_08.jpg,--rain 时 R-SHO-03 加分
+9,米色长风衣,外套,outer,3,#C9B79C,regular,solid,棉,翻领,thin,100,46,56,62,,,spring_fall,edge_09.jpg,--height 160 触发 R-PRP-04
+10,亮橙宽松卫衣,卫衣,inner,2,#FF6B1A,oversize,solid,棉,连帽,thin,70,50,58,62,,,spring_fall,edge_10.jpg,高饱和暖色
+11,宝蓝宽松衬衫,衬衫,outer,2,#2255CC,oversize,solid,棉,翻领,thin,74,48,56,61,,,spring_fall,edge_11.jpg,高饱和冷色
+12,红色休闲裤,裤子,bottom,2,#A02020,regular,solid,棉,不适用,medium,,,,,100,40,spring_fall,edge_12.jpg,与 #10/#11 组成 4 个色系
+13,厚黑羽绒外套,外套,outer,2,#2A2A2A,regular,solid,尼龙,翻领,thick,78,48,58,63,,,winter,edge_13.jpg,为三层组合提供 thick 外层

@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>标定拍照 · 个人穿搭助手</title>
+<style>
+  :root{
+    --bg:#F6F2EA;
+    --surface:#FFFDF8;
+    --surface-2:#EFE9DE;
+    --ink:#241F1A;
+    --muted:#6E655A;
+    --line:#E1D8CA;
+    --accent:#2F4156;
+    --accent-soft:#E4E9EE;
+    --warm:#B4552D;
+    --warm-soft:#F6E6DC;
+    --ok:#3F6B4A;
+    --ok-soft:#E6EFE6;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(36,31,26,.05), 0 10px 30px rgba(36,31,26,.06);
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px}
+  h1,h2,h3,h4{line-height:1.3;margin:0}
+  p{margin:0 0 12px}
+  a{color:var(--accent)}
+  .skip{position:absolute;left:-999px;top:0;background:var(--accent);color:#fff;padding:10px 16px;z-index:99}
+  .skip:focus{left:12px;top:12px}
+
+  /* top bar */
+  .top{position:sticky;top:0;z-index:40;background:rgba(246,242,234,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .top-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
+  .brand{font-size:15px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+  .brand span{font-size:12px;font-weight:500;color:var(--muted);margin-left:8px}
+  .print-btn{min-height:36px;padding:0 12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+  .print-btn:hover{border-color:var(--accent)}
+
+  /* toc */
+  .toc{position:sticky;top:56px;z-index:35;background:rgba(246,242,234,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .toc-inner{display:flex;gap:6px;overflow-x:auto;padding:9px 20px;scrollbar-width:none}
+  .toc-inner::-webkit-scrollbar{display:none}
+  .toc a{flex:0 0 auto;font-size:13px;color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+  .toc a:hover{background:var(--surface-2);color:var(--ink);border-color:var(--line)}
+  .toc a.active{background:var(--accent-soft);color:var(--accent);border-color:#CBD6E0}
+  .toc::after{content:"›";position:absolute;top:1px;right:0;bottom:1px;width:34px;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1;color:var(--muted);background:linear-gradient(90deg,rgba(246,242,234,0),rgba(246,242,234,.97) 55%);pointer-events:none}
+  @media (min-width:560px){.toc::after{display:none}}
+
+  /* hero */
+  .hero{padding:52px 0 28px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--warm);margin:0 0 12px}
+  .hero h1{font-size:clamp(34px,8vw,48px);letter-spacing:-.025em;margin:0 0 14px}
+  .lede{font-size:17px;color:var(--muted);max-width:640px;margin:0 0 24px;line-height:1.75}
+  .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0 20px}
+  .hero-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow)}
+  .hero-card b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;margin-bottom:10px}
+  .hero-card h3{font-size:15px;margin:0 0 4px}
+  .hero-card p{font-size:13px;color:var(--muted);margin:0;line-height:1.6}
+  @media (max-width:640px){.hero-grid{grid-template-columns:1fr}.hero{padding-top:38px}}
+
+  /* callouts */
+  .callout{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:15px 17px;margin:14px 0;font-size:14px;line-height:1.7}
+  .callout strong{color:var(--ink)}
+  .callout.accent{background:var(--accent-soft);border-color:#CBD6E0}
+  .callout.warm{background:var(--warm-soft);border-color:#EBCDBB}
+  .callout.ok{background:var(--ok-soft);border-color:#CDDFCF}
+  .callout p:last-child{margin-bottom:0}
+
+  /* sections */
+  section{scroll-margin-top:132px;padding:30px 0 8px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+  .sec-no{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--warm);letter-spacing:.06em}
+  .sec-head h2{font-size:26px;letter-spacing:-.02em}
+  .sec-head p{font-size:14px;color:var(--muted);margin:0}
+  @media (max-width:640px){
+    .sec-head{flex-wrap:wrap;gap:6px 10px}
+    .sec-head p{flex-basis:100%;margin-top:2px}
+    .sec-head h2{font-size:23px}
+  }
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:14px 0;box-shadow:var(--shadow)}
+  .card > h3{font-size:17px;margin:0 0 10px}
+  .card > h3 + p{margin-top:-2px}
+  .muted{color:var(--muted)}
+  .small{font-size:13px}
+
+  /* lists */
+  .rules{margin:0;padding-left:22px}
+  .rules li{margin:7px 0;padding-left:2px}
+  .rules li::marker{color:var(--warm);font-weight:700}
+  .steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:2px 10px;align-items:start}
+  .steps li::before{content:counter(s);display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-size:12px;font-weight:700;margin-top:2px;grid-column:1;grid-row:1 / span 2}
+  .steps li > b,.steps li > p{grid-column:2}
+  .steps li > b{display:block;font-size:15px;margin-bottom:1px}
+  .steps p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.65}
+  .tools{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:10px 0 0;padding:0}
+  .tools li{font-size:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+
+  /* diagrams */
+  .diagram{margin:18px 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 12px 12px;box-shadow:var(--shadow)}
+  .diagram svg{display:block;width:100%;height:auto;max-width:680px;margin:0 auto}
+  .diagram figcaption{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
+  .legend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:10px;font-size:13px;color:var(--muted)}
+  .legend b{color:var(--warm);font-family:var(--mono);margin-right:4px}
+  .mini-label{font-family:inherit;font-size:11.5px;fill:var(--muted)}
+  .mini-label-warm{font-family:inherit;font-size:11.5px;fill:var(--warm);font-weight:600}
+  .mini-label-accent{font-family:inherit;font-size:11.5px;fill:var(--accent);font-weight:600}
+  .mini-label-ink{font-family:inherit;font-size:12.5px;fill:var(--ink);font-weight:600}
+  .garment{fill:#EDE6DA;stroke:#3A332B;stroke-width:1.7;stroke-linejoin:round}
+  .garment-2{fill:#DED4C3;stroke:#3A332B;stroke-width:1.5}
+  .seam{stroke:#3A332B;stroke-width:1.1;opacity:.55;fill:none}
+  .m-line{fill:none;stroke:#B4552D;stroke-width:2;stroke-dasharray:6 4}
+  .m-tick{stroke:#B4552D;stroke-width:2}
+  .m-dot{fill:#FFFDF8;stroke:#B4552D;stroke-width:2}
+  .m-text{fill:#B4552D;font-family:var(--mono);font-size:13px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+  .badge{fill:#B4552D}
+  .badge-t{fill:#fff;font-family:var(--mono);font-size:10px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+
+  /* task cards */
+  .task-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+  @media (max-width:720px){.task-grid{grid-template-columns:1fr}}
+  .task{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .task h3{font-size:15px;margin:0 0 4px}
+  .task p{font-size:13px;color:var(--muted);margin:0;line-height:1.6}
+  .task .mono{font-family:var(--mono);font-size:12px;color:var(--accent)}
+
+  /* bad examples */
+  .bad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  @media (max-width:640px){.bad-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:420px){.bad-grid{grid-template-columns:1fr}}
+  .bad{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 8px 6px}
+  .bad svg{display:block;width:100%;height:auto}
+  .bad figcaption{font-size:12px;color:var(--muted);text-align:center;line-height:1.5;margin-top:4px}
+  .bad figcaption b{color:var(--warm)}
+
+  /* tables */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:10px 0 4px;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:var(--surface-2);font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td code{white-space:nowrap}
+  .scroll-hint{font-size:11.5px;color:var(--muted);margin:6px 0 0}
+
+  /* file naming list */
+  .file-grid{display:grid;gap:8px;margin:12px 0 4px}
+  .file-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px}
+  .file-item{font-size:13px;font-weight:600;min-width:44px}
+  .file-row code{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:2px 6px;font-size:12px;white-space:nowrap}
+
+  /* tables stack on narrow screens */
+  @media (max-width:560px){
+    .stack-table{min-width:0}
+    .stack-table thead{display:none}
+    .stack-table tr{display:block;padding:6px 0;border-bottom:1px solid var(--line)}
+    .stack-table tr:last-child{border-bottom:0}
+    .stack-table td{display:grid;grid-template-columns:64px 1fr;gap:8px;border:0;padding:5px 12px}
+    .stack-table td::before{content:attr(data-label);font-size:12px;color:var(--muted);font-weight:600}
+  }
+
+  /* form */
+  .report-form{display:grid;gap:12px;margin-top:14px}
+  .frow{display:grid;grid-template-columns:132px 1fr;gap:10px;align-items:center}
+  @media (max-width:520px){.frow{grid-template-columns:1fr;gap:4px}}
+  .frow > label{font-size:13px;color:var(--muted);font-weight:600}
+  .frow > label em{font-style:normal;color:var(--warm)}
+  input[type="text"],input[type="number"],select{
+    font:inherit;font-size:14px;color:var(--ink);background:var(--surface);
+    border:1px solid var(--line);border-radius:10px;padding:9px 11px;min-height:42px;width:100%;
+  }
+  input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .frow .unit{display:flex;align-items:center;gap:8px}
+  .frow .unit span{font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .report-out{background:#22262B;color:#EDE7DC;border-radius:12px;padding:15px 16px;font-family:var(--mono);font-size:12.5px;line-height:1.75;white-space:pre-wrap;word-break:break-word;margin:12px 0 0}
+  .actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px}
+  .hint{font-size:12.5px;color:var(--muted);line-height:1.65;margin:8px 0 0}
+  .hint.warn{color:var(--warm)}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+  .btn:hover{filter:brightness(1.08)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+  .btn.ghost{background:transparent;color:var(--accent)}
+  .btn.ghost:hover{background:var(--accent-soft);filter:none}
+  pre{background:#22262B;color:#EDE7DC;border-radius:12px;padding:15px 16px;overflow-x:auto;font-size:12.5px;line-height:1.75;margin:10px 0}
+  pre code{font-family:var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}
+  :not(pre) > code{font-family:var(--mono);background:var(--surface-2);padding:1px 5px;border-radius:5px;font-size:.9em;white-space:nowrap}
+
+  /* details */
+  details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:10px 0;padding:0 17px;box-shadow:var(--shadow)}
+  details[open]{padding-bottom:15px}
+  summary{cursor:pointer;padding:15px 0;display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:8px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary b{font-size:15.5px;min-width:0}
+  summary span{color:var(--muted);font-size:12.5px;text-align:right;line-height:1.5;min-width:0}
+  summary::after{content:"+";font-size:17px;color:var(--muted);font-family:var(--mono);line-height:1;justify-self:end}
+  details[open] summary::after{content:"−"}
+  details > p:first-of-type{margin-top:2px}
+  @media (max-width:480px){
+    summary{grid-template-columns:1fr auto}
+    summary b{grid-column:1;grid-row:1}
+    summary span{grid-column:1 / -1;grid-row:2;text-align:left}
+    summary::after{grid-column:2;grid-row:1}
+  }
+  #faq details{box-shadow:none}
+  #faq summary span{display:none}
+
+  /* checklist */
+  .progress-row{display:flex;align-items:center;gap:12px;margin:2px 0 14px}
+  .progress-row span{font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .bar{flex:1;height:8px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .2s}
+  .checklist{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+  .checklist label{display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:var(--surface)}
+  .checklist label:hover{border-color:#C9BDAA}
+  .checklist input{width:20px;height:20px;accent-color:var(--accent);flex:0 0 auto;margin:0}
+  .check-body{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .check-body b{font-size:13.5px;transition:color .15s}
+  .check-body small{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .checklist input:checked ~ .check-body b{color:var(--muted);text-decoration:line-through}
+
+  /* footer */
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0 48px;color:var(--muted);font-size:12px;line-height:1.8}
+  footer code{font-family:var(--mono);font-size:11px}
+
+  /* toast */
+  #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);background:#22262B;color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:80;max-width:calc(100vw - 40px);text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+
+  :focus-visible{outline:3px solid #7C93A8;outline-offset:2px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+
+  @media print{
+    :root{--bg:#fff;--surface:#fff;--surface-2:#f2f2f2;--ink:#000;--muted:#444;--line:#bbb;--shadow:none}
+    body{font-size:10.5pt;line-height:1.5}
+    .top,.toc,.print-btn,#toast,.actions,.report-form,.scroll-hint{display:none!important}
+    .wrap{max-width:100%;padding:0}
+    section{padding:10px 0;scroll-margin-top:0}
+    .hero{padding-top:0}
+    .card,.diagram,details,.task,.bad{box-shadow:none;break-inside:avoid}
+    details{display:block}
+    details > summary::after{content:""}
+    summary span{display:inline}
+    a{color:#000;text-decoration:none}
+    pre,.report-out{background:#f4f4f4;color:#000;border:1px solid #bbb}
+    .report-out{display:block}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="brand">标定拍照 <span>门槛 1 · 9 张照片</span></div>
+    <button class="print-btn" id="printBtn" type="button">打印清单</button>
+  </div>
+</header>
+
+<nav class="toc" aria-label="页面目录">
+  <div class="toc-inner">
+    <a href="#prep">准备</a>
+    <a href="#layout">摆放</a>
+    <a href="#angle">角度</a>
+    <a href="#quality">标准</a>
+    <a href="#truth">真值</a>
+    <a href="#deliver">交付</a>
+    <a href="#faq">问答</a>
+    <a href="#checklist">清单</a>
+  </div>
+</nav>
+
+<main id="main">
+<div class="wrap">
+
+  <div class="hero">
+    <p class="eyebrow">M1 开工门槛 · 第 1 项</p>
+    <h1>拍 9 张标定照</h1>
+    <p class="lede">
+      3 件衣服 × 3 个角度。每张画面里都要有同一张标定卡。
+      拍完把原图放进 <code>pic/gate1/</code>，再用本页生成一段报告贴给我。
+      你不用算误差——脚本会用卡上的 ArUco 把像素换成毫米，再和你量的真值对比。
+    </p>
+    <div class="callout warm">
+      <strong>结论已出：标定比例功能验证不通过，不进入 M1。</strong>
+      9 张实测：正拍衣长误差 +0.95 / +1.80cm，偏 15° +4.4 / +7.2cm，偏 30° +9.4 / +13.4cm，裤长 +8.0cm。
+      M1 全部手量，本页保留为 M2+ 重启自动估尺寸时的参考（v2 卡规格见 <code>02-技术方案.md</code> 第三节）。
+    </div>
+    <div class="hero-grid">
+      <div class="hero-card">
+        <b>1</b>
+        <h3>一张卡</h3>
+        <p>已经打印并标定过：100mm 尺实测 97mm，<span class="mono">card_scale = 0.970</span>。九张都用同一张，不用重印。</p>
+      </div>
+      <div class="hero-card">
+        <b>3</b>
+        <h3>三件衣服</h3>
+        <p>4 号咖色长袖 T 恤、11 号黑色薄夹克、13 号深蓝牛仔裤。想换同品类的别的也行，但三件都要能量长度。</p>
+      </div>
+      <div class="hero-card">
+        <b>9</b>
+        <h3>九个画面</h3>
+        <p>0° 正拍 / 15° 侧偏 / 30° 侧偏，每件各一张。衣服不动，只动手机。</p>
+      </div>
+    </div>
+    <div class="callout accent">
+      <p><strong>这一轮的目的不是“拍好看”。</strong>是量出“照片估长度”到底准不准：
+      0° 误差要 ≤ 1.0cm，15° 要 ≤ 1.5cm。拍糊了、拍歪了也照发——失败样本同样有用。</p>
+    </div>
+  </div>
+
+  <section id="prep">
+    <div class="sec-head">
+      <span class="sec-no">00</span>
+      <h2>开始之前</h2>
+      <p>十分钟准备，省掉一整轮重拍</p>
+    </div>
+
+    <div class="card">
+      <h3>需要的东西</h3>
+      <ul class="tools">
+        <li>已打印的标定卡（同一张）</li>
+        <li>3 件衣服</li>
+        <li>手机</li>
+        <li>软尺</li>
+        <li>浅色床单 / 白纸 / 浅色地板</li>
+        <li>胶带（卡翘边时贴四角）</li>
+        <li>书堆或椅子（可选，当手机支架）</li>
+      </ul>
+      <p class="hint">不需要三脚架，也不需要专业灯。白天靠窗的一间房就够。</p>
+    </div>
+
+    <div class="callout warm">
+      <p><strong>卡不用重印。</strong>上次那 3% 的缩小已经处理掉了：100mm 尺实测 97mm，
+      横竖等比（18% 灰块 31×31mm），所以按 <code>0.970</code> 换算即可。
+      这次拍照<b>不需要</b>再量卡，只要保证每张照片里都有它、而且完整。</p>
+    </div>
+
+    <div class="card">
+      <h3>整轮流程</h3>
+      <ol class="steps">
+        <li><b>铺衣服、放卡</b><p>浅色平面上，衣服摊平，卡放在旁边同一平面。</p></li>
+        <li><b>拍 3 个角度 × 3 件</b><p>每件：0°、15°、30°，共 9 张。</p></li>
+        <li><b>软尺量 3 个真值</b><p>每件量一条长度，读到 0.5cm。</p></li>
+        <li><b>拷进 <code>pic/gate1/</code>，贴报告</b><p>原图、不改名以外的一切，然后用本页生成报告。</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="layout">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <h2>衣服和卡怎么摆</h2>
+      <p>卡和衣服必须躺在同一个平面上</p>
+    </div>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 620 392" role="img" aria-label="俯视示意：衣服平铺，标定卡放在旁边 5 到 10 厘米，四个角都在画面内">
+        <rect x="0" y="0" width="620" height="392" fill="#FFFDF8"/>
+        <rect x="22" y="24" width="576" height="330" rx="10" fill="none" stroke="#2F4156" stroke-width="1.5" stroke-dasharray="7 6"/>
+        <text x="34" y="46" class="mini-label">照片画面（四边都要留白）</text>
+
+        <!-- garment, back side up -->
+        <path class="garment" d="M180,76 Q190,100 215,100 Q240,100 250,76 L302,86 L348,130 L310,164 L286,136 L286,322 L144,322 L144,136 L120,164 L82,130 L128,86 Z"/>
+        <path class="seam" d="M144,310 L286,310"/>
+        <path class="seam" d="M128,86 L144,136 M302,86 L286,136"/>
+        <text x="215" y="342" text-anchor="middle" class="mini-label">衣服背面朝上 · 袖子摊平 · 抹平褶皱</text>
+
+        <!-- card -->
+        <rect x="432" y="110" width="112" height="158" rx="2" fill="#FFFDF8" stroke="#3A332B" stroke-width="1.5"/>
+        <!-- aruco -->
+        <rect x="466" y="122" width="27" height="27" fill="#141414"/>
+        <rect x="470.5" y="126.5" width="18" height="18" fill="#FFFDF8"/>
+        <g fill="#141414">
+          <rect x="470.5" y="126.5" width="4.5" height="4.5"/><rect x="479.5" y="126.5" width="4.5" height="4.5"/>
+          <rect x="484" y="131" width="4.5" height="4.5"/><rect x="475" y="135.5" width="4.5" height="4.5"/>
+          <rect x="484" y="140" width="4.5" height="4.5"/><rect x="470.5" y="140" width="4.5" height="4.5"/>
+        </g>
+        <!-- gray patch -->
+        <rect x="445" y="162" width="16" height="16" fill="#767676"/>
+        <!-- color swatches -->
+        <g>
+          <rect x="445" y="188" width="10" height="10" fill="#B23A2E"/>
+          <rect x="458" y="188" width="10" height="10" fill="#3F6B4A"/>
+          <rect x="471" y="188" width="10" height="10" fill="#2F5B8A"/>
+          <rect x="484" y="188" width="10" height="10" fill="#C89A78"/>
+          <rect x="497" y="188" width="10" height="10" fill="#4A4A4A"/>
+          <rect x="510" y="188" width="10" height="10" fill="#C9C4BA"/>
+        </g>
+        <!-- ruler -->
+        <rect x="445" y="214" width="85" height="8" fill="#FFFDF8" stroke="#3A332B" stroke-width="1"/>
+        <path d="M445,214 L445,222 M462,214 L462,222 M479,214 L479,222 M496,214 L496,222 M513,214 L513,222 M530,214 L530,222" stroke="#3A332B" stroke-width="1"/>
+        <text x="487" y="236" text-anchor="middle" class="mini-label">100mm 校准尺</text>
+        <text x="488" y="286" text-anchor="middle" class="mini-label">标定卡 · 平放 · 不翘边</text>
+
+        <!-- corners -->
+        <circle cx="432" cy="110" r="3.5" fill="#B4552D"/><circle cx="544" cy="110" r="3.5" fill="#B4552D"/>
+        <circle cx="432" cy="268" r="3.5" fill="#B4552D"/><circle cx="544" cy="268" r="3.5" fill="#B4552D"/>
+        <text x="488" y="100" text-anchor="middle" class="mini-label-warm">四个角都要在画面里</text>
+
+        <!-- gap arrow -->
+        <path d="M300,250 L424,250" stroke="#B4552D" stroke-width="1.4" stroke-dasharray="4 4"/>
+        <path d="M300,250 l8,-4 v8 z" fill="#B4552D"/>
+        <path d="M424,250 l-8,-4 v8 z" fill="#B4552D"/>
+        <text x="362" y="242" text-anchor="middle" class="mini-label-warm">5–10 cm</text>
+        <text x="362" y="266" text-anchor="middle" class="mini-label">不要压在衣服上</text>
+      </svg>
+      <figcaption>俯视示意：衣服与卡并排，卡离衣服 5–10cm，两者的四个角都在画面里。</figcaption>
+    </figure>
+
+    <div class="card">
+      <h3>六条摆放规则</h3>
+      <ul class="rules">
+        <li><b>底面浅色、平整、纹理少。</b>白床单、大张白纸、浅色地板都行；背景要和衣服有对比。</li>
+        <li><b>上装背面朝上。</b>衣长要量的是“后领中点 → 下摆”，背面朝上，照片里的点和软尺量的是同一段。</li>
+        <li><b>裤子正面朝上、两条裤腿伸直。</b>腰头摆平，侧缝拉直，裤脚不要叠在一起。</li>
+        <li><b>用手抹平。</b>特别是下摆和裤脚——一道褶皱就可能让“最低点”变成阴影边缘。</li>
+        <li><b>卡放在衣服旁边，不能压衣服。</b>压上去会挡住下摆，还会把卡顶起来，让四个角不在同一平面。</li>
+        <li><b>卡和衣服同平面。</b>都直接放在桌面上；不要给卡垫书、不要把卡立在衣服上。</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <p><strong>为什么这么在意“同一平面”：</strong>ArUco 只在一个平面上定义尺度。
+      卡一旦翘起或被衣服顶起来，四个角就不共面，换算出的毫米数会随位置漂移——这不是靠算法能补回来的。</p>
+    </div>
+  </section>
+
+  <section id="angle">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <h2>三个角度怎么拍</h2>
+      <p>衣服不动，只动手机</p>
+    </div>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 620 288" role="img" aria-label="侧视示意：手机在 0 度、15 度、30 度时与地面和衣服平面的关系">
+        <rect x="0" y="0" width="620" height="288" fill="#FFFDF8"/>
+        <!-- panel dividers -->
+        <path d="M207,16 L207,268 M412,16 L412,268" stroke="#E1D8CA" stroke-width="1"/>
+
+        <!-- Panel 1: 0deg -->
+        <text x="105" y="26" text-anchor="middle" class="mini-label-ink">0° 正拍</text>
+        <!-- reference horizontal -->
+        <path d="M25,96 L185,96" stroke="#CFC4B2" stroke-width="1" stroke-dasharray="3 4"/>
+        <!-- phone -->
+        <g>
+          <rect x="74" y="90" width="62" height="12" rx="4" fill="#2F4156"/>
+          <circle cx="105" cy="102" r="2.4" fill="#FFFDF8"/>
+        </g>
+        <path d="M105,102 L105,205" stroke="#B4552D" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <!-- ground -->
+        <path d="M10,205 L200,205" stroke="#3A332B" stroke-width="2"/>
+        <rect x="25" y="197" width="95" height="8" fill="#EDE6DA" stroke="#3A332B" stroke-width="1.1"/>
+        <rect x="130" y="197" width="22" height="8" fill="#B9B2A4" stroke="#3A332B" stroke-width="1.1"/>
+        <text x="105" y="236" text-anchor="middle" class="mini-label">屏幕与地面平行</text>
+        <text x="105" y="258" text-anchor="middle" class="mini-label-warm">目标误差 ≤ 1.0cm</text>
+
+        <!-- Panel 2: 15deg -->
+        <text x="310" y="26" text-anchor="middle" class="mini-label-ink">15° 侧偏</text>
+        <path d="M230,96 L390,96" stroke="#CFC4B2" stroke-width="1" stroke-dasharray="3 4"/>
+        <g transform="rotate(-15 282 95)">
+          <rect x="251" y="89" width="62" height="12" rx="4" fill="#2F4156"/>
+          <circle cx="282" cy="101" r="2.4" fill="#FFFDF8"/>
+        </g>
+        <path d="M283.5,101 L311.5,205" stroke="#B4552D" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <path d="M215,205 L405,205" stroke="#3A332B" stroke-width="2"/>
+        <rect x="230" y="197" width="95" height="8" fill="#EDE6DA" stroke="#3A332B" stroke-width="1.1"/>
+        <rect x="335" y="197" width="22" height="8" fill="#B9B2A4" stroke="#3A332B" stroke-width="1.1"/>
+        <text x="310" y="236" text-anchor="middle" class="mini-label">手机往抬高那侧挪，画面中心仍对衣服</text>
+        <text x="310" y="258" text-anchor="middle" class="mini-label-warm">目标误差 ≤ 1.5cm</text>
+
+        <!-- Panel 3: 30deg -->
+        <text x="515" y="26" text-anchor="middle" class="mini-label-ink">30° 侧偏</text>
+        <path d="M435,96 L595,96" stroke="#CFC4B2" stroke-width="1" stroke-dasharray="3 4"/>
+        <g transform="rotate(-30 457 95)">
+          <rect x="426" y="89" width="62" height="12" rx="4" fill="#2F4156"/>
+          <circle cx="457" cy="101" r="2.4" fill="#FFFDF8"/>
+        </g>
+        <path d="M460,101 L520,205" stroke="#B4552D" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <path d="M420,205 L610,205" stroke="#3A332B" stroke-width="2"/>
+        <rect x="435" y="197" width="95" height="8" fill="#EDE6DA" stroke="#3A332B" stroke-width="1.1"/>
+        <rect x="540" y="197" width="22" height="8" fill="#B9B2A4" stroke="#3A332B" stroke-width="1.1"/>
+        <text x="515" y="236" text-anchor="middle" class="mini-label">手机退远/抬高，衣服和卡都要收进画面</text>
+        <text x="515" y="258" text-anchor="middle" class="mini-label">不作误差承诺</text>
+
+        <!-- legend -->
+        <rect x="20" y="274" width="16" height="6" fill="#EDE6DA" stroke="#3A332B" stroke-width="1"/>
+        <text x="42" y="281" class="mini-label">衣服（侧视，很薄）</text>
+        <rect x="180" y="274" width="16" height="6" fill="#B9B2A4" stroke="#3A332B" stroke-width="1"/>
+        <text x="202" y="281" class="mini-label">标定卡</text>
+        <path d="M300,277 L330,277" stroke="#B4552D" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <text x="338" y="281" class="mini-label">镜头光轴</text>
+        <rect x="440" y="273" width="26" height="8" rx="3" fill="#2F4156"/>
+        <text x="474" y="281" class="mini-label">手机</text>
+      </svg>
+      <figcaption>侧视示意：衣服和卡始终平放在同一平面；角度来自手机倾斜，不来自衣服。</figcaption>
+    </figure>
+
+    <div class="card">
+      <h3>逐张怎么拍</h3>
+      <ol class="steps">
+        <li><b>0° · 正拍</b><p>站在衣服正上方或身旁，手机屏幕与地面平行，镜头对准衣服中心。
+          画面里要同时有整件衣服、完整的卡、和一圈空白。每件拍一张。</p></li>
+        <li><b>15° · 侧偏</b><p>衣服不动。把手机靠近自己的一边抬高约 15°，沿衣服的<b>长边方向</b>倾斜（领口—下摆，或腰头—裤脚）。
+          倾斜后镜头会偏向放低的一侧，所以把手机整体往抬高那侧挪一点，直到取景框中心还是衣服中心。</p></li>
+        <li><b>30° · 侧偏</b><p>同样再抬到约 30°。角度越大，越要退远或抬高，才能把衣服和卡都收进画面。
+          拍完点开检查一遍：卡有没有出画。</p></li>
+      </ol>
+    </div>
+
+    <div class="callout accent">
+      <p><strong>为什么沿长边倾斜：</strong>衣长、裤长都是沿长边量的。
+      只有当透视发生在这个方向上，这组照片才能测出“角度会让长度误差变大多少”。横向倾斜测的是另一件事。</p>
+    </div>
+
+    <div class="callout warm">
+      <p><strong>30° 不作误差承诺。</strong>它的作用是给出“偏多少就该提示重拍”的阈值。
+      所以 30° 这三张更要认真拍——拍歪了也要留着，告诉我歪到什么程度会失败。</p>
+    </div>
+  </section>
+
+  <section id="quality">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <h2>一张合格的照片长什么样</h2>
+      <p>七条同时满足，缺一条就重拍</p>
+    </div>
+
+    <div class="card">
+      <h3>合格标准</h3>
+      <ul class="rules">
+        <li><b>卡的四个角完整入画</b>，标记四周的白色留白也没被裁掉。</li>
+        <li><b>卡面平整</b>，没有折痕、没有翘边；翘了就贴胶带。</li>
+        <li><b>衣服完整入画</b>，领口和下摆、腰头和裤脚都在画面内，四周留一圈空白。</li>
+        <li><b>没有影子压在卡上</b>：手机、手、身体的影子都不能落在卡或衣服上。</li>
+        <li><b>没有强反光</b>：卡面（尤其是塑封过的）不能有一块白得看不见纹路的高光。</li>
+        <li><b>衣服没有大褶皱</b>，下摆与裤脚边缘清楚。</li>
+        <li><b>参数对</b>：1× 主摄、4:3、HDR 开；人像模式、美颜、滤镜、闪光灯全关。</li>
+      </ul>
+    </div>
+
+    <div class="bad-grid">
+      <figure class="bad">
+        <svg viewBox="0 0 180 120" role="img" aria-label="错误示例：卡片翘起">
+          <rect width="180" height="120" fill="#FFFDF8"/>
+          <rect x="6" y="6" width="168" height="100" rx="6" fill="none" stroke="#E1D8CA" stroke-width="1" stroke-dasharray="4 4"/>
+          <path d="M58,34 Q90,24 122,34 L122,88 Q90,98 58,88 Z" fill="#FFFDF8" stroke="#3A332B" stroke-width="1.4"/>
+          <rect x="74" y="44" width="18" height="18" fill="#141414"/>
+          <path d="M58,34 Q90,26 122,34" fill="none" stroke="#B4552D" stroke-width="2"/>
+          <circle cx="158" cy="16" r="10" fill="#B4552D"/><text x="158" y="16" class="badge-t">✕</text>
+        </svg>
+        <figcaption><b>卡翘边 / 折过</b><br>四角不共面</figcaption>
+      </figure>
+
+      <figure class="bad">
+        <svg viewBox="0 0 180 120" role="img" aria-label="错误示例：卡片压在衣服上">
+          <rect width="180" height="120" fill="#FFFDF8"/>
+          <rect x="6" y="6" width="168" height="100" rx="6" fill="none" stroke="#E1D8CA" stroke-width="1" stroke-dasharray="4 4"/>
+          <path class="garment" d="M60,32 Q70,44 90,44 Q110,44 120,32 L140,38 L156,60 L138,74 L128,62 L128,104 L52,104 L52,62 L42,74 L24,60 L40,38 Z"/>
+          <rect x="86" y="54" width="44" height="32" fill="#FFFDF8" stroke="#3A332B" stroke-width="1.4"/>
+          <rect x="100" y="60" width="14" height="14" fill="#141414"/>
+          <circle cx="158" cy="16" r="10" fill="#B4552D"/><text x="158" y="16" class="badge-t">✕</text>
+        </svg>
+        <figcaption><b>卡压在衣服上</b><br>挡住下摆、卡被顶起</figcaption>
+      </figure>
+
+      <figure class="bad">
+        <svg viewBox="0 0 180 120" role="img" aria-label="错误示例：卡片被画面裁掉一角">
+          <rect width="180" height="120" fill="#FFFDF8"/>
+          <rect x="6" y="6" width="168" height="100" rx="6" fill="none" stroke="#E1D8CA" stroke-width="1" stroke-dasharray="4 4"/>
+          <rect x="132" y="30" width="54" height="76" fill="#FFFDF8" stroke="#3A332B" stroke-width="1.4"/>
+          <rect x="148" y="40" width="18" height="18" fill="#141414"/>
+          <path d="M174,20 L190,20 L190,120" fill="none" stroke="#B4552D" stroke-width="2"/>
+          <circle cx="158" cy="16" r="10" fill="#B4552D"/><text x="158" y="16" class="badge-t">✕</text>
+        </svg>
+        <figcaption><b>卡出画</b><br>角被裁掉，标定失败</figcaption>
+      </figure>
+
+      <figure class="bad">
+        <svg viewBox="0 0 180 120" role="img" aria-label="错误示例：手机或人影落在卡上">
+          <rect width="180" height="120" fill="#FFFDF8"/>
+          <rect x="6" y="6" width="168" height="100" rx="6" fill="none" stroke="#E1D8CA" stroke-width="1" stroke-dasharray="4 4"/>
+          <rect x="60" y="34" width="60" height="60" fill="#FFFDF8" stroke="#3A332B" stroke-width="1.4"/>
+          <rect x="78" y="44" width="20" height="20" fill="#141414"/>
+          <ellipse cx="104" cy="66" rx="42" ry="24" fill="#3A332B" opacity=".28"/>
+          <circle cx="158" cy="16" r="10" fill="#B4552D"/><text x="158" y="16" class="badge-t">✕</text>
+        </svg>
+        <figcaption><b>影子压在卡上</b><br>标记对比度被吃掉</figcaption>
+      </figure>
+
+      <figure class="bad">
+        <svg viewBox="0 0 180 120" role="img" aria-label="错误示例：衣服有明显褶皱">
+          <rect width="180" height="120" fill="#FFFDF8"/>
+          <rect x="6" y="6" width="168" height="100" rx="6" fill="none" stroke="#E1D8CA" stroke-width="1" stroke-dasharray="4 4"/>
+          <path class="garment" d="M60,32 Q70,44 90,44 Q110,44 120,32 L140,38 L156,60 L138,74 L128,62 L128,104 L52,104 L52,62 L42,74 L24,60 L40,38 Z"/>
+          <path d="M62,72 Q80,64 96,74 Q112,84 124,74" fill="none" stroke="#B4552D" stroke-width="2" opacity=".75"/>
+          <path d="M56,92 Q76,84 96,92 Q114,100 126,92" fill="none" stroke="#B4552D" stroke-width="2" opacity=".55"/>
+          <circle cx="158" cy="16" r="10" fill="#B4552D"/><text x="158" y="16" class="badge-t">✕</text>
+        </svg>
+        <figcaption><b>衣服有褶皱</b><br>下摆“最低点”不可信</figcaption>
+      </figure>
+
+      <figure class="bad">
+        <svg viewBox="0 0 180 120" role="img" aria-label="错误示例：使用超广角镜头导致边缘变形">
+          <rect width="180" height="120" fill="#FFFDF8"/>
+          <rect x="6" y="6" width="168" height="100" rx="6" fill="none" stroke="#E1D8CA" stroke-width="1" stroke-dasharray="4 4"/>
+          <path class="garment" d="M62,30 Q72,46 90,46 Q108,46 118,30 L142,38 Q160,52 158,64 L136,74 Q128,64 128,64 L128,106 Q90,112 52,106 L52,64 Q52,64 44,74 L22,64 Q20,52 38,38 Z"/>
+          <text x="90" y="60" text-anchor="middle" class="mini-label-warm">0.5×</text>
+          <circle cx="158" cy="16" r="10" fill="#B4552D"/><text x="158" y="16" class="badge-t">✕</text>
+        </svg>
+        <figcaption><b>用了 0.5× 超广角</b><br>边缘拉伸，长度全错</figcaption>
+      </figure>
+    </div>
+
+    <div class="callout">
+      <p><strong>这些“错误”不是废片。</strong>如果某张确实避不开（比如房间太小只能 0.5×），
+      也放进 <code>pic/gate1/</code> 并在报告里写一句。我要知道失败长什么样，才知道要不要在界面里拦。</p>
+    </div>
+  </section>
+
+  <section id="truth">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <h2>软尺量三个真值</h2>
+      <p>三件各一条，读到 0.5cm</p>
+    </div>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 620 300" role="img" aria-label="测量示意：上装从后领中点量到下摆最低点，裤子从腰头侧缝量到裤脚">
+        <rect x="0" y="0" width="620" height="300" fill="#FFFDF8"/>
+        <path d="M310,20 L310,268" stroke="#E1D8CA" stroke-width="1"/>
+
+        <!-- tee -->
+        <path class="garment" d="M118,58 Q148,66 178,58 L212,66 L240,98 L214,122 L198,102 L198,246 L98,246 L98,102 L82,122 L56,98 L84,66 Z"/>
+        <path class="seam" d="M98,236 L198,236"/>
+        <path class="m-line" d="M148,64 L148,246"/>
+        <circle cx="148" cy="63" r="3.5" fill="#FFFDF8" stroke="#B4552D" stroke-width="2"/>
+        <circle cx="148" cy="246" r="3.5" fill="#FFFDF8" stroke="#B4552D" stroke-width="2"/>
+        <circle cx="148" cy="44" r="9" class="badge"/><text x="148" y="44" class="badge-t">1</text>
+        <circle cx="168" cy="264" r="9" class="badge"/><text x="168" y="264" class="badge-t">2</text>
+        <text x="158" y="160" class="mini-label-warm">衣长</text>
+        <text x="148" y="286" text-anchor="middle" class="mini-label">上装 · 背面朝上</text>
+
+        <!-- pants -->
+        <path class="garment" d="M366,58 H500 L500,246 H442 L434,196 L426,246 H366 Z"/>
+        <path class="seam" d="M430,80 L430,196"/>
+        <path class="m-line" d="M366,64 L366,246"/>
+        <circle cx="366" cy="63" r="3.5" fill="#FFFDF8" stroke="#B4552D" stroke-width="2"/>
+        <circle cx="366" cy="246" r="3.5" fill="#FFFDF8" stroke="#B4552D" stroke-width="2"/>
+        <circle cx="348" cy="44" r="9" class="badge"/><text x="348" y="44" class="badge-t">1</text>
+        <circle cx="348" cy="264" r="9" class="badge"/><text x="348" y="264" class="badge-t">2</text>
+        <text x="376" y="160" class="mini-label-warm">裤长</text>
+        <text x="433" y="286" text-anchor="middle" class="mini-label">裤子 · 正面朝上</text>
+      </svg>
+      <figcaption><span class="legend"><span><b>1</b>起点</span><span><b>2</b>终点</span></span></figcaption>
+    </figure>
+
+    <div class="table-wrap">
+      <table class="stack-table">
+        <thead><tr><th>单品</th><th>量哪一段</th><th>怎么读</th></tr></thead>
+        <tbody>
+          <tr><td data-label="单品">上装（T 恤 / 夹克）</td><td data-label="量哪一段"><b>后领中点 → 下摆最低点</b></td><td data-label="怎么读">背面朝上平铺，软尺贴平拉直，读 0.5cm</td></tr>
+          <tr><td data-label="单品">裤子</td><td data-label="量哪一段"><b>腰头侧缝最上沿 → 裤脚口</b></td><td data-label="怎么读">正面朝上平铺，沿侧缝的直线距离，读 0.5cm</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="scroll-hint">窄屏可左右滑动表格。</p>
+
+    <div class="callout">
+      <p><strong>量的是直线距离，不是沿侧缝的弧线。</strong>软尺贴平、不拉紧、不折。
+      三件都在同一张桌子上量，量完立刻填进第 05 节的表单——那页会自动保存，关掉也不会丢。</p>
+    </div>
+
+    <div class="callout ok">
+      <p><strong>为什么真值必须手量：</strong>没有真值，照片估算就没有对照，门槛 1 无法判定通过与否。
+      这三条长度以后也会直接进 M1 的单品库，不是白量。</p>
+    </div>
+  </section>
+
+  <section id="deliver">
+    <div class="sec-head">
+      <span class="sec-no">05</span>
+      <h2>拍完怎么交给我</h2>
+      <p>原图拷进项目，报告贴进对话</p>
+    </div>
+
+    <div class="card">
+      <h3>文件名固定成这 9 个</h3>
+      <div class="file-grid">
+        <div class="file-row"><span class="file-item">T 恤</span><code>tshirt_0.jpg</code><code>tshirt_15.jpg</code><code>tshirt_30.jpg</code></div>
+        <div class="file-row"><span class="file-item">夹克</span><code>jacket_0.jpg</code><code>jacket_15.jpg</code><code>jacket_30.jpg</code></div>
+        <div class="file-row"><span class="file-item">裤子</span><code>pants_0.jpg</code><code>pants_15.jpg</code><code>pants_30.jpg</code></div>
+      </div>
+      <p class="hint">全小写、下划线、保留 <code>.jpg</code> 后缀。放错名字也行，告诉我哪张对应哪件就可以，但别让我猜。</p>
+    </div>
+
+    <div class="card">
+      <h3>拷到哪</h3>
+      <p>目标文件夹已经建好：</p>
+      <pre><code>~/claude/个人穿搭助手/pic/gate1/</code></pre>
+      <ul class="rules">
+        <li><b>用 AirDrop / 数据线 / iCloud 同步。</b>不要用微信传——它默认压缩，像素和边缘会被改掉。</li>
+        <li><b>传原图。</b>不裁剪、不缩放、不美颜、不滤镜、不拼图。</li>
+        <li><b>保留手机里的原片。</b>这个文件夹只是分析用，原片丢了没法重来。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>填一下，生成报告</h3>
+      <p class="small muted">填完点“复制报告”，直接贴进对话就行。内容只存在这台电脑的浏览器里，不会上传。</p>
+      <div class="report-form">
+        <div class="frow"><label for="fTeeName">T 恤单品</label><input id="fTeeName" type="text" value="4 号咖色长袖T恤"></div>
+        <div class="frow"><label for="fJacketName">夹克单品</label><input id="fJacketName" type="text" value="11 号黑色薄夹克"></div>
+        <div class="frow"><label for="fPantsName">裤子单品</label><input id="fPantsName" type="text" value="13 号深蓝牛仔裤"></div>
+        <div class="frow">
+          <label for="fTeeLen">T 恤衣长 <em>*</em></label>
+          <div class="unit"><input id="fTeeLen" type="number" inputmode="decimal" step="0.5" min="20" max="150" placeholder="例如 68.0"><span>cm</span></div>
+        </div>
+        <div class="frow">
+          <label for="fJacketLen">夹克衣长 <em>*</em></label>
+          <div class="unit"><input id="fJacketLen" type="number" inputmode="decimal" step="0.5" min="20" max="150" placeholder="例如 70.5"><span>cm</span></div>
+        </div>
+        <div class="frow">
+          <label for="fPantsLen">裤子裤长 <em>*</em></label>
+          <div class="unit"><input id="fPantsLen" type="number" inputmode="decimal" step="0.5" min="20" max="160" placeholder="例如 99.0"><span>cm</span></div>
+        </div>
+        <div class="frow"><label for="fScale">card_scale</label><div class="unit"><input id="fScale" type="number" inputmode="decimal" step="0.001" min="0.5" max="1.5" value="0.970"><span>不用改</span></div></div>
+        <div class="frow"><label for="fPhone">手机型号</label><input id="fPhone" type="text" placeholder="例如 iPhone 15"></div>
+        <div class="frow"><label for="fDate">拍摄时间</label><input id="fDate" type="text" placeholder="例如 2026-10-26 下午"></div>
+        <div class="frow"><label for="fLight">光照</label>
+          <select id="fLight">
+            <option>窗边自然光（侧光）</option>
+            <option>阴天室外</option>
+            <option>室内顶灯</option>
+            <option>自然光 + 顶灯混合</option>
+          </select>
+        </div>
+        <div class="frow"><label for="fNote">备注</label><input id="fNote" type="text" placeholder="哪张没拍好、用了 0.5×、卡有折痕……"></div>
+      </div>
+
+      <pre class="report-out" id="reportOut" aria-live="polite"></pre>
+      <p class="hint warn" id="reportHint">三条真值都填了才能复制。</p>
+
+      <div class="actions">
+        <button class="btn" id="copyBtn" type="button" disabled>复制报告</button>
+        <button class="btn ghost" id="resetBtn" type="button">清空表单</button>
+      </div>
+      <p class="hint">报告会写进 <code>docs/07-开工前检查.md</code> 第 5 节的证据列；照片留在 <code>pic/gate1/</code>，不删。</p>
+    </div>
+
+    <div class="card">
+      <h3>我收到后会做什么</h3>
+      <ol class="steps">
+        <li><b>找标记</b><p><code>cv2.aruco</code> 检测四个角点，按 ArUco 真实边长 48.5mm（50 × 0.970）算像素/毫米。</p></li>
+        <li><b>点端点</b><p>在每张图上点“后领中点 / 下摆”或“腰头 / 裤脚”，换算成毫米。</p></li>
+        <li><b>比真值</b><p>0°、15° 分别算绝对误差，对照 1.0cm / 1.5cm 的标准；30° 只记录，不判定。</p></li>
+        <li><b>校色</b><p>取 6 个色块和 18% 灰块，和印刷色值算 ΔE00，标准是 ≤ 5。</p></li>
+        <li><b>回填</b><p>结论写进 <code>docs/07</code> 第 5 节。通过才建 <code>src/</code>；不通过就先改文档。</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="sec-head">
+      <span class="sec-no">06</span>
+      <h2>常见问题</h2>
+      <p>拍之前先扫一眼</p>
+    </div>
+
+    <details>
+      <summary><b>一定要白天拍吗？晚上行不行？</b><span>光照</span></summary>
+      <p>尽量白天靠窗。晚上开顶灯会有两个问题：手机和身体的影子直直落在卡上；灯光偏黄，6 个色块的颜色会被改掉，ΔE00 那一项就失去意义。</p>
+      <p>如果只能晚上拍，把灯放在身体侧后方，让影子落到画面外，并在备注里写“室内顶灯”。</p>
+    </details>
+
+    <details>
+      <summary><b>卡的四角露出来就行，还是整张卡都要在？</b><span>取景</span></summary>
+      <p>整张卡都要在。标记外面的白边是 ArUco 的静默区，被裁掉会直接影响检测；100mm 尺和色块也在卡上，裁掉就没法做比例复核和校色。</p>
+    </details>
+
+    <details>
+      <summary><b>卡的方向要和衣服一致吗？可以竖着放横着放吗？</b><span>摆放</span></summary>
+      <p>随便。ArUco 有方向信息，旋转不影响尺度换算。九张用同一张卡、同一面就行；翻面会换成卡背，没有标记。</p>
+    </details>
+
+    <details>
+      <summary><b>手机有 0.5×、1×、3×，用哪个？</b><span>镜头</span></summary>
+      <p>只用 1× 主摄。0.5× 是超广角，画面边缘的直线会被拉弯，长度误差可能比 30° 倾斜还大；3× 是长焦，房间不够大时拍不全，还会放大手抖。</p>
+    </details>
+
+    <details>
+      <summary><b>可以裁图、调亮、加滤镜吗？</b><span>后期</span></summary>
+      <p>都不行。裁图可能把卡的角裁掉；调亮和滤镜会改颜色，色块校验会失真。要处理的是拍摄，不是照片。</p>
+    </details>
+
+    <details>
+      <summary><b>衣服太长，1× 拍不全怎么办？</b><span>取景</span></summary>
+      <p>先退远、再把手机举高，或者把衣服移到更空的地方。还不行就换到地板上拍——房间对角线通常比桌子长。仍然拍不全时，拍成“卡 + 上半段”和“卡 + 下半段”两张，备注里说明，我会按分开的图处理。</p>
+    </details>
+
+    <details>
+      <summary><b>标定卡塑封过、反光怎么办？</b><span>反光</span></summary>
+      <p>调整光源位置，让人站在窗和桌子之间、身体不挡光但影子出画；或者稍微改变手机角度避开高光。反光块盖住标记或色块时，那张就重拍。</p>
+    </details>
+
+    <details>
+      <summary><b>三件衣服必须一次拍完吗？</b><span>时间</span></summary>
+      <p>不必，但尽量同一时段、同一位置、同一张卡。换时间意味着换色温和光向，色彩那一项的比较就没那么干净。中途换地方要在报告里写一句。</p>
+    </details>
+
+    <details>
+      <summary><b>30° 拍出来衣服明显变形，是正常的吗？</b><span>角度</span></summary>
+      <p>正常。透视下远端会变小、长边会缩短，这正是要测的误差来源。只要卡完整、对焦清楚就保留，别为了“拍正”把手机又放平。</p>
+    </details>
+
+    <details>
+      <summary><b>拍完这批照片，以后录入每件衣服都要这么拍吗？</b><span>以后</span></summary>
+      <p>不用。这一轮是验证“自动估长度靠不靠谱”。验证通过后，M1 的日常录入只在外套和裤子上用这套方法；内层仍然手量。验证不通过，就全部手量，照片只做识别用。</p>
+    </details>
+  </section>
+
+  <section id="checklist">
+    <div class="sec-head">
+      <span class="sec-no">07</span>
+      <h2>出门前 / 收工前清单</h2>
+      <p>勾选状态存在本机，关掉页面也在</p>
+    </div>
+
+    <div class="card">
+      <div class="progress-row">
+        <span id="progText">0 / 9</span>
+        <div class="bar"><i id="progBar"></i></div>
+      </div>
+      <ul class="checklist" id="checklist">
+        <li><label><input type="checkbox" data-k="c1"><span class="check-body"><b>卡是同一张，没折、没翘</b><small>翘边就贴四角胶带；翻面不算</small></span></label></li>
+        <li><label><input type="checkbox" data-k="c2"><span class="check-body"><b>衣服铺平，上装背面朝上</b><small>袖子 / 裤腿伸直，下摆和裤脚没有褶皱</small></span></label></li>
+        <li><label><input type="checkbox" data-k="c3"><span class="check-body"><b>卡离衣服 5–10cm，同平面、不压衣服</b><small>卡的四个角都在画面里</small></span></label></li>
+        <li><label><input type="checkbox" data-k="c4"><span class="check-body"><b>手机 1×、4:3、HDR 开；人像 / 美颜 / 闪光关</b><small>画面里没有手指、脚、手机影子</small></span></label></li>
+        <li><label><input type="checkbox" data-k="c5"><span class="check-body"><b>0° 三张：tshirt_0 / jacket_0 / pants_0</b><small>屏幕与地面平行</small></span></label></li>
+        <li><label><input type="checkbox" data-k="c6"><span class="check-body"><b>15° 三张：tshirt_15 / jacket_15 / pants_15</b><small>手机往抬高那侧挪，画面中心仍是衣服</small></span></label></li>
+        <li><label><input type="checkbox" data-k="c7"><span class="check-body"><b>30° 三张：tshirt_30 / jacket_30 / pants_30</b><small>衣服和卡都没出画</small></span></label></li>
+        <li><label><input type="checkbox" data-k="c8"><span class="check-body"><b>三个真值量好，读到 0.5cm</b><small>后领中点→下摆 / 腰头侧缝→裤脚</small></span></label></li>
+        <li><label><input type="checkbox" data-k="c9"><span class="check-body"><b>9 张原图已拷进 pic/gate1/，报告已生成</b><small>没用微信压缩，没裁剪、没滤镜</small></span></label></li>
+      </ul>
+      <div class="actions">
+        <button class="btn ghost" id="clearChecks" type="button">清空勾选</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>对应验收：<code>docs/07-开工前检查.md</code> 第 1 节 · 0° ≤1.0cm / 15° ≤1.5cm / 30° 不作承诺 / ΔE00 ≤5。</p>
+    <p>卡规格：A4 300 DPI，ArUco <code>DICT_4X4_50</code> ID 23，名义 50mm；100mm 校准尺；18% 灰块；6 色块。<br>
+    本张实测：100mm 尺 97mm，灰块 31×31mm，<code>card_scale = 0.970</code>，ArUco 真实边长 48.5mm。</p>
+    <p>文件：<code>docs/09-标定拍照教程.html</code> · 2026-10-26 · 离线可用，直接双击打开。</p>
+  </footer>
+
+</div>
+</main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s, c){ return (c || document).querySelector(s); };
+  var $$ = function(s, c){ return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  /* ---------- toast ---------- */
+  var toastEl = $("#toast"), toastTimer = null;
+  function toast(msg){
+    if(!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove("show"); }, 1900);
+  }
+
+  /* ---------- TOC scrollspy ---------- */
+  var tocLinks = $$(".toc a");
+  var sections = tocLinks.map(function(a){ return $(a.getAttribute("href")); }).filter(Boolean);
+  function onScroll(){
+    var y = window.scrollY + 150, current = null;
+    sections.forEach(function(sec){
+      if(sec.offsetTop <= y) current = sec.id;
+    });
+    if(!current && sections.length) current = sections[0].id;
+    tocLinks.forEach(function(a){
+      a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+    });
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  /* ---------- checklist ---------- */
+  var CHECK_KEY = "wardrobe-gate1-checks-v1";
+  var boxes = $$("#checklist input[type=checkbox]");
+  var progText = $("#progText"), progBar = $("#progBar");
+
+  function loadChecks(){
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(CHECK_KEY) || "{}") || {}; } catch(e){ saved = {}; }
+    boxes.forEach(function(b){ b.checked = !!saved[b.getAttribute("data-k")]; });
+    updateProgress();
+  }
+  function saveChecks(){
+    var obj = {};
+    boxes.forEach(function(b){ obj[b.getAttribute("data-k")] = b.checked; });
+    try { localStorage.setItem(CHECK_KEY, JSON.stringify(obj)); } catch(e){}
+    updateProgress();
+  }
+  function updateProgress(){
+    var done = boxes.filter(function(b){ return b.checked; }).length;
+    if(progText) progText.textContent = done + " / " + boxes.length;
+    if(progBar) progBar.style.width = (done / boxes.length * 100) + "%";
+  }
+  boxes.forEach(function(b){ b.addEventListener("change", saveChecks); });
+  var clearChecksBtn = $("#clearChecks");
+  if(clearChecksBtn){
+    clearChecksBtn.addEventListener("click", function(){
+      boxes.forEach(function(b){ b.checked = false; });
+      saveChecks();
+      toast("已清空勾选");
+    });
+  }
+  loadChecks();
+
+  /* ---------- report form ---------- */
+  var FORM_KEY = "wardrobe-gate1-report-v1";
+  var ids = ["fTeeName","fJacketName","fPantsName","fTeeLen","fJacketLen","fPantsLen",
+             "fScale","fPhone","fDate","fLight","fNote"];
+  var fields = {};
+  ids.forEach(function(id){ fields[id] = document.getElementById(id); });
+
+  var out = $("#reportOut"), copyBtn = $("#copyBtn"), hint = $("#reportHint");
+
+  function todayStr(){
+    var d = new Date();
+    var p = function(n){ return (n < 10 ? "0" : "") + n; };
+    return d.getFullYear() + "-" + p(d.getMonth()+1) + "-" + p(d.getDate());
+  }
+
+  function loadForm(){
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(FORM_KEY) || "{}") || {}; } catch(e){ saved = {}; }
+    ids.forEach(function(id){
+      var el = fields[id];
+      if(!el) return;
+      if(typeof saved[id] === "string" && saved[id] !== "") el.value = saved[id];
+    });
+    if(fields.fDate && !fields.fDate.value) fields.fDate.value = todayStr();
+    if(fields.fScale && !fields.fScale.value) fields.fScale.value = "0.970";
+  }
+  function saveForm(){
+    var obj = {};
+    ids.forEach(function(id){ if(fields[id]) obj[id] = fields[id].value; });
+    try { localStorage.setItem(FORM_KEY, JSON.stringify(obj)); } catch(e){}
+  }
+
+  function clean(v){ return (v || "").trim(); }
+
+  function buildReport(){
+    var tee = clean(fields.fTeeName.value) || "T 恤";
+    var jacket = clean(fields.fJacketName.value) || "夹克";
+    var pants = clean(fields.fPantsName.value) || "裤子";
+    var l1 = clean(fields.fTeeLen.value);
+    var l2 = clean(fields.fJacketLen.value);
+    var l3 = clean(fields.fPantsLen.value);
+    var scale = clean(fields.fScale.value) || "0.970";
+    var phone = clean(fields.fPhone.value) || "（未填）";
+    var date = clean(fields.fDate.value) || todayStr();
+    var light = fields.fLight ? fields.fLight.value : "";
+    var note = clean(fields.fNote.value);
+
+    var lines = [
+      "【门槛 1 · 标定照已就位】",
+      "照片：pic/gate1/ 共 9 张（tshirt / jacket / pants × 0 / 15 / 30）",
+      "单品：" + tee + " / " + jacket + " / " + pants,
+      "card_scale：" + scale,
+      "真值：",
+      "- T恤 衣长 " + (l1 || "（缺）") + " cm",
+      "- 夹克 衣长 " + (l2 || "（缺）") + " cm",
+      "- 裤子 裤长 " + (l3 || "（缺）") + " cm",
+      "手机：" + phone,
+      "拍摄：" + date + " · " + light
+    ];
+    if(note) lines.push("备注：" + note);
+    return lines.join("\n");
+  }
+
+  function refresh(){
+    if(!out) return;
+    out.textContent = buildReport();
+    var ready = !!(clean(fields.fTeeLen.value) && clean(fields.fJacketLen.value) && clean(fields.fPantsLen.value));
+    if(copyBtn) copyBtn.disabled = !ready;
+    if(hint){
+      hint.textContent = ready ? "确认数字和单品名没问题，再复制。" : "三条真值都填了才能复制。";
+      hint.classList.toggle("warn", !ready);
+    }
+  }
+
+  function copyText(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text).then(function(){ return true; }).catch(function(){ return fallbackCopy(text); });
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+  function fallbackCopy(text){
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.top = "-1000px";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch(e){ ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  if(copyBtn){
+    copyBtn.addEventListener("click", function(){
+      copyText(buildReport()).then(function(ok){
+        toast(ok ? "报告已复制，贴进对话就行" : "复制失败，请手动选中报告文本");
+      });
+    });
+  }
+
+  var resetBtn = $("#resetBtn");
+  if(resetBtn){
+    resetBtn.addEventListener("click", function(){
+      try { localStorage.removeItem(FORM_KEY); } catch(e){}
+      ids.forEach(function(id){
+        var el = fields[id];
+        if(!el) return;
+        if(id === "fTeeName") el.value = "4 号咖色长袖T恤";
+        else if(id === "fJacketName") el.value = "11 号黑色薄夹克";
+        else if(id === "fPantsName") el.value = "13 号深蓝牛仔裤";
+        else if(id === "fScale") el.value = "0.970";
+        else if(id === "fDate") el.value = todayStr();
+        else if(id === "fLight") el.selectedIndex = 0;
+        else el.value = "";
+      });
+      refresh();
+      toast("表单已清空");
+    });
+  }
+
+  ids.forEach(function(id){
+    var el = fields[id];
+    if(!el) return;
+    el.addEventListener("input", function(){ saveForm(); refresh(); });
+    el.addEventListener("change", function(){ saveForm(); refresh(); });
+  });
+
+  loadForm();
+  refresh();
+
+  /* ---------- print ---------- */
+  var printBtn = $("#printBtn");
+  if(printBtn){
+    printBtn.addEventListener("click", function(){
+      $$("details").forEach(function(d){ d.open = true; });
+      setTimeout(function(){ window.print(); }, 60);
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+编号,名称,品类,层级,正式度,颜色HEX,版型,图案,材质,领型,厚度,衣长cm,肩宽cm,胸宽cm,袖长cm,裤长cm,平铺腰围cm,季节,照片文件名,备注
+1,白色棉T恤,T恤,inner,2,#F2F2F2,regular,solid,棉,圆领,thin,68,44,50,20,,,summer,demo_01.jpg,演示数据
+2,浅灰针织衫,针织,inner/mid,3,#B8B8B8,regular,solid,针织,圆领,medium,66,44,51,60,,,spring_fall,demo_02.jpg,演示数据
+3,藏青衬衫,衬衫,inner/mid,4,#2F4156,regular,solid,棉,翻领,thin,74,45,52,61,,,spring_fall,demo_03.jpg,演示数据
+4,亮橙卫衣,卫衣,inner,1,#FF6B1A,oversize,solid,棉,连帽,thick,70,50,58,62,,,spring_fall,demo_04.jpg,演示数据；用于触发冷暖冲突
+5,灰色连帽卫衣,卫衣,mid,2,#8A8A8A,regular,solid,棉,连帽,medium,68,46,54,61,,,spring_fall,demo_05.jpg,演示数据
+6,深蓝牛仔外套,外套,outer,3,#2F5FA8,regular,solid,牛仔,翻领,medium,66,45,54,61,,,spring_fall,demo_06.jpg,演示数据
+7,黑色西装外套,西装,outer,4,#1E1E1E,regular,solid,羊毛,翻领,medium,72,45,52,62,,,spring_fall,demo_07.jpg,演示数据
+8,米色风衣,外套,outer,3,#C9B79C,regular,solid,棉,翻领,thin,100,46,56,62,,,spring_fall,demo_08.jpg,演示数据
+9,卡其直筒裤,裤子,bottom,3,#C3B091,regular,solid,棉,不适用,medium,,,,,100,40,spring_fall,demo_09.jpg,演示数据
+10,深灰运动裤,裤子,bottom,2,#4A4A4A,oversize,solid,化纤,不适用,medium,,,,,98,38,spring_fall,demo_10.jpg,演示数据
+11,黑色牛仔裤,牛仔裤,bottom,3,#232323,slim,solid,牛仔,不适用,medium,,,,,102,39,spring_fall,demo_11.jpg,演示数据
+12,白色板鞋,鞋,shoes,2,#EDEDED,regular,solid,皮革,不适用,medium,,,,,,,spring_fall,demo_12.jpg,演示数据
+13,棕色皮靴,鞋,shoes,3,#6B4A2F,regular,solid,皮革,不适用,medium,,,,,,,winter,demo_13.jpg,演示数据
+14,米色棒球帽,配饰,accessory,2,#D8C9A8,regular,solid,棉,无领,thin,,,,,,,summer,demo_14.jpg,演示数据

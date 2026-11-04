@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>身材测量 · 个人穿搭助手</title>
+<style>
+  :root{
+    --bg:#F6F2EA;
+    --surface:#FFFDF8;
+    --surface-2:#EFE9DE;
+    --ink:#241F1A;
+    --muted:#6E655A;
+    --line:#E1D8CA;
+    --accent:#2F4156;
+    --accent-soft:#E4E9EE;
+    --warm:#B4552D;
+    --warm-soft:#F6E6DC;
+    --ok:#3F6B4A;
+    --ok-soft:#E6EFE6;
+    --bad:#A8352F;
+    --bad-soft:#F7E4E1;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(36,31,26,.05), 0 10px 30px rgba(36,31,26,.06);
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px}
+  h1,h2,h3,h4{line-height:1.3;margin:0}
+  p{margin:0 0 12px}
+  a{color:var(--accent)}
+  .skip{position:absolute;left:-999px;top:0;background:var(--accent);color:#fff;padding:10px 16px;z-index:99}
+  .skip:focus{left:12px;top:12px}
+
+  /* top bar */
+  .top{position:sticky;top:0;z-index:40;background:rgba(246,242,234,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .top-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
+  .brand{font-size:15px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+  .brand span{font-size:12px;font-weight:500;color:var(--muted);margin-left:8px}
+  .print-btn{min-height:36px;padding:0 12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+  .print-btn:hover{border-color:var(--accent)}
+
+  /* toc */
+  .toc{position:sticky;top:56px;z-index:35;background:rgba(246,242,234,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .toc-inner{display:flex;gap:4px;overflow-x:auto;padding:9px 20px;scrollbar-width:none}
+  .toc-inner::-webkit-scrollbar{display:none}
+  .toc a{flex:0 0 auto;font-size:13px;color:var(--muted);text-decoration:none;padding:7px 9px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+  .toc a:hover{background:var(--surface-2);color:var(--ink);border-color:var(--line)}
+  .toc a.active{background:var(--accent-soft);color:var(--accent);border-color:#CBD6E0}
+  .toc::after{content:"";position:absolute;top:1px;right:0;bottom:1px;width:32px;background:linear-gradient(90deg,rgba(246,242,234,0),rgba(246,242,234,.97));pointer-events:none}
+  @media (min-width:560px){.toc::after{display:none}}
+
+  /* hero */
+  .hero{padding:48px 0 26px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--warm);margin:0 0 12px}
+  .hero h1{font-size:clamp(34px,8vw,48px);letter-spacing:-.025em;margin:0 0 14px}
+  .lede{font-size:17px;color:var(--muted);max-width:640px;margin:0 0 24px;line-height:1.75}
+  .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 20px}
+  .hero-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow)}
+  .hero-card b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;margin-bottom:10px}
+  .hero-card h3{font-size:15px;margin:0 0 4px}
+  .hero-card p{font-size:13px;color:var(--muted);margin:0;line-height:1.6}
+  @media (max-width:640px){.hero-grid{grid-template-columns:1fr}.hero{padding-top:36px}}
+
+  /* callouts */
+  .callout{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:15px 17px;margin:14px 0;font-size:14px;line-height:1.7}
+  .callout strong{color:var(--ink)}
+  .callout.accent{background:var(--accent-soft);border-color:#CBD6E0}
+  .callout.warm{background:var(--warm-soft);border-color:#EBCDBB}
+  .callout.ok{background:var(--ok-soft);border-color:#CDDFCF}
+  .callout p:last-child{margin-bottom:0}
+
+  /* sections */
+  section{scroll-margin-top:132px;padding:30px 0 8px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+  .sec-no{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--warm);letter-spacing:.06em}
+  .sec-head h2{font-size:26px;letter-spacing:-.02em}
+  .sec-head p{font-size:14px;color:var(--muted);margin:0}
+  @media (max-width:640px){
+    .sec-head{flex-wrap:wrap;gap:6px 10px}
+    .sec-head p{flex-basis:100%;margin-top:2px}
+    .sec-head h2{font-size:23px}
+  }
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:14px 0;box-shadow:var(--shadow)}
+  .card > h3{font-size:17px;margin:0 0 10px}
+  .muted{color:var(--muted)}
+  .small{font-size:13px}
+
+  /* lists */
+  .rules{margin:0;padding-left:22px}
+  .rules li{margin:7px 0;padding-left:2px}
+  .rules li::marker{color:var(--warm);font-weight:700}
+  .tools{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:10px 0 0;padding:0}
+  .tools li{font-size:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+
+  /* diagrams */
+  .diagram{margin:18px 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 12px 12px;box-shadow:var(--shadow)}
+  .diagram svg{display:block;width:100%;height:auto;max-width:520px;margin:0 auto}
+  .diagram figcaption{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
+  .legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 10px;max-width:300px;margin:10px auto 0;font-size:13px;color:var(--muted)}
+  .legend span{white-space:nowrap}
+  .legend b{color:var(--warm);font-family:var(--mono);margin-right:4px}
+  .mini-fig{margin:14px 0 2px;padding:8px 6px 6px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+  .mini-fig svg{display:block;width:100%;height:auto;max-width:320px;margin:0 auto}
+  .mini-fig figcaption{font-size:12px;color:var(--muted);text-align:center;margin-top:4px;line-height:1.55}
+  .mini-label{font-family:inherit;font-size:10.5px;fill:var(--muted)}
+  .mini-label-warm{font-family:inherit;font-size:10.5px;fill:var(--warm);font-weight:600}
+  .garment{fill:#EDE6DA;stroke:#3A332B;stroke-width:1.7;stroke-linejoin:round}
+  .garment-2{fill:#DED4C3;stroke:#3A332B;stroke-width:1.5;stroke-linejoin:round}
+  .seam{stroke:#3A332B;stroke-width:1.1;opacity:.55;fill:none}
+  .floor{stroke:#3A332B;stroke-width:1.4;opacity:.45}
+  .limb{stroke:#3A332B;stroke-width:19;stroke-linecap:round;fill:none}
+  .limb-in{stroke:#EDE6DA;stroke-width:16;stroke-linecap:round;fill:none}
+  .m-line{fill:none;stroke:#B4552D;stroke-width:2;stroke-dasharray:6 4}
+  .m-tick{stroke:#B4552D;stroke-width:2}
+  .m-dot{fill:#FFFDF8;stroke:#B4552D;stroke-width:2}
+  .m-text{fill:#B4552D;font-family:var(--mono);font-size:13px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+
+  /* measure cards */
+  .measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  @media (max-width:820px){.measure-grid{grid-template-columns:1fr}}
+  .m-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:17px;display:flex;flex-direction:column}
+  .m-head{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .m-no{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--warm-soft);color:var(--warm);font-family:var(--mono);font-size:12px;font-weight:700;flex:0 0 auto}
+  .m-head h3{font-size:16px}
+  .m-tag{margin-left:auto;font-size:11.5px;color:var(--muted);background:var(--surface-2);padding:3px 8px;border-radius:999px;white-space:nowrap}
+  .m-def{font-weight:600;color:var(--accent);margin:0 0 10px;font-size:14px}
+  .m-card dl{margin:0;display:grid;gap:7px}
+  .m-card dl > div{display:grid;grid-template-columns:56px 1fr;gap:8px}
+  .m-card dt{font-size:12px;color:var(--muted);font-weight:600}
+  .m-card dd{margin:0;font-size:14px;line-height:1.7}
+  .m-card dd b{color:var(--warm);font-weight:600}
+
+  /* record */
+  .rec-list{display:grid;gap:0;margin:12px 0 0;border-top:1px solid var(--line)}
+  .rec-row{display:grid;grid-template-columns:minmax(64px,1fr) 112px 86px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+  .rec-label{font-size:13.5px;font-weight:600}
+  .rec-label small{display:block;font-size:11.5px;color:var(--muted);font-weight:400;line-height:1.45}
+  .rec-input{position:relative;display:flex;align-items:center;min-width:0}
+  .rec-input input{width:100%;min-height:40px;padding:6px 30px 6px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit;font-size:16px;appearance:textfield;-moz-appearance:textfield}
+  .rec-input input::-webkit-outer-spin-button,
+  .rec-input input::-webkit-inner-spin-button{margin:0;-webkit-appearance:none}
+  .rec-input input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .rec-input input[aria-invalid="true"]{border-color:var(--bad);box-shadow:0 0 0 3px var(--bad-soft)}
+  .rec-unit{position:absolute;right:9px;font-size:10.5px;color:var(--muted);pointer-events:none}
+  .rec-source{width:100%;min-height:40px;padding:0 4px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit;font-size:13px}
+  .rec-status{grid-column:1 / -1;font-size:11.5px;color:var(--bad);line-height:1.5;margin-top:-2px}
+  .rec-status:empty{display:none}
+  @media (max-width:380px){
+    .rec-row{grid-template-columns:minmax(58px,1fr) 100px 82px;gap:8px}
+    .rec-source{font-size:12px}
+  }
+  .rec-foot{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px}
+  .rec-count{font-size:12.5px;color:var(--muted)}
+  .rec-note{font-size:11.5px;color:var(--muted);line-height:1.6;margin:8px 0 0}
+
+  /* table */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:10px 0 4px;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:var(--surface-2);font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td code{white-space:nowrap}
+  .scroll-hint{font-size:11.5px;color:var(--muted);margin:6px 0 0}
+  @media (max-width:640px){
+    .table-wrap{overflow:visible;border:0;border-radius:0}
+    table{min-width:0;font-size:13px}
+    thead{display:none}
+    tbody tr{display:block;padding:10px 0;border-bottom:1px solid var(--line)}
+    tbody td{display:block;border:0;padding:0;line-height:1.65}
+    tbody td:first-child{font-weight:700;margin-bottom:2px}
+    tbody td:not(:first-child)::before{content:attr(data-label) "：";color:var(--muted);font-size:12px}
+    .scroll-hint{display:none}
+  }
+
+  /* sources */
+  .source-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  @media (max-width:700px){.source-grid{grid-template-columns:1fr}}
+  .source{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+  .source b{display:block;font-size:14px;margin-bottom:3px}
+  .source small{display:block;font-size:12px;color:var(--muted);line-height:1.6}
+
+  /* steps */
+  .steps{counter-reset:step;list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+  .steps li{counter-increment:step;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.65}
+  .steps li::before{content:counter(step);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-size:12px;font-weight:700;margin-top:1px}
+  .steps b{color:var(--ink)}
+
+  /* details */
+  details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:10px 0;padding:0 17px;box-shadow:var(--shadow)}
+  details[open]{padding-bottom:15px}
+  summary{cursor:pointer;padding:15px 0;display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:8px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary b{font-size:15px}
+  summary::after{content:"+";font-size:17px;color:var(--muted);font-family:var(--mono);line-height:1;justify-self:end}
+  details[open] summary::after{content:"−"}
+  details p:last-child{margin-bottom:0}
+
+  /* buttons + code */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent;color:var(--accent)}
+  .btn.ghost:hover{background:var(--accent-soft);filter:none}
+  :not(pre) > code{font-family:var(--mono);background:var(--surface-2);padding:1px 5px;border-radius:5px;font-size:.9em;white-space:nowrap}
+
+  /* footer */
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0 48px;color:var(--muted);font-size:12px;line-height:1.8}
+  footer code{font-family:var(--mono);font-size:11px}
+
+  /* toast */
+  #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);background:#22262B;color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:80;max-width:calc(100vw - 40px);text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+
+  :focus-visible{outline:3px solid #7C93A8;outline-offset:2px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+
+  @media print{
+    :root{--bg:#fff;--surface:#fff;--surface-2:#f2f2f2;--ink:#000;--muted:#444;--line:#bbb;--shadow:none}
+    body{font-size:10.5pt;line-height:1.5}
+    .top,.toc,.print-btn,#toast,.rec-foot,.rec-note,.scroll-hint{display:none!important}
+    .wrap{max-width:100%;padding:0}
+    section{padding:10px 0;scroll-margin-top:0}
+    .hero{padding-top:0}
+    .card,.diagram,details,.m-card,.source{box-shadow:none;break-inside:avoid}
+    details{display:block}
+    details > summary::after{content:""}
+    a{color:#000;text-decoration:none}
+    .rec-input input,.rec-source{border:1px solid #999;background:#fff}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="brand">个人穿搭助手 <span>M1 · 身材数据</span></div>
+    <button class="print-btn" id="printBtn" type="button">打印教程</button>
+  </div>
+</header>
+
+<nav class="toc" aria-label="页内导航">
+  <div class="wrap toc-inner">
+    <a href="#prep">准备</a>
+    <a href="#measure">测量</a>
+    <a href="#record">记录表</a>
+    <a href="#clothes">量衣</a>
+    <a href="#entry">填写</a>
+    <a href="#faq">答疑</a>
+  </div>
+</nav>
+
+<main id="main" class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="start">
+    <p class="eyebrow">M1 · 「我的」→ 身材</p>
+    <h1>身材测量</h1>
+    <p class="lede">九项数据，第一次大约 15 分钟。软尺 + 镜子就够，不需要别人帮忙也能量完。</p>
+
+    <div class="hero-grid">
+      <div class="hero-card">
+        <b>1</b>
+        <h3>备好三样东西</h3>
+        <p>无弹性软尺、镜子、一本硬皮书。没有软尺也能用绳子替代。</p>
+      </div>
+      <div class="hero-card">
+        <b>2</b>
+        <h3>按图量九项</h3>
+        <p>每项都有位置图和常见错误。量两次取中位数，误差超过 1cm 重来。</p>
+      </div>
+      <div class="hero-card">
+        <b>3</b>
+        <h3>填进「我的」</h3>
+        <p>单位是整数 cm / kg，每行选来源（手量 / 量衣 / 估算），点保存。</p>
+      </div>
+    </div>
+
+    <div class="callout accent">
+      <p><strong>九项都会存，其中五项已经进入搭配规则。</strong>身高、肩宽、胸围、臀围、臂长参与打分，搭配卡上的「上装合身」「下装合身」就是它们算出来的；腰围、内长、颈围、体重四项先存着。数据只在本机，不上传。</p>
+    </div>
+  </section>
+
+  <!-- ============ PREP ============ -->
+  <section id="prep">
+    <div class="sec-head">
+      <span class="sec-no">00</span>
+      <h2>测量前</h2>
+      <p>固定的时间、固定的状态，比量得多细更重要</p>
+    </div>
+
+    <div class="card">
+      <h3>需要的东西</h3>
+      <ul class="tools">
+        <li>无弹性软尺（裁缝尺）</li>
+        <li>全身镜</li>
+        <li>一本硬皮书</li>
+        <li>铅笔或胶带</li>
+        <li>手机（记数）</li>
+      </ul>
+      <p class="small muted" style="margin-top:10px">没有软尺：用没有弹性的绳子或耳机线绕一圈做记号，再拿直尺量长度。不要用皮筋、松紧带、有弹力的绳。</p>
+    </div>
+
+    <div class="card">
+      <h3>五条规矩</h3>
+      <ol class="rules">
+        <li><b>晨起、空腹、排空后量。</b>腰围和体重在一天里能差 2–3cm / 1–2kg。</li>
+        <li><b>只穿内衣，或很薄的一层。</b>厚衣服、牛仔裤会让围度虚大。</li>
+        <li><b>站直，双脚自然并拢，目光平视。</b>不要刻意挺胸、收腹、夹臀。</li>
+        <li><b>软尺贴住皮肤，但不勒。</b>围度尺能塞进一根手指的松紧刚好。</li>
+        <li><b>每项量 2–3 次，取中位数。</b>两次差超过 1cm，说明姿势或位置不对，重来。</li>
+      </ol>
+    </div>
+
+    <div class="callout">
+      <p><strong>关于隐私。</strong>身材数据只写进本机的 SQLite 数据库，不上传任何第三方；「我的」里的导出 ZIP 含数据库快照与照片清单，也不含照片文件。本页下方的记录表只保存在这台设备的浏览器里。</p>
+    </div>
+  </section>
+
+  <!-- ============ MEASURE ============ -->
+  <section id="measure">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <h2>九项测量</h2>
+      <p>按「我的」里的顺序排；围度都是水平一周</p>
+    </div>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 460 560" role="img" aria-labelledby="bodyTitle bodyDesc">
+        <title id="bodyTitle">身材九项数据的测量位置</title>
+        <desc id="bodyDesc">正面人体示意图，标出身高、肩宽、胸围、腰围、臀围、颈围、内长与臂长的测量线；体重不上图。</desc>
+        <defs>
+          <marker id="arrowWarm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#B4552D"/>
+          </marker>
+        </defs>
+
+        <!-- floor -->
+        <line class="floor" x1="98" y1="490" x2="372" y2="490"/>
+
+        <!-- arms -->
+        <line class="limb" x1="172" y1="118" x2="141" y2="316"/>
+        <line class="limb-in" x1="172" y1="118" x2="141" y2="316"/>
+        <line class="limb" x1="288" y1="118" x2="319" y2="316"/>
+        <line class="limb-in" x1="288" y1="118" x2="319" y2="316"/>
+
+        <!-- legs -->
+        <path class="garment" d="M174,286 L208,286 L202,468 L178,468 Z"/>
+        <path class="garment" d="M252,286 L286,286 L282,468 L258,468 Z"/>
+        <ellipse class="garment-2" cx="190" cy="474" rx="17" ry="9"/>
+        <ellipse class="garment-2" cx="270" cy="474" rx="17" ry="9"/>
+
+        <!-- torso -->
+        <path class="garment" d="M170,110 L290,110 L281,218 L288,288 L172,288 L179,218 Z"/>
+        <!-- neck + head -->
+        <rect class="garment-2" x="217" y="84" width="26" height="28" rx="6"/>
+        <circle class="garment" cx="230" cy="60" r="27"/>
+
+        <!-- 1 height -->
+        <line class="m-line" x1="72" y1="33" x2="72" y2="490" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <line class="m-tick" x1="64" y1="33" x2="80" y2="33"/>
+        <line class="m-tick" x1="64" y1="490" x2="80" y2="490"/>
+
+        <!-- 3 shoulder -->
+        <line class="m-line" x1="170" y1="110" x2="290" y2="110" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <!-- 4 chest -->
+        <line class="m-line" x1="175" y1="180" x2="285" y2="180" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <!-- 5 waist -->
+        <line class="m-line" x1="179" y1="218" x2="281" y2="218" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <!-- 6 hip -->
+        <line class="m-line" x1="172" y1="284" x2="288" y2="284" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <!-- 7 neck -->
+        <ellipse class="m-line" cx="230" cy="96" rx="18" ry="9"/>
+        <!-- 8 inseam -->
+        <line class="m-line" x1="230" y1="312" x2="230" y2="490" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <!-- 9 arm -->
+        <line class="m-line" x1="160" y1="120" x2="129" y2="316" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+
+        <!-- markers -->
+        <circle class="m-dot" cx="72" cy="262" r="11"/><text class="m-text" x="72" y="262">1</text>
+        <circle class="m-dot" cx="198" cy="110" r="11"/><text class="m-text" x="198" y="110">3</text>
+        <circle class="m-dot" cx="230" cy="180" r="11"/><text class="m-text" x="230" y="180">4</text>
+        <circle class="m-dot" cx="230" cy="218" r="11"/><text class="m-text" x="230" y="218">5</text>
+        <circle class="m-dot" cx="230" cy="284" r="11"/><text class="m-text" x="230" y="284">6</text>
+        <circle class="m-dot" cx="262" cy="96" r="11"/><text class="m-text" x="262" y="96">7</text>
+        <circle class="m-dot" cx="230" cy="404" r="11"/><text class="m-text" x="230" y="404">8</text>
+        <circle class="m-dot" cx="146" cy="232" r="11"/><text class="m-text" x="146" y="232">9</text>
+      </svg>
+      <figcaption>正面示意 · 体重（2）不上图，用体重秤量；围度线都要保持水平</figcaption>
+      <div class="legend">
+        <span><b>1</b>身高</span>
+        <span><b>2</b>体重</span>
+        <span><b>3</b>肩宽</span>
+        <span><b>4</b>胸围</span>
+        <span><b>5</b>腰围</span>
+        <span><b>6</b>臀围</span>
+        <span><b>7</b>颈围</span>
+        <span><b>8</b>内长</span>
+        <span><b>9</b>臂长</span>
+      </div>
+    </figure>
+
+    <div class="measure-grid">
+
+      <!-- 1 height -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">1</span>
+          <h3>身高</h3>
+          <span class="m-tag">100–250 cm</span>
+        </div>
+        <p class="m-def">赤脚，从头顶到地面的垂直距离。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>靠墙站直，脚跟并拢贴墙，臀、肩胛、后脑尽量贴墙；目光平视，下巴微收。让别人把硬书水平压到头顶，在墙上划线，再量地面到线。</dd></div>
+          <div><dt>一个人量</dt><dd>背靠门框站好，用硬书抵住头顶，在门框上做记号。头发厚的话把书压到头皮。</dd></div>
+          <div><dt>别这样</dt><dd>穿鞋、抬头、驼背；晚上量会比早晨矮 1–2cm。</dd></div>
+          <div><dt>来源</dt><dd>只能手量，不能量衣或估算。</dd></div>
+        </dl>
+      </article>
+
+      <!-- 2 weight -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">2</span>
+          <h3>体重</h3>
+          <span class="m-tag">25–250 kg</span>
+        </div>
+        <p class="m-def">晨起、空腹、排空后的体重。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>体重秤放在硬地面上，先归零；只穿内衣或薄衣，站稳读数。四舍五入到整数公斤。</dd></div>
+          <div><dt>一个人量</dt><dd>固定同一台秤、同一个时间点，波动更容易判断。</dd></div>
+          <div><dt>别这样</dt><dd>饭后、运动后、穿外套；几台秤混着用，差值可能有 1–2kg。</dd></div>
+          <div><dt>来源</dt><dd>手量（体重秤）。本轮体重暂不参与规则，先存着。</dd></div>
+        </dl>
+      </article>
+
+      <!-- 3 shoulder -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">3</span>
+          <h3>肩宽</h3>
+          <span class="m-tag">25–80 cm</span>
+        </div>
+        <p class="m-def">左右肩峰点之间的直线距离，不是衣服肩线。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>自然站立、双臂下垂。用手指沿肩上部向外摸，摸到肩头最外侧的骨点（肩峰）。软尺从左肩峰横过背后到右肩峰，保持水平。</dd></div>
+          <div><dt>一个人量</dt><dd>背对镜子，把软尺两端按在两侧肩峰上，再转身看镜子读数；或让家人帮忙。</dd></div>
+          <div><dt>别这样</dt><dd>量到手臂外侧的三角肌，会宽 2–4cm；量衣服肩线；软尺在背后下垂。</dd></div>
+          <div><dt>量衣参考</dt><dd>合身衬衫肩缝到肩缝 <b>减 0.5–1.5cm</b>，来源选「量衣」。</dd></div>
+        </dl>
+      </article>
+
+      <!-- 4 chest -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">4</span>
+          <h3>胸围</h3>
+          <span class="m-tag">50–180 cm</span>
+        </div>
+        <p class="m-def">胸部最丰满处水平一周。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>自然站立，双臂下垂放松。软尺绕胸部最丰满处（通常与乳头齐平），背后保持水平；正常呼气末读数，不刻意挺胸。</dd></div>
+          <div><dt>一个人量</dt><dd>面对镜子，把软尺绕到背后再回到胸前，先确认背后没有下滑，再读前面的数。</dd></div>
+          <div><dt>别这样</dt><dd>软尺前低后高、勒进皮肤、穿厚衣、深吸气。</dd></div>
+          <div><dt>量衣参考</dt><dd>合身 T 恤/衬衫平铺胸宽 ×2，<b>减 4cm 左右</b>（修身减 2，宽松款不要用来反推），来源选「量衣」。</dd></div>
+        </dl>
+      </article>
+
+      <!-- 5 waist -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">5</span>
+          <h3>腰围</h3>
+          <span class="m-tag">40–180 cm</span>
+        </div>
+        <p class="m-def">肋骨下缘与髂骨上缘的中点，通常是躯干最细处。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>自然站立，正常呼气末。软尺水平绕一圈，不收腹；松紧以能塞进一根手指为准。位置通常在肚脐上方 1–2cm，不是裤腰的位置。</dd></div>
+          <div><dt>一个人量</dt><dd>镜前先看背后是否水平，再读前面的数。不确定位置时，找躯干最细的一圈。</dd></div>
+          <div><dt>别这样</dt><dd>收腹、量低腰裤腰头、刚吃完饭就量（能差 2–3cm）。</dd></div>
+          <div><dt>量衣参考</dt><dd>合身西裤平铺腰围 ×2，<b>减 1–2cm</b>；弹力腰头不要用来反推。</dd></div>
+        </dl>
+        <figure class="mini-fig">
+          <svg viewBox="0 0 300 170" role="img" aria-labelledby="waistTitle">
+            <title id="waistTitle">腰围的正确位置在肋骨下缘与髂骨上缘之间</title>
+            <path class="garment" d="M100,24 L200,24 L194,88 L202,150 L98,150 L106,88 Z"/>
+            <line x1="118" y1="62" x2="182" y2="62" stroke="#3A332B" stroke-width="1.2" stroke-dasharray="4 4" opacity=".45"/>
+            <text class="mini-label" x="210" y="62">肋骨下缘</text>
+            <line class="m-line" x1="103" y1="92" x2="197" y2="92" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+            <text class="mini-label-warm" x="210" y="92">腰围在这里</text>
+            <line x1="96" y1="126" x2="204" y2="126" stroke="#3A332B" stroke-width="1.2" stroke-dasharray="4 4" opacity=".45"/>
+            <text class="mini-label" x="210" y="126">肚脐附近</text>
+            <line x1="94" y1="150" x2="206" y2="150" stroke="#3A332B" stroke-width="1.2" stroke-dasharray="4 4" opacity=".45"/>
+            <text class="mini-label" x="210" y="150">髂骨上缘</text>
+          </svg>
+          <figcaption>腰围取两条虚线之间最细处，不取裤腰位置</figcaption>
+        </figure>
+      </article>
+
+      <!-- 6 hip -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">6</span>
+          <h3>臀围</h3>
+          <span class="m-tag">50–200 cm</span>
+        </div>
+        <p class="m-def">臀部最丰满处水平一周。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>双脚并拢站直，软尺水平绕臀部最宽处（通常经过大腿骨外侧的突起）。软尺要经过臀部最凸点。</dd></div>
+          <div><dt>一个人量</dt><dd>侧对镜子确认软尺水平、没有滑到大腿，再读前面的数。</dd></div>
+          <div><dt>别这样</dt><dd>双脚分开、收臀、软尺下滑到大腿。</dd></div>
+          <div><dt>量衣参考</dt><dd>合身裤子平铺臀围 ×2，<b>减 2–4cm</b>，来源选「量衣」。</dd></div>
+        </dl>
+      </article>
+
+      <!-- 7 neck -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">7</span>
+          <h3>颈围</h3>
+          <span class="m-tag">20–70 cm</span>
+        </div>
+        <p class="m-def">颈中部（喉结下方）水平一周。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>抬头平视，肩放松。软尺绕颈中部一圈，贴住但不勒，能塞进一根手指。</dd></div>
+          <div><dt>一个人量</dt><dd>镜前读数，注意软尺前后一样高。</dd></div>
+          <div><dt>别这样</dt><dd>勒紧、量到领口位置、抬头或低头。</dd></div>
+          <div><dt>量衣参考</dt><dd>合身衬衫领围 <b>减 1–2cm</b>，来源选「量衣」。</dd></div>
+        </dl>
+      </article>
+
+      <!-- 8 inseam -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">8</span>
+          <h3>内长</h3>
+          <span class="m-tag">30–130 cm</span>
+        </div>
+        <p class="m-def">裆底到脚底（赤脚）的垂直距离，就是裤子的内缝长。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>靠墙赤脚站立，双腿自然分开。把硬书竖在两腿之间，书脊顶住裆底；在书上沿对应的墙面做记号；量地面到记号。</dd></div>
+          <div><dt>一个人量</dt><dd>书 + 墙 + 镜子。更省事的办法：量一条长度刚好的裤子内缝（裆底缝到裤脚），来源选「量衣」。</dd></div>
+          <div><dt>别这样</dt><dd>从裤腰量到裤脚（那是外长/裤长）；量到脚踝骨（会短 2–3cm）；穿鞋量。</dd></div>
+          <div><dt>量衣参考</dt><dd>裤内缝长直接取，基本等于身体内长；裤脚堆积多的话减 1cm。</dd></div>
+        </dl>
+        <figure class="mini-fig">
+          <svg viewBox="0 0 300 180" role="img" aria-labelledby="inseamTitle">
+            <title id="inseamTitle">裤子内缝从裆底量到裤脚</title>
+            <rect class="garment-2" x="96" y="24" width="108" height="16" rx="3"/>
+            <path class="garment" d="M96,40 C94,54 94,70 96,88 L96,152 L132,152 L150,88 L168,152 L204,152 L204,88 C206,70 206,54 204,40 Z"/>
+            <line class="seam" x1="96" y1="40" x2="204" y2="40"/>
+            <line class="seam" x1="150" y1="40" x2="150" y2="88"/>
+            <line class="m-line" x1="150" y1="90" x2="132" y2="150" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+            <text class="mini-label-warm" x="222" y="118">内缝 = 内长</text>
+            <text class="mini-label" x="222" y="82">从裆底</text>
+            <text class="mini-label" x="222" y="150">到裤脚</text>
+          </svg>
+          <figcaption>量衣：平铺裤子，沿内侧缝从裆底量到裤脚</figcaption>
+        </figure>
+      </article>
+
+      <!-- 9 arm -->
+      <article class="m-card">
+        <div class="m-head">
+          <span class="m-no">9</span>
+          <h3>臂长</h3>
+          <span class="m-tag">30–100 cm</span>
+        </div>
+        <p class="m-def">肩峰点到腕骨外侧突起的直线距离。</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>手臂自然下垂，微微离开身体 10–15°。从肩峰沿手臂外侧量到腕骨外侧的突起（桡骨茎突）；手臂伸直但放松。</dd></div>
+          <div><dt>一个人量</dt><dd>镜前先按住肩峰一端，再拉到腕骨；最好让人帮忙，误差会小很多。</dd></div>
+          <div><dt>别这样</dt><dd>从脖子或肩线内侧起量、量到指尖、弯肘、让软尺绕着手臂。</dd></div>
+          <div><dt>量衣参考</dt><dd>合身衬衫肩缝到袖口 <b>减 1–2cm</b>，来源选「量衣」。</dd></div>
+        </dl>
+        <figure class="mini-fig">
+          <svg viewBox="0 0 300 180" role="img" aria-labelledby="armTitle">
+            <title id="armTitle">臂长从肩峰量到腕骨外侧突起</title>
+            <path class="garment" d="M110,34 L150,34 L164,150 L128,156 Z"/>
+            <circle class="m-dot" cx="130" cy="40" r="6"/>
+            <circle class="m-dot" cx="146" cy="150" r="6"/>
+            <line class="m-line" x1="130" y1="40" x2="146" y2="150" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+            <text class="mini-label-warm" x="186" y="42">肩峰</text>
+            <text class="mini-label-warm" x="186" y="152">腕骨外侧</text>
+          </svg>
+          <figcaption>从肩头骨点量到手腕外侧突起，不量到指尖</figcaption>
+        </figure>
+      </article>
+
+    </div>
+
+    <div class="callout warm">
+      <p><strong>两次差超过 1cm 就重来。</strong>围度最常见的问题不是读数，而是软尺没有保持水平：前面低了、背后滑了、或者绕到了大腿上。</p>
+    </div>
+  </section>
+
+  <!-- ============ RECORD ============ -->
+  <section id="record">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <h2>记录表</h2>
+      <p>先记在这里，再填进「我的」；也可以直接打印</p>
+    </div>
+
+    <div class="card">
+      <h3>九项数值</h3>
+      <p class="small muted" style="margin-top:-2px">全部填整数：cm 四舍五入到整厘米，体重到整公斤。超出范围会标红。</p>
+
+      <div class="rec-list" id="recList"></div>
+
+      <div class="rec-foot">
+        <button class="btn" id="copySummary" type="button">复制九项数值</button>
+        <button class="btn ghost" id="clearRecord" type="button">清除记录</button>
+        <span class="rec-count" id="recCount">已填 0 / 9</span>
+      </div>
+      <p class="rec-note">记录只存在这台设备的浏览器里（localStorage），刷新不丢，不会上传。正式数据以「我的」里保存的为准。</p>
+    </div>
+  </section>
+
+  <!-- ============ CLOTHES ============ -->
+  <section id="clothes">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <h2>量衣与估算</h2>
+      <p>量不了身体时，怎么填得诚实</p>
+    </div>
+
+    <div class="source-grid">
+      <div class="source">
+        <b>手量</b>
+        <small>软尺直接量身体。最准，第一次九项都建议用手量。</small>
+      </div>
+      <div class="source">
+        <b>量衣</b>
+        <small>用合身旧衣的尺寸反推。误差通常 1–4cm，必须如实标记。</small>
+      </div>
+      <div class="source">
+        <b>估算</b>
+        <small>没量，按尺码表或身高体重估计。误差最大；「我的」里默认就是它，量完记得改。</small>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>用合身衣服反推</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>项目</th><th>从合身衣服怎么算</th><th>注意</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="项目">肩宽</td><td data-label="怎么算">肩缝到肩缝 − 0.5–1.5cm</td><td data-label="注意">只限肩线正合身的衬衫/外套</td></tr>
+            <tr><td data-label="项目">胸围</td><td data-label="怎么算">平铺胸宽 ×2 − 4cm 左右</td><td data-label="注意">修身减 2；宽松款不能反推</td></tr>
+            <tr><td data-label="项目">腰围</td><td data-label="怎么算">平铺腰围 ×2 − 1–2cm</td><td data-label="注意">弹力腰头、低腰裤不能用</td></tr>
+            <tr><td data-label="项目">臀围</td><td data-label="怎么算">平铺臀围 ×2 − 2–4cm</td><td data-label="注意">紧身裤不能用</td></tr>
+            <tr><td data-label="项目">颈围</td><td data-label="怎么算">衬衫领围 − 1–2cm</td><td data-label="注意">领围本身已含 1–2cm 余量</td></tr>
+            <tr><td data-label="项目">内长</td><td data-label="怎么算">裤内缝长，直接取</td><td data-label="注意">从裆底缝量到裤脚</td></tr>
+            <tr><td data-label="项目">臂长</td><td data-label="怎么算">衬衫肩缝到袖口 − 1–2cm</td><td data-label="注意">袖口要在腕骨附近</td></tr>
+            <tr><td data-label="项目">身高 / 体重</td><td data-label="怎么算">不适用</td><td data-label="注意">只能实际量</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="scroll-hint">表格可左右滑动</p>
+      <p class="small muted" style="margin-top:10px">量衣的误差来自版型余量：同一件衣服，修身和宽松能差 4cm 以上。来源选「量衣」，不要冒充手量。</p>
+      <p class="small muted">衣服本身的尺寸怎么量，见 <a href="08-量衣与填表教程.html">08-量衣与填表教程</a>。</p>
+    </div>
+
+    <div class="callout accent">
+      <p><strong>来源会跟数值一起保存，并直接影响权重。</strong>手量按 1.0、量衣按 0.85、估算按 0.5 折算：同样是扣分，标「估算」的只扣一半，理由末尾也会标「（估算）」。估算不会被当成精确值，也不会因此被排除。</p>
+    </div>
+  </section>
+
+  <!-- ============ ENTRY ============ -->
+  <section id="entry">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <h2>填进「我的」</h2>
+      <p>底部导航 → 我的 → 身材</p>
+    </div>
+
+    <div class="card">
+      <ol class="steps">
+        <li><span>打开底部导航的 <b>「我的」</b>，找到「身材」区块。九行对应上面九项，顺序一致。</span></li>
+        <li><span>逐行填数字。空着也能保存，不用一次填完；单位已经固定在输入框右侧（cm / kg）。</span></li>
+        <li><span>每行右侧选来源：<b>手量 / 量衣 / 估算</b>。没改的话默认是「估算」，量过就改成「手量」。</span></li>
+        <li><span>点「身材」右上角的 <b>「保存身材」</b>，看到「已保存」就是写进本机数据库了。</span></li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>能填的范围</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>项目</th><th>可填范围</th><th>本轮是否参与规则</th></tr></thead>
+          <tbody>
+            <tr><td data-label="项目">身高</td><td data-label="可填范围">100–250 cm</td><td data-label="本轮">是 · R-PRP-04（外套下摆）</td></tr>
+            <tr><td data-label="项目">体重</td><td data-label="可填范围">25–250 kg</td><td data-label="本轮">否，先存</td></tr>
+            <tr><td data-label="项目">肩宽</td><td data-label="可填范围">25–80 cm</td><td data-label="本轮">是 · R-SIZ-01（肩线）</td></tr>
+            <tr><td data-label="项目">胸围</td><td data-label="可填范围">50–180 cm</td><td data-label="本轮">是 · R-SIZ-01（胸围松量）</td></tr>
+            <tr><td data-label="项目">腰围</td><td data-label="可填范围">40–180 cm</td><td data-label="本轮">否，先存</td></tr>
+            <tr><td data-label="项目">臀围</td><td data-label="可填范围">50–200 cm</td><td data-label="本轮">是 · R-SIZ-02（臀围松量）</td></tr>
+            <tr><td data-label="项目">颈围</td><td data-label="可填范围">20–70 cm</td><td data-label="本轮">否，先存</td></tr>
+            <tr><td data-label="项目">内长</td><td data-label="可填范围">30–130 cm</td><td data-label="本轮">否，先存</td></tr>
+            <tr><td data-label="项目">臂长</td><td data-label="可填范围">30–100 cm</td><td data-label="本轮">是 · R-SIZ-01（袖长，只判长袖）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="scroll-hint">表格可左右滑动</p>
+      <p class="small muted" style="margin-top:10px">只能填整数。超出范围时保存会提示具体哪一项不合法，改到范围内再存。</p>
+    </div>
+
+    <div class="callout">
+      <p><strong>填完会直接改变搭配。</strong>身高、肩宽、胸围、臀围、臂长五项参与规则，搭配卡上会多出「上装合身」「下装合身」两条理由，明显不合身的单品会被扣分。腰围、内长、颈围、体重四项先存着，等对应规则做出来再启用。</p>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq">
+    <div class="sec-head">
+      <span class="sec-no">05</span>
+      <h2>常见问题</h2>
+      <p>量之前先看这几条</p>
+    </div>
+
+    <details>
+      <summary><b>没有软尺怎么办？</b></summary>
+      <p>用没有弹性的绳子、耳机线或充电线绕一圈，在交界处做记号，再拉直用直尺量长度。不要用皮筋、松紧带或任何有弹力的东西，会量小。</p>
+    </details>
+
+    <details>
+      <summary><b>一个人怎么量胸围和臀围？</b></summary>
+      <p>站在镜子前，把软尺绕到背后，两端在身前汇合，先确认背后没有下滑、整圈水平，再读前面的数。臀围侧对镜子看更清楚。每项量 2–3 次，取中位数。有条件让家人帮忙最省事。</p>
+    </details>
+
+    <details>
+      <summary><b>早晚差多少算正常？</b></summary>
+      <p>身高早晨比晚上高 1–2cm；腰围一天内差 2–3cm；体重差 1–2kg。所以全部固定晨起、空腹、排空后量，才有可比性。</p>
+    </details>
+
+    <details>
+      <summary><b>为什么只能填整数？</b></summary>
+      <p>「我的」里按整数厘米/公斤校验。测量本身的误差就有 1cm 左右，小数点后的位数没有意义。四舍五入到整数即可。</p>
+    </details>
+
+    <details>
+      <summary><b>填了之后搭配会怎么变？</b></summary>
+      <p>上装看肩线、胸围松量、袖长，下装看臀围松量：明显不合身的单品会被扣分，理由里写清差多少厘米；全部合适时两条理由写「合适」。有两种情况看不出变化，都是正常的——衣件本身没量对应尺寸时那条理由不出现（不是不生效，是没有数据可判）；身高只影响外套下摆，外套没量衣长时也不判。</p>
+    </details>
+
+    <details>
+      <summary><b>量衣和估算会被排除吗？</b></summary>
+      <p>不会。手量按 1.0、量衣按 0.85、估算按 0.5 折算，同样不合身，标「估算」只扣一半，理由末尾也会标「（估算）」。降权而不是排除：排除只会让候选更少。宁可标「估算」也不要冒充「手量」。</p>
+    </details>
+
+    <details>
+      <summary><b>腰围和内长为什么还不用？</b></summary>
+      <p>两条口径对不上。裤腰平铺 ×2 再减身体腰围，比的不是同一条线：低腰裤和弹力腰头很常见，运动裤平铺 32cm（×2 得 64cm）对身体腰围 81cm，按这个比会把你天天在穿的裤子判成偏紧。内长则缺衣件侧的数据——现在只量了外长（沿侧缝的裤长），没有内缝字段，没法跟身体内长比。两项先存着，等衣件侧补上可比的量法再启用。</p>
+    </details>
+
+    <details>
+      <summary><b>这些数据存在哪？</b></summary>
+      <p>保存在本机的 SQLite 数据库里，不上传任何第三方。导出的 ZIP 只有数据库快照、照片清单和说明，不含照片文件。本页记录表的数据只在这台设备的浏览器里。</p>
+    </details>
+
+    <details>
+      <summary><b>多久复量一次？</b></summary>
+      <p>2–3 个月一次；体重变化超过 3kg、或买的衣服明显不合身时，重新量一遍。围度变化通常比体重慢。</p>
+    </details>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>个人穿搭助手 · M1 身材数据教程 · 对应 <code>docs/06-界面与交互.md</code> §4.9 与 <code>docs/10-身材测量教程.html</code></p>
+  <p>相关教程：<a href="08-量衣与填表教程.html">08 · 量衣与填表</a> · <a href="09-标定拍照教程.html">09 · 标定拍照</a></p>
+  <p>生成于 2026-10-26 · 本页可离线使用 · 数据只在本机</p>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<noscript>
+  <div class="wrap"><div class="callout warm">记录表与复制按钮需要 JavaScript；测量方法、范围表和常见问题不受影响。</div></div>
+</noscript>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+  /* ---------- 字段定义：与 src/web/src/lib/body.js 保持一致 ---------- */
+  const FIELDS = [
+    { key: 'height', label: '身高', unit: 'cm', min: 100, max: 250 },
+    { key: 'weight', label: '体重', unit: 'kg', min: 25, max: 250 },
+    { key: 'shoulder_width', label: '肩宽', unit: 'cm', min: 25, max: 80 },
+    { key: 'chest', label: '胸围', unit: 'cm', min: 50, max: 180 },
+    { key: 'waist', label: '腰围', unit: 'cm', min: 40, max: 180 },
+    { key: 'hip', label: '臀围', unit: 'cm', min: 50, max: 200 },
+    { key: 'neck', label: '颈围', unit: 'cm', min: 20, max: 70 },
+    { key: 'inseam', label: '内长', unit: 'cm', min: 30, max: 130 },
+    { key: 'arm_length', label: '臂长', unit: 'cm', min: 30, max: 100 }
+  ];
+  const SOURCES = [
+    { value: 'body', label: '手量' },
+    { value: 'garment', label: '量衣' },
+    { value: 'estimated', label: '估算' }
+  ];
+  const STORE_KEY = 'wardrobe-body-tutorial-v1';
+
+  /* ---------- toast ---------- */
+  let toastTimer = null;
+  function toast(msg) {
+    const el = $('#toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 1900);
+  }
+
+  /* ---------- copy ---------- */
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (err) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.top = '-1000px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return ok;
+      } catch (err2) {
+        return false;
+      }
+    }
+  }
+
+  /* ---------- record table ---------- */
+  const list = $('#recList');
+  const countEl = $('#recCount');
+  const state = { values: {}, sources: {} };
+  FIELDS.forEach(f => { state.values[f.key] = ''; state.sources[f.key] = 'estimated'; });
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+    if (saved && typeof saved === 'object') {
+      FIELDS.forEach(f => {
+        if (typeof saved.values?.[f.key] === 'string' || typeof saved.values?.[f.key] === 'number') {
+          state.values[f.key] = String(saved.values[f.key]);
+        }
+        if (SOURCES.some(s => s.value === saved.sources?.[f.key])) {
+          state.sources[f.key] = saved.sources[f.key];
+        }
+      });
+    }
+  } catch (err) { /* localStorage 不可用时忽略 */ }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    } catch (err) { /* 忽略 */ }
+  }
+
+  function fieldError(field, raw) {
+    const value = String(raw ?? '').trim();
+    if (value === '') return '';
+    const number = Number(value);
+    if (!Number.isInteger(number)) return '请输入整数';
+    if (number < field.min || number > field.max) {
+      return `范围是 ${field.min}–${field.max} ${field.unit}`;
+    }
+    return '';
+  }
+
+  function updateCount() {
+    if (!countEl) return;
+    const filled = FIELDS.filter(f => {
+      const raw = String(state.values[f.key] ?? '').trim();
+      return raw !== '' && !fieldError(f, raw);
+    }).length;
+    countEl.textContent = `已填 ${filled} / ${FIELDS.length}`;
+  }
+
+  function buildRows() {
+    if (!list) return;
+    const frag = document.createDocumentFragment();
+    FIELDS.forEach(field => {
+      const row = document.createElement('div');
+      row.className = 'rec-row';
+
+      const label = document.createElement('label');
+      label.className = 'rec-label';
+      label.setAttribute('for', `rec-${field.key}`);
+      label.innerHTML = `${field.label}<small>${field.min}–${field.max} ${field.unit}</small>`;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'rec-input';
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.id = `rec-${field.key}`;
+      input.inputMode = 'numeric';
+      input.step = '1';
+      input.min = String(field.min);
+      input.max = String(field.max);
+      input.value = state.values[field.key] || '';
+      input.setAttribute('aria-label', `${field.label}（${field.unit}）`);
+      const unit = document.createElement('span');
+      unit.className = 'rec-unit';
+      unit.textContent = field.unit;
+      wrap.appendChild(input);
+      wrap.appendChild(unit);
+
+      const select = document.createElement('select');
+      select.className = 'rec-source';
+      select.setAttribute('aria-label', `${field.label}来源`);
+      SOURCES.forEach(source => {
+        const option = document.createElement('option');
+        option.value = source.value;
+        option.textContent = source.label;
+        if (state.sources[field.key] === source.value) option.selected = true;
+        select.appendChild(option);
+      });
+
+      const status = document.createElement('p');
+      status.className = 'rec-status';
+      status.setAttribute('aria-live', 'polite');
+      status.id = `rec-${field.key}-status`;
+
+      function refresh() {
+        const error = fieldError(field, input.value);
+        if (error) {
+          input.setAttribute('aria-invalid', 'true');
+          input.setAttribute('aria-describedby', status.id);
+          status.textContent = error;
+        } else {
+          input.removeAttribute('aria-invalid');
+          input.removeAttribute('aria-describedby');
+          status.textContent = '';
+        }
+        updateCount();
+      }
+
+      input.addEventListener('input', () => {
+        state.values[field.key] = input.value;
+        saveState();
+        refresh();
+      });
+      input.addEventListener('blur', () => {
+        const raw = String(input.value ?? '').trim();
+        if (raw !== '' && !fieldError(field, raw)) {
+          input.value = String(Number(raw));
+          state.values[field.key] = input.value;
+          saveState();
+        }
+      });
+      select.addEventListener('change', () => {
+        state.sources[field.key] = select.value;
+        saveState();
+      });
+
+      row.appendChild(label);
+      row.appendChild(wrap);
+      row.appendChild(select);
+      row.appendChild(status);
+      frag.appendChild(row);
+      refresh();
+    });
+    list.appendChild(frag);
+  }
+
+  buildRows();
+  updateCount();
+
+  const copyBtn = $('#copySummary');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      const invalid = FIELDS.filter(f => fieldError(f, state.values[f.key]));
+      if (invalid.length) {
+        toast('有数值超出范围，先改一下');
+        return;
+      }
+      const lines = [];
+      const labelOf = value => (SOURCES.find(s => s.value === value) || SOURCES[2]).label;
+      FIELDS.forEach(f => {
+        const raw = String(state.values[f.key] ?? '').trim();
+        if (raw === '') return;
+        lines.push(`${f.label} ${Number(raw)} ${f.unit}（${labelOf(state.sources[f.key])}）`);
+      });
+      if (!lines.length) {
+        toast('还没有填任何数值');
+        return;
+      }
+      const header = `身材数据 · ${new Date().toLocaleDateString('zh-CN')}`;
+      const ok = await copyText(`${header}\n${lines.join('\n')}`);
+      toast(ok ? `已复制 ${lines.length} 项` : '复制失败，请手动选中');
+    });
+  }
+
+  const clearBtn = $('#clearRecord');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      FIELDS.forEach(f => {
+        state.values[f.key] = '';
+        state.sources[f.key] = 'estimated';
+        const input = document.getElementById(`rec-${f.key}`);
+        const row = input && input.closest('.rec-row');
+        const select = row && row.querySelector('.rec-source');
+        const status = document.getElementById(`rec-${f.key}-status`);
+        if (input) {
+          input.value = '';
+          input.removeAttribute('aria-invalid');
+          input.removeAttribute('aria-describedby');
+        }
+        if (select) select.value = 'estimated';
+        if (status) status.textContent = '';
+      });
+      try { localStorage.removeItem(STORE_KEY); } catch (err) { /* 忽略 */ }
+      updateCount();
+      toast('已清除本页记录');
+    });
+  }
+
+  /* ---------- toc scrollspy ---------- */
+  const tocLinks = $$('.toc a');
+  const tocSections = tocLinks
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  let activeId = '';
+  function updateToc() {
+    if (!tocSections.length) return;
+    const y = window.scrollY + 140;
+    if (y < tocSections[0].offsetTop) {
+      if (activeId !== '') {
+        activeId = '';
+        tocLinks.forEach(a => {
+          a.classList.remove('active');
+          a.removeAttribute('aria-current');
+        });
+      }
+      return;
+    }
+    let current = tocSections[0];
+    for (const s of tocSections) {
+      if (s.getBoundingClientRect().top + window.scrollY <= y) current = s;
+    }
+    if (current.id === activeId) return;
+    activeId = current.id;
+    tocLinks.forEach(a => {
+      const on = a.getAttribute('href') === '#' + activeId;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+    const activeLink = tocLinks.find(a => a.getAttribute('href') === '#' + activeId);
+    const inner = activeLink && activeLink.closest('.toc-inner');
+    if (inner) {
+      const lr = activeLink.getBoundingClientRect();
+      const ir = inner.getBoundingClientRect();
+      if (lr.left < ir.left + 20) inner.scrollBy({ left: lr.left - ir.left - 20, behavior: 'smooth' });
+      else if (lr.right > ir.right - 40) inner.scrollBy({ left: lr.right - ir.right + 40, behavior: 'smooth' });
+    }
+  }
+  window.addEventListener('scroll', updateToc, { passive: true });
+  window.addEventListener('resize', updateToc);
+  updateToc();
+
+  /* ---------- print ---------- */
+  const printBtn = $('#printBtn');
+  if (printBtn) printBtn.addEventListener('click', () => window.print());
+  window.addEventListener('beforeprint', () => {
+    $$('details').forEach(d => { d.open = true; });
+  });
+})();
+</script>
+</body>
+</html>

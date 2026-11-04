@@ -1,0 +1,38 @@
+# 环境与依赖
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 前端构建产物
+src/web/dist/
+
+# 个人数据：真实衣柜照片与数据库，绝不入库
+data/photos/
+data/db/*.db
+data/db/*.db-wal
+data/db/*.db-shm
+data/*.db
+
+# 衣柜照片目录（含 gate1 标定照）
+pic/
+
+# 本地工具与快照
+.aura/
+
+# spike：含真实衣柜数据的测量/干跑结果与已填模板，不入库
+scripts/spike/dryrun_result.json
+scripts/spike/dryrun_real_result.json
+scripts/spike/dryrun_15c_result.json
+scripts/spike/gate1_result.json
+scripts/spike/items_template.xlsx
+scripts/spike/items_template_backup_*.xlsx
+scripts/spike/items_template_filled_backup_*.xlsx
+
+# 系统文件
+.DS_Store
+
+# 密钥
+.env
+.env.*

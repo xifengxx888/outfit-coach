@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>量衣与填表 · 个人穿搭助手</title>
+<style>
+  :root{
+    --bg:#F6F2EA;
+    --surface:#FFFDF8;
+    --surface-2:#EFE9DE;
+    --ink:#241F1A;
+    --muted:#6E655A;
+    --line:#E1D8CA;
+    --accent:#2F4156;
+    --accent-soft:#E4E9EE;
+    --warm:#B4552D;
+    --warm-soft:#F6E6DC;
+    --ok:#3F6B4A;
+    --ok-soft:#E6EFE6;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(36,31,26,.05), 0 10px 30px rgba(36,31,26,.06);
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px}
+  h1,h2,h3,h4{line-height:1.3;margin:0}
+  p{margin:0 0 12px}
+  a{color:var(--accent)}
+  .skip{position:absolute;left:-999px;top:0;background:var(--accent);color:#fff;padding:10px 16px;z-index:99}
+  .skip:focus{left:12px;top:12px}
+
+  /* top bar */
+  .top{position:sticky;top:0;z-index:40;background:rgba(246,242,234,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .top-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
+  .brand{font-size:15px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+  .brand span{font-size:12px;font-weight:500;color:var(--muted);margin-left:8px}
+  .print-btn{min-height:36px;padding:0 12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+  .print-btn:hover{border-color:var(--accent)}
+
+  /* toc */
+  .toc{position:sticky;top:56px;z-index:35;background:rgba(246,242,234,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .toc-inner{display:flex;gap:6px;overflow-x:auto;padding:9px 20px;scrollbar-width:none}
+  .toc-inner::-webkit-scrollbar{display:none}
+  .toc a{flex:0 0 auto;font-size:13px;color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+  .toc a:hover{background:var(--surface-2);color:var(--ink);border-color:var(--line)}
+  .toc a.active{background:var(--accent-soft);color:var(--accent);border-color:#CBD6E0}
+  .toc::after{content:"";position:absolute;top:1px;right:0;bottom:1px;width:32px;background:linear-gradient(90deg,rgba(246,242,234,0),rgba(246,242,234,.97));pointer-events:none}
+  @media (min-width:560px){.toc::after{display:none}}
+
+  /* hero */
+  .hero{padding:52px 0 28px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--warm);margin:0 0 12px}
+  .hero h1{font-size:clamp(34px,8vw,48px);letter-spacing:-.025em;margin:0 0 14px}
+  .lede{font-size:17px;color:var(--muted);max-width:640px;margin:0 0 24px;line-height:1.75}
+  .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0 20px}
+  .hero-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow)}
+  .hero-card b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;margin-bottom:10px}
+  .hero-card h3{font-size:15px;margin:0 0 4px}
+  .hero-card p{font-size:13px;color:var(--muted);margin:0;line-height:1.6}
+  @media (max-width:640px){.hero-grid{grid-template-columns:1fr}.hero{padding-top:38px}}
+
+  /* callouts */
+  .callout{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:15px 17px;margin:14px 0;font-size:14px;line-height:1.7}
+  .callout strong{color:var(--ink)}
+  .callout.accent{background:var(--accent-soft);border-color:#CBD6E0}
+  .callout.warm{background:var(--warm-soft);border-color:#EBCDBB}
+  .callout.ok{background:var(--ok-soft);border-color:#CDDFCF}
+  .callout p:last-child{margin-bottom:0}
+
+  /* sections */
+  section{scroll-margin-top:132px;padding:30px 0 8px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+  .sec-no{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--warm);letter-spacing:.06em}
+  .sec-head h2{font-size:26px;letter-spacing:-.02em}
+  .sec-head p{font-size:14px;color:var(--muted);margin:0}
+  @media (max-width:640px){
+    .sec-head{flex-wrap:wrap;gap:6px 10px}
+    .sec-head p{flex-basis:100%;margin-top:2px}
+    .sec-head h2{font-size:23px}
+  }
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:14px 0;box-shadow:var(--shadow)}
+  .card > h3{font-size:17px;margin:0 0 10px}
+  .card > h3 + p{margin-top:-2px}
+  .muted{color:var(--muted)}
+  .small{font-size:13px}
+
+  /* lists */
+  .rules{margin:0;padding-left:22px}
+  .rules li{margin:7px 0;padding-left:2px}
+  .rules li::marker{color:var(--warm);font-weight:700}
+  .tools{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:10px 0 0;padding:0}
+  .tools li{font-size:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+
+  /* diagrams */
+  .diagram{margin:18px 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 12px 12px;box-shadow:var(--shadow)}
+  .diagram svg{display:block;width:100%;height:auto;max-width:620px;margin:0 auto}
+  .diagram figcaption{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
+  .legend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:10px;font-size:13px;color:var(--muted)}
+  .legend b{color:var(--warm);font-family:var(--mono);margin-right:4px}
+  .mini-fig{margin:14px 0 2px;padding:8px 6px 6px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+  .mini-fig svg{display:block;width:100%;height:auto;max-width:340px;margin:0 auto}
+  .mini-fig figcaption{font-size:12px;color:var(--muted);text-align:center;margin-top:4px;line-height:1.55}
+  .mini-label{font-family:inherit;font-size:10.5px;fill:var(--muted)}
+  .mini-label-warm{font-family:inherit;font-size:10.5px;fill:var(--warm);font-weight:600}
+  .garment{fill:#EDE6DA;stroke:#3A332B;stroke-width:1.7;stroke-linejoin:round}
+  .garment-2{fill:#DED4C3;stroke:#3A332B;stroke-width:1.5}
+  .seam{stroke:#3A332B;stroke-width:1.1;opacity:.55;fill:none}
+  .m-line{fill:none;stroke:#B4552D;stroke-width:2;stroke-dasharray:6 4}
+  .m-tick{stroke:#B4552D;stroke-width:2}
+  .m-dot{fill:#FFFDF8;stroke:#B4552D;stroke-width:2}
+  .m-text{fill:#B4552D;font-family:var(--mono);font-size:13px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+
+  /* measure cards */
+  .measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  @media (max-width:720px){.measure-grid{grid-template-columns:1fr}}
+  .m-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:17px}
+  .m-head{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .m-no{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--warm-soft);color:var(--warm);font-family:var(--mono);font-size:12px;font-weight:700;flex:0 0 auto}
+  .m-head h3{font-size:16px}
+  .m-tag{margin-left:auto;font-size:11px;color:var(--muted);background:var(--surface-2);padding:3px 8px;border-radius:999px;white-space:nowrap}
+  .m-def{font-weight:600;color:var(--accent);margin:0 0 10px;font-size:14px}
+  .m-card dl{margin:0;display:grid;gap:7px}
+  .m-card dl > div{display:grid;grid-template-columns:58px 1fr;gap:8px}
+  .m-card dt{font-size:12px;color:var(--muted);font-weight:600}
+  .m-card dd{margin:0;font-size:13.5px;line-height:1.65}
+  .m-card .use{color:var(--accent)}
+
+  /* color */
+  .color-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media (max-width:720px){.color-layout{grid-template-columns:1fr}}
+  .result{display:flex;gap:14px;align-items:center;background:var(--surface-2);border-radius:14px;padding:14px}
+  .result-swatch{width:88px;height:88px;border-radius:12px;border:1px solid rgba(0,0,0,.12);flex:0 0 auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+  .result-meta{min-width:0}
+  .result-label{font-size:11px;color:var(--muted);letter-spacing:.06em}
+  .result-hex{display:block;font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:.01em;margin:1px 0}
+  .result-name{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .picker-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;font-size:13px;color:var(--muted)}
+  input[type="color"]{width:56px;height:40px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer}
+  .upload{display:flex;flex-direction:column;align-items:center;gap:3px;padding:18px 14px;border:1.5px dashed #CFC4B2;border-radius:12px;cursor:pointer;background:var(--surface-2);text-align:center;transition:border-color .15s,background .15s}
+  .upload:hover{border-color:var(--accent);background:#F7F2E9}
+  .upload span{font-weight:600;font-size:14px}
+  .upload small{color:var(--muted);font-size:12px}
+  .hint{font-size:12.5px;color:var(--muted);line-height:1.65;margin:10px 0 0}
+  .canvas-wrap{margin-top:12px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#111}
+  #photoCanvas{display:block;width:100%;height:auto;cursor:crosshair;touch-action:manipulation}
+  .palette{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+  @media (min-width:640px){.palette{grid-template-columns:repeat(8,1fr)}}
+  .swatch{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 3px 6px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;font:inherit;min-height:76px}
+  .swatch:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .swatch:active{transform:translateY(0)}
+  .swatch .sw{width:32px;height:32px;border-radius:50%;border:1px solid rgba(0,0,0,.14)}
+  .swatch .sn{font-size:12px;line-height:1.2}
+  .swatch code{font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.2}
+
+  /* details */
+  details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:10px 0;padding:0 17px;box-shadow:var(--shadow)}
+  details[open]{padding-bottom:15px}
+  summary{cursor:pointer;padding:15px 0;display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:8px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary b{font-size:15.5px;min-width:0}
+  summary span{color:var(--muted);font-size:12.5px;text-align:right;line-height:1.5;min-width:0}
+  summary::after{content:"+";font-size:17px;color:var(--muted);font-family:var(--mono);line-height:1;justify-self:end}
+  details[open] summary::after{content:"−"}
+  details > p:first-of-type{margin-top:2px}
+  @media (max-width:480px){
+    summary{grid-template-columns:1fr auto}
+    summary b{grid-column:1;grid-row:1}
+    summary span{grid-column:1 / -1;grid-row:2;text-align:left}
+    summary::after{grid-column:2;grid-row:1}
+  }
+
+  /* tables */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:10px 0 4px;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:540px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:var(--surface-2);font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;position:sticky;top:0}
+  tr:last-child td{border-bottom:0}
+  td code{white-space:nowrap}
+  .scroll-hint{font-size:11.5px;color:var(--muted);margin:6px 0 0}
+
+  /* fit + pattern + thickness */
+  .fit-grid,.pattern-grid,.thick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+  @media (max-width:520px){.fit-grid,.pattern-grid,.thick-grid{grid-template-columns:1fr}}
+  .fit,.pattern,.thick{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:11px;text-align:center}
+  .fit svg{width:58px;height:70px;display:block;margin:0 auto 4px}
+  .fit b,.pattern b,.thick b{display:block;font-size:13px;margin-bottom:2px}
+  .fit small,.pattern small,.thick small{display:block;font-size:11.5px;color:var(--muted);line-height:1.45}
+  .pat{display:block;width:100%;height:56px;border-radius:9px;border:1px solid rgba(0,0,0,.1);margin-bottom:7px}
+  .pat.solid{background:#2F4156}
+  .pat.fine{background:repeating-linear-gradient(90deg,#2F4156 0 2px,#EFE9DE 2px 7px)}
+  .pat.bold{background:repeating-linear-gradient(45deg,#2F4156 0 10px,#C3B091 10px 20px)}
+  .bars{display:flex;flex-direction:column;gap:3px;width:44px;margin:4px auto 8px}
+  .bars i{display:block;height:5px;border-radius:2px;background:var(--warm)}
+  .bars i.off{background:#D8CEBE}
+
+  /* formality ladder */
+  .ladder{display:grid;gap:6px;margin-top:10px}
+  .rung{display:grid;grid-template-columns:34px 92px 1fr;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:var(--surface-2);border:1px solid transparent}
+  .rung.active{background:var(--warm-soft);border-color:#EBCDBB}
+  .rung b{font-family:var(--mono);font-size:15px;color:var(--warm);text-align:center}
+  .rung span{font-size:13.5px;font-weight:600}
+  .rung small{font-size:12px;color:var(--muted)}
+  @media (max-width:480px){.rung{grid-template-columns:30px 70px 1fr;gap:6px}.rung small{font-size:11.5px}}
+
+  /* presets */
+  .preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  @media (max-width:700px){.preset-grid{grid-template-columns:1fr}}
+  .preset{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+  .preset h4{font-size:14px;margin:0 0 6px}
+  .preset-line{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 5px}
+  .preset-line span{font-size:10.5px;background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:999px;line-height:1.5}
+  .preset-sub{margin:0;font-size:12px;color:var(--muted);line-height:1.6}
+
+  /* checklist */
+  .progress-row{display:flex;align-items:center;gap:12px;margin:2px 0 14px}
+  .progress-row span{font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .bar{flex:1;height:8px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .2s}
+  .checklist{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+  .checklist label{display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:var(--surface)}
+  .checklist label:hover{border-color:#C9BDAA}
+  .checklist input{width:20px;height:20px;accent-color:var(--accent);flex:0 0 auto;margin:0}
+  .check-body{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .check-body b{font-size:13.5px;transition:color .15s}
+  .check-body small{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .checklist input:checked ~ .check-body b{color:var(--muted);text-decoration:line-through}
+  .slot{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--accent);background:var(--accent-soft);padding:3px 7px;border-radius:999px;white-space:nowrap;flex:0 0 auto}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+
+  /* buttons + code */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.small{min-height:34px;padding:0 12px;font-size:12px}
+  .btn.ghost{background:transparent;color:var(--accent)}
+  .btn.ghost:hover{background:var(--accent-soft);filter:none}
+  pre{background:#22262B;color:#EDE7DC;border-radius:12px;padding:15px 16px;overflow-x:auto;font-size:12.5px;line-height:1.75;margin:10px 0}
+  pre code{font-family:var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}
+  :not(pre) > code{font-family:var(--mono);background:var(--surface-2);padding:1px 5px;border-radius:5px;font-size:.9em;white-space:nowrap}
+
+  /* faq */
+  #faq details{box-shadow:none}
+  #faq summary b{font-weight:600}
+  #faq summary span{display:none}
+
+  /* footer */
+  footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0 48px;color:var(--muted);font-size:12px;line-height:1.8}
+  footer code{font-family:var(--mono);font-size:11px}
+
+  /* toast */
+  #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);background:#22262B;color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:80;max-width:calc(100vw - 40px);text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+
+  :focus-visible{outline:3px solid #7C93A8;outline-offset:2px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+
+  @media print{
+    :root{--bg:#fff;--surface:#fff;--surface-2:#f2f2f2;--ink:#000;--muted:#444;--line:#bbb;--shadow:none}
+    body{font-size:10.5pt;line-height:1.5}
+    .top,.toc,.print-btn,.upload,.picker-row,#toast,.actions,.scroll-hint{display:none!important}
+    .wrap{max-width:100%;padding:0}
+    section{padding:10px 0;scroll-margin-top:0}
+    .hero{padding-top:0}
+    .card,.diagram,details,.m-card,.preset{box-shadow:none;break-inside:avoid}
+    details{display:block}
+    details > summary::after{content:""}
+    summary span{display:inline}
+    .canvas-wrap{display:none}
+    .palette{grid-template-columns:repeat(8,1fr)}
+    a{color:#000;text-decoration:none}
+    pre{background:#f4f4f4;color:#000;border:1px solid #bbb}
+    .rung.active{background:#eee}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="brand">个人穿搭助手 <span>M1 开工前</span></div>
+    <button class="print-btn" id="printBtn" type="button">打印清单</button>
+  </div>
+</header>
+
+<nav class="toc" aria-label="页内导航">
+  <div class="wrap toc-inner">
+    <a href="#start">开始</a>
+    <a href="#measure">量尺寸</a>
+    <a href="#color">取颜色</a>
+    <a href="#fields">填字段</a>
+    <a href="#checklist">10 件清单</a>
+    <a href="#run">跑干跑</a>
+    <a href="#faq">常见问题</a>
+  </div>
+</nav>
+
+<main id="main" class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="start">
+    <p class="eyebrow">开工前检查 · 第 2 步</p>
+    <h1>量衣与填表</h1>
+    <p class="lede">把 10 件衣服变成能参与计算的 9 个字段。大约 30 分钟，不需要懂服装，也不需要懂色号。</p>
+
+    <div class="hero-grid">
+      <div class="hero-card">
+        <b>1</b>
+        <h3>量 9 个尺寸</h3>
+        <p>上衣 4 项（衣长/肩宽/胸宽/袖长）、裤子 4 项；鞋只填 EU 鞋码。配饰不用量。</p>
+      </div>
+      <div class="hero-card">
+        <b>2</b>
+        <h3>点一下取颜色</h3>
+        <p>在照片上点衣服，色号自动出来。照片只在本地处理。</p>
+      </div>
+      <div class="hero-card">
+        <b>3</b>
+        <h3>填 9 个必填项</h3>
+        <p>其余字段可以留空。正式度不用你判断。</p>
+      </div>
+    </div>
+
+    <div class="callout warm">
+      <strong>M1 真正参与判断的是：衣长、肩宽、胸宽、袖长（有就判）、裤子的平铺臀围。</strong>
+      平铺腰围、裤长、脚口宽先存着，暂时不影响组合是否成立；但 M1 建库要用。
+      想一次做完，就一起量了，省得以后返工。
+    </div>
+
+    <div class="callout accent">
+      <strong>正式度不用你判断。</strong>
+      M1 全部手填，照片只留档、不给建议值；照后面的「常见单品默认值」填即可。
+      拿不准就填 <code>3</code>，规则只看 10 件之间的相对顺序。
+    </div>
+
+    <div class="card">
+      <h3>开始前，桌上放这几样</h3>
+      <ul class="tools">
+        <li>软尺（裁缝尺）</li>
+        <li>一张平整的桌子</li>
+        <li>自然光</li>
+        <li>手机或电脑</li>
+        <li>衣服的洗标</li>
+      </ul>
+      <p class="hint">不用熨衣服，但要抚平明显的褶皱；不用把衣服挂起来，全部平铺量。</p>
+    </div>
+  </section>
+
+  <!-- ============ MEASURE ============ -->
+  <section id="measure">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <h2>量尺寸</h2>
+      <p>9 个尺寸：8 项平铺量（cm），鞋码按欧码（EU）</p>
+    </div>
+
+    <div class="card">
+      <h3>测量前的 5 条规矩</h3>
+      <ol class="rules">
+        <li><b>扣好、拉上。</b>衬衫扣子扣好，外套拉链拉上，裤子扣好拉链拉上，再平铺。</li>
+        <li><b>正面朝上，用手抚平。</b>不要把针织衫往两边拉，也不要压住腋下和袖子。</li>
+        <li><b>软尺贴着布面，不悬空、不压边。</b>从刻度 0 开始，不要从尺子边缘开始。</li>
+        <li><b>读到 0.5cm 就够。</b>比如 68.5、72.0。不用估到毫米。</li>
+        <li><b>每项量两次。</b>两次差超过 1cm，重新铺平再量；差 1cm 以内取平均。</li>
+      </ol>
+    </div>
+
+    <!-- shirt diagram -->
+    <figure class="diagram">
+      <svg viewBox="0 0 420 340" role="img" aria-labelledby="shirtTitle shirtDesc">
+        <title id="shirtTitle">上衣平铺时四个尺寸的测量位置</title>
+        <desc id="shirtDesc">一件正面朝上平铺的上衣，标出肩宽、胸宽、衣长、袖长四条测量线。</desc>
+        <defs>
+          <marker id="arrowWarm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#B4552D"/>
+          </marker>
+        </defs>
+
+        <!-- garment -->
+        <path class="garment" d="M176,62 Q210,92 244,62 L292,70 L342,196 L304,210 L296,150 L296,296 L124,296 L124,150 L116,210 L78,196 L128,70 Z"/>
+        <path class="garment-2" d="M176,62 L184,46 Q210,58 236,46 L244,62 Q210,92 176,62 Z"/>
+        <line class="seam" x1="128" y1="70" x2="176" y2="62"/>
+        <line class="seam" x1="244" y1="62" x2="292" y2="70"/>
+        <line class="seam" x1="124" y1="150" x2="124" y2="296"/>
+        <line class="seam" x1="296" y1="150" x2="296" y2="296"/>
+        <line class="seam" x1="124" y1="296" x2="296" y2="296"/>
+
+        <!-- measurements -->
+        <!-- shoulder -->
+        <line class="m-line" x1="128" y1="70" x2="292" y2="70" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <!-- chest -->
+        <line class="m-line" x1="124" y1="150" x2="296" y2="150" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <!-- length -->
+        <line class="m-line" x1="210" y1="92" x2="210" y2="296" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+        <!-- sleeve -->
+        <line class="m-line" x1="128" y1="70" x2="97" y2="203" marker-start="url(#arrowWarm)" marker-end="url(#arrowWarm)"/>
+
+        <!-- markers -->
+        <circle class="m-dot" cx="158" cy="70" r="11"/>
+        <text class="m-text" x="158" y="70">1</text>
+        <circle class="m-dot" cx="250" cy="150" r="11"/>
+        <text class="m-text" x="250" y="150">2</text>
+        <circle class="m-dot" cx="210" cy="238" r="11"/>
+        <text class="m-text" x="210" y="238">3</text>
+        <circle class="m-dot" cx="101" cy="185" r="11"/>
+        <text class="m-text" x="101" y="185">4</text>
+      </svg>
+      <figcaption>上衣平铺（正面朝上）· 四条线对应下面四张卡；衣长实际从背面量，见 1 号卡小图</figcaption>
+      <div class="legend">
+        <span><b>1</b>肩宽</span>
+        <span><b>2</b>胸宽（不乘 2）</span>
+        <span><b>3</b>衣长</span>
+        <span><b>4</b>袖长</span>
+      </div>
+    </figure>
+
+    <!-- pants diagram -->
+    <figure class="diagram">
+      <svg viewBox="0 0 360 340" role="img" aria-labelledby="pantsTitle pantsDesc">
+        <title id="pantsTitle">裤子平铺时四个尺寸的测量位置</title>
+        <desc id="pantsDesc">一条扣好拉链拉上、平铺的裤子，标出裤长、平铺腰围、平铺臀围和脚口宽四条测量线。</desc>
+        <defs>
+          <marker id="arrowWarm2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#B4552D"/>
+          </marker>
+        </defs>
+
+        <!-- waistband -->
+        <rect class="garment-2" x="100" y="54" width="160" height="22" rx="3"/>
+        <!-- body -->
+        <path class="garment" d="M100,76 C96,88 93,102 93,116 C93,170 96,250 100,310 L160,310 L180,150 L200,310 L260,310 C264,250 267,170 267,116 C267,102 264,88 260,76 Z"/>
+        <!-- seams -->
+        <line class="seam" x1="100" y1="76" x2="260" y2="76"/>
+        <line class="seam" x1="180" y1="76" x2="180" y2="150"/>
+
+        <!-- measurements -->
+        <!-- inseam length -->
+        <line class="m-line" x1="290" y1="54" x2="290" y2="310" marker-start="url(#arrowWarm2)" marker-end="url(#arrowWarm2)"/>
+        <line class="m-tick" x1="282" y1="54" x2="298" y2="54"/>
+        <line class="m-tick" x1="282" y1="310" x2="298" y2="310"/>
+        <!-- waist -->
+        <line class="m-line" x1="100" y1="65" x2="260" y2="65" marker-start="url(#arrowWarm2)" marker-end="url(#arrowWarm2)"/>
+        <!-- hip -->
+        <line class="m-line" x1="93" y1="116" x2="267" y2="116" marker-start="url(#arrowWarm2)" marker-end="url(#arrowWarm2)"/>
+        <line class="m-tick" x1="93" y1="108" x2="93" y2="124"/>
+        <line class="m-tick" x1="267" y1="108" x2="267" y2="124"/>
+        <line x1="79" y1="116" x2="91" y2="116" stroke="#B4552D" stroke-width="1" stroke-dasharray="2 2"/>
+        <!-- leg opening -->
+        <line class="m-line" x1="100" y1="298" x2="160" y2="298" marker-start="url(#arrowWarm2)" marker-end="url(#arrowWarm2)"/>
+        <line class="m-tick" x1="100" y1="290" x2="100" y2="306"/>
+        <line class="m-tick" x1="160" y1="290" x2="160" y2="306"/>
+        <line x1="79" y1="298" x2="98" y2="298" stroke="#B4552D" stroke-width="1" stroke-dasharray="2 2"/>
+
+        <!-- markers -->
+        <circle class="m-dot" cx="290" cy="182" r="11"/>
+        <text class="m-text" x="290" y="182">5</text>
+        <circle class="m-dot" cx="180" cy="65" r="11"/>
+        <text class="m-text" x="180" y="65">6</text>
+        <circle class="m-dot" cx="68" cy="116" r="11"/>
+        <text class="m-text" x="68" y="116">7</text>
+        <circle class="m-dot" cx="68" cy="298" r="11"/>
+        <text class="m-text" x="68" y="298">8</text>
+      </svg>
+      <figcaption>裤子平铺（扣好、拉链拉上）· 四条线对应下面四张卡</figcaption>
+      <div class="legend">
+        <span><b>5</b>裤长</span>
+        <span><b>6</b>平铺腰围（不乘 2）</span>
+        <span><b>7</b>平铺臀围（不乘 2）</span>
+        <span><b>8</b>脚口宽（不乘 2）</span>
+      </div>
+    </figure>
+
+    <div class="measure-grid">
+      <!-- 1 -->
+      <article class="m-card">
+        <div class="m-head"><span class="m-no">1</span><h3>衣长</h3><span class="m-tag">所有上衣 / 外套</span></div>
+        <p class="m-def">后领中点（领条 / 领座下缘）→ 下摆最底边</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>翻到背面更容易找。后领和衣身连接的那条横缝——衬衫是领座下缘，T恤/卫衣是罗纹领条下缘——取后中，垂直量到下摆最低点。</dd></div>
+          <div><dt>常见错</dt><dd>从领口上缘量会多 1–2cm；从前面领口量会多 2–4cm；从肩点量会短 2–4cm。下摆有弧度时，量最低点。</dd></div>
+          <div><dt>参考</dt><dd>T恤 66–72 · 衬衫 70–76 · 夹克 64–72 · 大衣 95–110</dd></div>
+          <div><dt>哪些要量</dt><dd>T恤、衬衫、卫衣、<b>毛衣、针织</b>和所有外套都量。M1 里上衣缺衣长只能存草稿。</dd></div>
+          <div><dt>用在哪</dt><dd class="use">外套 → R-PRP-04；三层上装 → R-LYR-02</dd></div>
+        </dl>
+        <figure class="mini-fig">
+          <svg viewBox="0 0 340 240" role="img" aria-labelledby="teeTitle teeDesc">
+            <title id="teeTitle">T恤背面衣长起点</title>
+            <desc id="teeDesc">T恤背面平铺，从罗纹领条下缘的缝线中点垂直量到下摆最低边。</desc>
+            <defs>
+              <marker id="arrowWarmTee" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#B4552D"/>
+              </marker>
+            </defs>
+
+            <!-- body -->
+            <path class="garment" d="M136,49 L112,58 L84,96 L104,110 L118,92 L118,214 L222,214 L222,92 L236,110 L256,96 L228,58 L204,49 Q170,69 136,49 Z"/>
+            <!-- ribbed neckband -->
+            <path class="garment-2" d="M134,40 Q170,58 206,40 L204,49 Q170,69 136,49 Z"/>
+            <!-- seam under the band -->
+            <path class="seam" d="M136,49 Q170,69 204,49"/>
+            <!-- hem seam -->
+            <line class="seam" x1="118" y1="214" x2="222" y2="214"/>
+
+            <!-- length line -->
+            <line class="m-line" x1="170" y1="59" x2="170" y2="214" marker-start="url(#arrowWarmTee)" marker-end="url(#arrowWarmTee)"/>
+            <circle class="m-dot" cx="170" cy="59" r="5"/>
+            <circle class="m-dot" cx="170" cy="214" r="5"/>
+
+            <!-- labels -->
+            <line x1="176" y1="59" x2="208" y2="45" stroke="#B4552D" stroke-width="1" stroke-dasharray="2 2"/>
+            <text class="mini-label-warm" x="211" y="44">起点：领条下缘缝线</text>
+            <line x1="170" y1="40" x2="205" y2="26" stroke="#6E655A" stroke-width="1" stroke-dasharray="2 2"/>
+            <text class="mini-label" x="208" y="25">× 领口上缘，不要量</text>
+            <text class="mini-label-warm" x="176" y="140">衣长</text>
+            <line x1="176" y1="130" x2="196" y2="130" stroke="#B4552D" stroke-width="1"/>
+            <text class="mini-label" x="226" y="218">下摆最低点</text>
+          </svg>
+          <figcaption>T恤 / 卫衣看背面：起点是罗纹领条下缘的缝线，不是领口上缘。</figcaption>
+        </figure>
+      </article>
+
+      <!-- 2 -->
+      <article class="m-card">
+        <div class="m-head"><span class="m-no">2</span><h3>肩宽</h3><span class="m-tag">上衣 / 外套</span></div>
+        <p class="m-def">左肩缝端点 → 右肩缝端点</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>平铺，找到袖子和衣身连接的那条肩缝，量左右两个端点之间的直线距离。</dd></div>
+          <div><dt>常见错</dt><dd>量到袖子外侧会多 3–5cm；量到领口会短。插肩袖没有肩缝 → 留空，备注写「插肩」。</dd></div>
+          <div><dt>参考</dt><dd>42–48</dd></div>
+          <div><dt>用在哪</dt><dd class="use">干跑不读；M1 版型展示要用</dd></div>
+        </dl>
+      </article>
+
+      <!-- 3 -->
+      <article class="m-card">
+        <div class="m-head"><span class="m-no">3</span><h3>胸宽</h3><span class="m-tag">平铺宽 · 不乘 2</span></div>
+        <p class="m-def">左腋点 → 右腋点，水平横量</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>在腋下最凹的地方，左右各取一点，水平量两点之间。<b>量到多少就填多少，不乘 2。</b></dd></div>
+          <div><dt>常见错</dt><dd>乘 2 填成胸围；量到袖窿弧线顶部；衣服没抚平。</dd></div>
+          <div><dt>参考</dt><dd>48–56</dd></div>
+          <div><dt>用在哪</dt><dd class="use">干跑不读；M1 版型展示要用</dd></div>
+        </dl>
+      </article>
+
+      <!-- 4 -->
+      <article class="m-card">
+        <div class="m-head"><span class="m-no">4</span><h3>袖长</h3><span class="m-tag">上衣 / 外套</span></div>
+        <p class="m-def">肩缝顶点 → 袖口边缘</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>袖子自然放平，从肩缝最外端沿袖子外侧量到袖口边。不要把袖子拉直。</dd></div>
+          <div><dt>常见错</dt><dd>拉直袖子量会偏长；从领口量。插肩袖从后领中点量到袖口，备注写「插肩」。</dd></div>
+          <div><dt>参考</dt><dd>58–64</dd></div>
+          <div><dt>用在哪</dt><dd class="use">干跑不读；M1 版型展示要用</dd></div>
+        </dl>
+      </article>
+
+      <!-- 5 -->
+      <article class="m-card">
+        <div class="m-head"><span class="m-no">5</span><h3>裤长</h3><span class="m-tag">裤子</span></div>
+        <p class="m-def">腰头上沿（侧缝处）→ 裤脚底边</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>裤子平铺、两条腿对齐，从腰头侧缝处沿外侧缝垂直量到裤脚底边。</dd></div>
+          <div><dt>常见错</dt><dd>从腰头中间量；裤子没对齐；量到裤脚内缝。</dd></div>
+          <div><dt>参考</dt><dd>98–106</dd></div>
+          <div><dt>用在哪</dt><dd class="use">干跑不读；M1 展示要用。裤子的衣长留空，改填裤长。</dd></div>
+        </dl>
+      </article>
+
+      <!-- 6 -->
+      <article class="m-card">
+        <div class="m-head"><span class="m-no">6</span><h3>平铺腰围</h3><span class="m-tag">平铺宽 · 不乘 2</span></div>
+        <p class="m-def">腰头左端 → 右端</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>扣好、拉链拉上、自然平放。量腰头两端之间的直线距离，<b>不乘 2</b>。</dd></div>
+          <div><dt>常见错</dt><dd>乘 2；量到胯；松紧腰拉直量。松紧腰要自然平放，量完备注「松紧腰」。</dd></div>
+          <div><dt>参考</dt><dd>38–44</dd></div>
+          <div><dt>用在哪</dt><dd class="use">干跑不读；M1 展示要用</dd></div>
+        </dl>
+      </article>
+
+      <!-- 7 -->
+      <article class="m-card">
+        <div class="m-head"><span class="m-no">7</span><h3>平铺臀围</h3><span class="m-tag">平铺宽 · 不乘 2</span></div>
+        <p class="m-def">腰头下 7–10cm · 左右侧缝最宽处</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>裤子平铺、拉链拉好、前片朝上。从腰头上沿往下 7–10cm，找到两侧缝最宽的位置，水平横量，<b>不乘 2</b>。</dd></div>
+          <div><dt>常见错</dt><dd>乘 2；量到腰头；只量前片的一半。最宽点不在 7–10cm 这个高度时，量最宽处，并在备注写「臀围量于腰下 X cm」。</dd></div>
+          <div><dt>参考</dt><dd>48–54</dd></div>
+          <div><dt>用在哪</dt><dd class="use">干跑不读；M1 判断胯部松量要用</dd></div>
+        </dl>
+      </article>
+
+      <!-- 8 -->
+      <article class="m-card">
+        <div class="m-head"><span class="m-no">8</span><h3>脚口宽</h3><span class="m-tag">单腿裤脚 · 不乘 2</span></div>
+        <p class="m-def">一条裤腿的裤脚 · 左缘 → 右缘</p>
+        <dl>
+          <div><dt>怎么量</dt><dd>裤子平铺，只量一条裤腿的裤脚，从左到右横量，<b>不乘 2</b>。不要绕一圈量周长。</dd></div>
+          <div><dt>常见错</dt><dd>绕圈量成周长（会大一倍）；两条腿一起量；翻边裤没翻好；松紧脚口拉直量。翻边裤按翻好的穿着状态量，松紧脚口自然平放。</dd></div>
+          <div><dt>参考</dt><dd>修身 16–18 · 直筒 18–21 · 阔腿 21–26 · 束脚 12–16</dd></div>
+          <div><dt>用在哪</dt><dd class="use">干跑不读；M1 判断裤型和鞋面覆盖要用</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <div class="card" id="shoes">
+      <h3>鞋：只填 EU 鞋码</h3>
+      <p>M1 的鞋没有长度和宽度字段，规则判断鞋只用<b>正式度、颜色、材质</b>。所以上衣/裤子的 8 个尺寸，对鞋全部留空——衣长、肩宽、胸宽、袖长、裤长、平铺腰围、平铺臀围、脚口宽，一个都不用填。</p>
+      <p><b>要填的是：</b>品类 <code>鞋</code>、层级 <code>shoes</code>、正式度、颜色 HEX、材质，以及<b>鞋码（欧码 EU）</b>，例如 <code>42</code>，半码写 <code>42.5</code>。鞋码在网页录入页的尺寸区填写（Excel 模板暂无这一列）。</p>
+      <p>版型 <code>regular</code>、图案 <code>solid</code>、领型 <code>不适用</code>、厚度 <code>medium</code>，照默认值抄。鞋码 M1 只存档、在详情页显示为「42 码」，暂不参与任何规则。</p>
+      <p class="muted small" style="margin:0">正式度参考：跑鞋 1–2 · 帆布鞋 / 板鞋 2 · 小白鞋 / 乐福鞋 3 · 皮鞋 / 切尔西靴 4 · 正装皮鞋 5。鞋至少填 1 双；想测锚定换鞋，填 2 双。帽子、围巾、包、腰带不量尺寸。</p>
+    </div>
+
+    <div class="callout">
+      <strong>参考范围不是标准。</strong>
+      上面的数字来自常见男装 M–L 码的平铺尺寸，只用来发现「量错了」，不是行业标准。
+      不同品牌、不同版型差 2–3cm 很正常；和参考差 8cm 以上，先检查量法，不要怀疑衣服。
+    </div>
+
+    <div class="card">
+      <h3>量衣速记</h3>
+      <p style="margin-bottom:6px"><b>上衣：</b>衣长（后领中点→下摆）、肩宽（两肩缝端点）、胸宽（两腋点，不乘 2）、袖长（肩缝→袖口）。</p>
+      <p style="margin-bottom:6px"><b>裤子：</b>裤长（腰头侧缝→裤脚）、平铺腰围（腰头两端，不乘 2）、平铺臀围（腰下 7–10cm 最宽处，不乘 2）、脚口宽（单腿裤脚，不乘 2）。</p>
+      <p style="margin-bottom:6px"><b>鞋 / 配饰：</b>鞋只填 EU 鞋码；配饰不量尺寸，8 项全部留空。</p>
+      <p class="muted small" style="margin:0">长度单位 cm，读到 0.5cm，量两次取平均；鞋码按欧码，半码写 42.5。</p>
+    </div>
+  </section>
+
+  <!-- ============ COLOR ============ -->
+  <section id="color">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <h2>取颜色</h2>
+      <p>不用懂色号，点一下就行</p>
+    </div>
+
+    <div class="card">
+      <h3>先选一个颜色</h3>
+      <div class="color-layout">
+        <div>
+          <div class="result">
+            <div class="result-swatch" id="resultSwatch" style="background:#2F4156" aria-hidden="true"></div>
+            <div class="result-meta">
+              <div class="result-label">当前颜色</div>
+              <output class="result-hex" id="resultHex">#2F4156</output>
+              <div class="result-name" id="resultName">藏青</div>
+              <button class="btn small" id="copyHex" type="button" data-copy="#2F4156">复制色号</button>
+            </div>
+          </div>
+          <div class="picker-row">
+            <label for="picker">不想拍照？直接调色</label>
+            <input type="color" id="picker" value="#2F4156" aria-label="手动选择颜色">
+          </div>
+          <p class="hint">色号就是「红、绿、蓝各有多亮」，写成 <code>#RRGGBB</code>。你不需要记，选完复制就行。</p>
+        </div>
+
+        <div>
+          <h4 style="font-size:14px;margin:0 0 8px">在照片上点一下</h4>
+          <label class="upload" for="photoInput">
+            <span>选择一张衣服照片</span>
+            <small>只在你的浏览器里处理，不会上传</small>
+          </label>
+          <input type="file" id="photoInput" accept="image/*" hidden>
+          <p class="hint" id="photoHint">选好照片后，点衣服中间平整的地方。系统会取周围一小块的平均色，避开褶皱和高光。</p>
+          <div class="canvas-wrap" id="canvasWrap" hidden>
+            <canvas id="photoCanvas" aria-label="衣服照片，点一下取色"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>16 个常用颜色</h3>
+      <p class="small muted" style="margin-bottom:0">没有你的颜色就用上面的照片取色器或调色盘。点一下即选中并复制。</p>
+      <div class="palette" id="palette">
+        <button class="swatch" type="button" data-hex="#1E1E1E" data-name="黑"><span class="sw" style="background:#1E1E1E"></span><span class="sn">黑</span><code>#1E1E1E</code></button>
+        <button class="swatch" type="button" data-hex="#4A4A4A" data-name="深灰"><span class="sw" style="background:#4A4A4A"></span><span class="sn">深灰</span><code>#4A4A4A</code></button>
+        <button class="swatch" type="button" data-hex="#808080" data-name="中灰"><span class="sw" style="background:#808080"></span><span class="sn">中灰</span><code>#808080</code></button>
+        <button class="swatch" type="button" data-hex="#B8B8B8" data-name="浅灰"><span class="sw" style="background:#B8B8B8"></span><span class="sn">浅灰</span><code>#B8B8B8</code></button>
+        <button class="swatch" type="button" data-hex="#F2F2F2" data-name="白"><span class="sw" style="background:#F2F2F2"></span><span class="sn">白</span><code>#F2F2F2</code></button>
+        <button class="swatch" type="button" data-hex="#D9CBB3" data-name="米色"><span class="sw" style="background:#D9CBB3"></span><span class="sn">米色</span><code>#D9CBB3</code></button>
+        <button class="swatch" type="button" data-hex="#C3B091" data-name="卡其"><span class="sw" style="background:#C3B091"></span><span class="sn">卡其</span><code>#C3B091</code></button>
+        <button class="swatch" type="button" data-hex="#6B4A2F" data-name="棕"><span class="sw" style="background:#6B4A2F"></span><span class="sn">棕</span><code>#6B4A2F</code></button>
+        <button class="swatch" type="button" data-hex="#4A3020" data-name="深棕"><span class="sw" style="background:#4A3020"></span><span class="sn">深棕</span><code>#4A3020</code></button>
+        <button class="swatch" type="button" data-hex="#2F4156" data-name="藏青"><span class="sw" style="background:#2F4156"></span><span class="sn">藏青</span><code>#2F4156</code></button>
+        <button class="swatch" type="button" data-hex="#1F3A5F" data-name="深蓝"><span class="sw" style="background:#1F3A5F"></span><span class="sn">深蓝</span><code>#1F3A5F</code></button>
+        <button class="swatch" type="button" data-hex="#3A4A63" data-name="牛仔蓝"><span class="sw" style="background:#3A4A63"></span><span class="sn">牛仔蓝</span><code>#3A4A63</code></button>
+        <button class="swatch" type="button" data-hex="#7FA6C8" data-name="浅蓝"><span class="sw" style="background:#7FA6C8"></span><span class="sn">浅蓝</span><code>#7FA6C8</code></button>
+        <button class="swatch" type="button" data-hex="#4A5A3A" data-name="军绿"><span class="sw" style="background:#4A5A3A"></span><span class="sn">军绿</span><code>#4A5A3A</code></button>
+        <button class="swatch" type="button" data-hex="#2F4F3F" data-name="墨绿"><span class="sw" style="background:#2F4F3F"></span><span class="sn">墨绿</span><code>#2F4F3F</code></button>
+        <button class="swatch" type="button" data-hex="#6B1F2A" data-name="酒红"><span class="sw" style="background:#6B1F2A"></span><span class="sn">酒红</span><code>#6B1F2A</code></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>取色的 3 条规矩</h3>
+      <ol class="rules">
+        <li><b>取主色，不取高光和阴影。</b>照片里最亮、最暗的地方都不代表衣服。点中间平整、没有反光的一块。</li>
+        <li><b>有图案就取底色。</b>格纹衬衫取格子之间的底布；条纹T恤取面积最大的那个颜色。</li>
+        <li><b>黑不要填 <code>#000000</code>，白不要填 <code>#FFFFFF</code>。</b>用 <code>#1E1E1E</code> 和 <code>#F2F2F2</code>。真实衣服几乎没有纯黑纯白，填纯色会让规则把所有深色、浅色算成同一个极端。</li>
+      </ol>
+      <p class="hint">手机自动白平衡会让藏青偏蓝、卡其偏黄。这轮不要求精确，差一点不影响组合判断；介意就在备注写「未校正」。要精确，等标定卡验证通过后再拍。</p>
+    </div>
+  </section>
+
+  <!-- ============ FIELDS ============ -->
+  <section id="fields">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <h2>填字段</h2>
+      <p>9 个必填 + 2 个建议填；点开看细节</p>
+    </div>
+
+    <div class="callout accent">
+      <strong>正式度这轮可以不用你判断。</strong>
+      M1 全部手填，照片只留档、不给建议值。按下面的「常见单品默认值」填；拿不准就填 <code>3</code>。
+    </div>
+
+    <details>
+      <summary><b>品类</b><span>这件衣服是什么 · 15 选 1</span></summary>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>品类</th><th>什么算</th><th>容易混的地方</th></tr></thead>
+          <tbody>
+            <tr><td><code>T恤</code></td><td>短袖 / 长袖棉T</td><td>带帽子的算卫衣</td></tr>
+            <tr><td><code>衬衫</code></td><td>有领子、有扣子</td><td>针织polo算针织</td></tr>
+            <tr><td><code>卫衣</code></td><td>有帽子或罗纹袖口的套头衫</td><td>加绒卫衣也是卫衣</td></tr>
+            <tr><td><code>毛衣</code></td><td>厚线、羊毛、保暖的套头 / 开衫</td><td>薄线针织算「针织」</td></tr>
+            <tr><td><code>针织</code></td><td>细线针织衫、针织开衫、针织polo</td><td>分不清就和毛衣二选一，不影响求解</td></tr>
+            <tr><td><code>外套</code></td><td>中长款或保暖外层：风衣、大衣、羽绒、棉服、冲锋衣</td><td>短款拉链夹克算「夹克」</td></tr>
+            <tr><td><code>夹克</code></td><td>短款、有拉链 / 扣、收下摆：牛仔夹克、工装夹克、飞行员夹克</td><td>—</td></tr>
+            <tr><td><code>西装</code></td><td>单件西装外套（不是成套）</td><td>成套买、成套穿的算「西装套装」</td></tr>
+            <tr><td><code>裤子</code></td><td>普通长裤、休闲裤、西裤、工装裤</td><td>牛仔布做的算「牛仔裤」</td></tr>
+            <tr><td><code>牛仔裤</code></td><td>牛仔布裤子</td><td>—</td></tr>
+            <tr><td><code>短裤</code></td><td>所有短裤</td><td>—</td></tr>
+            <tr><td><code>鞋</code></td><td>运动鞋、板鞋、皮鞋、靴子</td><td>不要写「运动鞋」，就写「鞋」</td></tr>
+            <tr><td><code>配饰</code></td><td>帽子、围巾、包、腰带</td><td>鞋不算配饰</td></tr>
+            <tr><td><code>连体装</code></td><td>连体裤、背带工装</td><td>一件占上衣 + 下装两个位置</td></tr>
+            <tr><td><code>西装套装</code></td><td>上衣和裤子成套</td><td>一件占外层 + 下装两个位置</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="scroll-hint">表格可以左右滑动。</p>
+    </details>
+
+    <details>
+      <summary><b>层级</b><span>穿在身体的哪一层 · 6 个值</span></summary>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>填</th><th>中文</th><th>什么衣服</th></tr></thead>
+          <tbody>
+            <tr><td><code>inner</code></td><td>内层</td><td>T恤、衬衫、薄针织、打底</td></tr>
+            <tr><td><code>mid</code></td><td>中层</td><td>卫衣、针织开衫、薄夹克</td></tr>
+            <tr><td><code>outer</code></td><td>外层</td><td>外套、夹克、大衣、西装</td></tr>
+            <tr><td><code>bottom</code></td><td>下装</td><td>裤子、牛仔裤、短裤</td></tr>
+            <tr><td><code>shoes</code></td><td>鞋</td><td>所有鞋</td></tr>
+            <tr><td><code>accessory</code></td><td>配饰</td><td>帽子、围巾、包、腰带</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>能填两个值：</b>一件衣服既可以直接单穿，也能套在别的上装外面，就写 <code>inner/mid</code>。意思是「可以当内层，也可以当中间层」，<b>不是一套里穿两件</b>。</p>
+      <p class="muted small">连体装、西装套装：层级留空，系统按品类自动分配。</p>
+    </details>
+
+    <details>
+      <summary><b>正式度</b><span>1–5 · 评衣服，不评场合</span></summary>
+      <div class="ladder">
+        <div class="rung"><b>1</b><span>运动</span><small>跑步短裤、球衣、运动卫衣、跑鞋</small></div>
+        <div class="rung"><b>2</b><span>休闲</span><small>印花T恤、牛仔裤、帆布鞋、连帽卫衣</small></div>
+        <div class="rung active"><b>3</b><span>日常</span><small>素色T恤 / 衬衫、卡其裤、针织衫、板鞋、乐福鞋</small></div>
+        <div class="rung"><b>4</b><span>商务休闲</span><small>西装外套、西裤、皮鞋、羊绒衫、大衣</small></div>
+        <div class="rung"><b>5</b><span>正装</span><small>成套西装、礼服、正装皮鞋</small></div>
+      </div>
+      <p style="margin-top:12px"><b>常见误判：</b>黑色T恤不是 4，还是 2；西装外套即使配牛仔裤穿，它本身也是 4。</p>
+      <p><b>鞋单独看：</b>跑鞋 1–2 · 帆布鞋 / 板鞋 2 · 小白鞋 / 乐福鞋 3 · 皮鞋 / 切尔西靴 4 · 正装皮鞋 5。</p>
+      <p class="muted small">规则只看相对差：相邻两层差 ≤1，全身最大差 ≤2，鞋和全身平均差 ≤1。所以 10 件之间的相对排序比绝对值更重要。</p>
+    </details>
+
+    <details>
+      <summary><b>版型</b><span>穿上之后是紧、正常还是大</span></summary>
+      <p><b>看实际穿上身的效果，不看吊牌上的 S / M / L。</b>拿不准填 <code>regular</code>。</p>
+      <div class="fit-grid">
+        <div class="fit">
+          <svg viewBox="-10 0 100 96" aria-hidden="true"><path d="M30,14 L16,26 L10,48 L22,52 L26,40 L26,88 L54,88 L54,40 L58,52 L70,48 L64,26 L50,14 L44,14 Q40,22 36,14 Z" fill="#2F4156" opacity=".85" transform="translate(40,50) scale(.84) translate(-40,-50)"/></svg>
+          <b>slim 修身</b><small>贴身，肩线刚好，抬手臂有拉扯感；裤子从大腿到脚踝都收</small>
+        </div>
+        <div class="fit">
+          <svg viewBox="-10 0 100 96" aria-hidden="true"><path d="M30,14 L16,26 L10,48 L22,52 L26,40 L26,88 L54,88 L54,40 L58,52 L70,48 L64,26 L50,14 L44,14 Q40,22 36,14 Z" fill="#2F4156" opacity=".85"/></svg>
+          <b>regular 合身</b><small>里面能加一件薄T恤，不紧也不垮；裤子是直筒</small>
+        </div>
+        <div class="fit">
+          <svg viewBox="-10 0 100 96" aria-hidden="true"><path d="M30,14 L16,26 L10,48 L22,52 L26,40 L26,88 L54,88 L54,40 L58,52 L70,48 L64,26 L50,14 L44,14 Q40,22 36,14 Z" fill="#2F4156" opacity=".85" transform="translate(40,50) scale(1.16) translate(-40,-50)"/></svg>
+          <b>oversize 宽松</b><small>肩线掉到手臂上，袖口过手腕，身体明显空；裤子是阔腿 / 工装 / 降落伞</small>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary><b>图案</b><span>远看是纯色，还是明显有花</span></summary>
+      <p><b>1 米测试：</b>退后一米看这件衣服。</p>
+      <div class="pattern-grid">
+        <div class="pattern"><span class="pat solid"></span><b>solid 纯色</b><small>远看就是一个颜色。花灰 / 杂色也算纯色</small></div>
+        <div class="pattern"><span class="pat fine"></span><b>fine 细纹</b><small>近看有规律，远看仍是整体色块。细条纹、小格纹</small></div>
+        <div class="pattern"><span class="pat bold"></span><b>bold 大图案</b><small>远看就抢眼。大格、宽条纹、大印花、迷彩、大logo</small></div>
+      </div>
+      <p class="hint">拿不准：纯色和细纹之间选 <code>solid</code>；细纹和大图案之间选 <code>fine</code>。宁可保守，不要错判成 <code>bold</code> 把整套拦掉。</p>
+    </details>
+
+    <details>
+      <summary><b>厚度</b><span>thin / medium / thick · 按手感</span></summary>
+      <div class="thick-grid">
+        <div class="thick"><div class="bars"><i></i><i class="off"></i><i class="off"></i></div><b>thin 薄</b><small>25°C+ 单穿。夏季T恤、薄衬衫、薄针织、薄风衣、速干裤</small></div>
+        <div class="thick"><div class="bars"><i></i><i></i><i class="off"></i></div><b>medium 中</b><small>15–25°C。普通卫衣、牛仔外套、毛衣、西裤、牛仔裤、帆布鞋</small></div>
+        <div class="thick"><div class="bars"><i></i><i></i><i></i></div><b>thick 厚</b><small>10°C 以下或需要外套。羽绒、厚大衣、加绒卫衣、厚毛衣、加绒裤、皮靴</small></div>
+      </div>
+      <p style="margin-top:12px"><b>15°C 自测：</b>15°C 单穿它，会不会冷？不冷 → <code>thin</code>；刚好 → <code>medium</code>；会冷 → <code>thick</code>。</p>
+      <p class="muted small">鞋和配饰的厚度随便填 <code>medium</code>，规则不看。</p>
+    </details>
+
+    <details>
+      <summary><b>材质</b><span>建议填 · 看洗标，不确定就填「不确定」</span></summary>
+      <p>翻到衣服内侧的洗标，看「成分」那一行。没有吊牌就填「不确定」，规则会跳过，<b>不算错</b>。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>填</th><th>典型衣服</th><th>怎么认</th></tr></thead>
+          <tbody>
+            <tr><td><code>棉</code></td><td>T恤、衬衫、卫衣、卡其裤</td><td>柔软、透气、容易皱</td></tr>
+            <tr><td><code>羊毛</code></td><td>西装、大衣、毛衣</td><td>保暖、有质感、可能扎</td></tr>
+            <tr><td><code>针织</code></td><td>针织衫、开衫</td><td>有弹性的编织面料</td></tr>
+            <tr><td><code>牛仔</code></td><td>牛仔裤、牛仔夹克</td><td>斜纹厚棉布</td></tr>
+            <tr><td><code>皮革</code></td><td>皮衣、皮鞋、皮靴</td><td>光滑或磨砂，防水</td></tr>
+            <tr><td><code>尼龙</code></td><td>羽绒服、冲锋衣、运动裤</td><td>轻、滑、耐磨</td></tr>
+            <tr><td><code>亚麻</code></td><td>夏季衬衫、裤子</td><td>粗纤维、很容易皱</td></tr>
+            <tr><td><code>化纤</code></td><td>聚酯纤维、腈纶混纺</td><td>看吊牌</td></tr>
+            <tr><td><code>麂皮</code></td><td>麂皮鞋、麂皮夹克</td><td>毛绒感，怕水</td></tr>
+            <tr><td><code>帆布</code></td><td>帆布鞋、帆布包</td><td>粗棉布，怕水</td></tr>
+            <tr><td><code>缎面</code></td><td>光滑反光面料</td><td>男士很少见</td></tr>
+            <tr><td><code>橡胶</code></td><td>雨靴</td><td>防水</td></tr>
+            <tr><td><code>防水涂层</code></td><td>冲锋衣、雨衣</td><td>表面有涂层</td></tr>
+            <tr><td><code>不确定</code></td><td>没吊牌、看不出来</td><td>规则跳过，不算错</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="scroll-hint">表格可以左右滑动。</p>
+    </details>
+
+    <details>
+      <summary><b>领型</b><span>建议填 · 只有双高领 / 双连帽会扣分</span></summary>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>填</th><th>什么领子</th></tr></thead>
+          <tbody>
+            <tr><td><code>圆领</code></td><td>普通T恤、圆领卫衣</td></tr>
+            <tr><td><code>高领</code></td><td>高领毛衣、半高领打底</td></tr>
+            <tr><td><code>V领</code></td><td>V领毛衣、V领开衫</td></tr>
+            <tr><td><code>翻领</code></td><td>衬衫、polo、西装领、大衣领</td></tr>
+            <tr><td><code>连帽</code></td><td>连帽卫衣、连帽冲锋衣</td></tr>
+            <tr><td><code>无领</code></td><td>无领针织、背心</td></tr>
+            <tr><td><code>不适用</code></td><td>裤子、鞋、配饰</td></tr>
+            <tr><td><code>不确定</code></td><td>看不出来</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small">只有一种情况真正影响结果：两层都是高领，或两层都连帽。其余填错基本无害。</p>
+    </details>
+
+    <details>
+      <summary><b>尺寸</b><span>9 项 · 上衣 4 / 裤子 4 / 鞋码 1</span></summary>
+      <p>测量位置见本页 <a href="#measure">第 01 节</a>。填到模板的对应列；鞋码在网页录入页填：</p>
+      <ul class="rules">
+        <li>上衣 / 外套：<code>衣长cm</code>、<code>肩宽cm</code>、<code>胸宽cm</code>、<code>袖长cm</code>；含毛衣 / 针织，衣长、肩宽、胸宽必填，袖长选填</li>
+        <li>裤子：<code>裤长cm</code>、<code>平铺腰围cm</code>、<code>平铺臀围cm</code>、<code>脚口宽cm</code>；<code>衣长cm</code> 留空</li>
+        <li>鞋：<code>鞋码EU</code>；配饰：尺寸全部留空</li>
+      </ul>
+      <p class="muted small">M1 读取「衣长」「肩宽」「胸宽」「袖长」和裤子的「平铺臀围」：缺了不报错，只是对应的软规则跳过。鞋码只存档，不参与规则。</p>
+    </details>
+
+    <div class="card">
+      <h3>常见单品默认值</h3>
+      <p class="small muted">照你的实物改颜色和厚薄；拿不准的项按卡片上的填。颜色只是示例，用上面的取色器换掉。</p>
+      <div class="preset-grid">
+        <article class="preset"><h4>白色短袖T恤</h4><p class="preset-line"><span>T恤</span><span>inner</span><span>正式度 2</span></p><p class="preset-sub">regular · solid · thin · 棉 · 圆领 · <code>#F2F2F2</code></p></article>
+        <article class="preset"><h4>藏青衬衫</h4><p class="preset-line"><span>衬衫</span><span>inner/mid</span><span>正式度 3</span></p><p class="preset-sub">regular · solid · thin · 棉 · 翻领 · <code>#2F4156</code></p></article>
+        <article class="preset"><h4>灰色连帽卫衣</h4><p class="preset-line"><span>卫衣</span><span>inner/mid</span><span>正式度 2</span></p><p class="preset-sub">regular · solid · medium · 棉 · 连帽 · <code>#B8B8B8</code></p></article>
+        <article class="preset"><h4>浅灰针织衫</h4><p class="preset-line"><span>针织</span><span>inner/mid</span><span>正式度 3</span></p><p class="preset-sub">regular · solid · thin · 针织 · 圆领 · <code>#B8B8B8</code></p></article>
+        <article class="preset"><h4>黑色高领毛衣</h4><p class="preset-line"><span>毛衣</span><span>inner/mid</span><span>正式度 3</span></p><p class="preset-sub">regular · solid · medium · 羊毛 · 高领 · <code>#1E1E1E</code></p></article>
+        <article class="preset"><h4>深蓝牛仔外套</h4><p class="preset-line"><span>夹克</span><span>outer</span><span>正式度 3</span></p><p class="preset-sub">regular · solid · medium · 牛仔 · 翻领 · <code>#3A4A63</code></p></article>
+        <article class="preset"><h4>黑色西装外套</h4><p class="preset-line"><span>西装</span><span>outer</span><span>正式度 4</span></p><p class="preset-sub">regular · solid · medium · 羊毛 · 翻领 · <code>#1E1E1E</code></p></article>
+        <article class="preset"><h4>卡其直筒裤</h4><p class="preset-line"><span>裤子</span><span>bottom</span><span>正式度 3</span></p><p class="preset-sub">regular · solid · medium · 棉 · 不适用 · <code>#C3B091</code></p></article>
+        <article class="preset"><h4>深蓝牛仔裤</h4><p class="preset-line"><span>牛仔裤</span><span>bottom</span><span>正式度 2</span></p><p class="preset-sub">regular · solid · medium · 牛仔 · 不适用 · <code>#3A4A63</code></p></article>
+        <article class="preset"><h4>白色板鞋</h4><p class="preset-line"><span>鞋</span><span>shoes</span><span>正式度 2</span></p><p class="preset-sub">regular · solid · medium · 皮革 · 不适用 · <code>#F2F2F2</code></p></article>
+        <article class="preset"><h4>棕色皮靴</h4><p class="preset-line"><span>鞋</span><span>shoes</span><span>正式度 3</span></p><p class="preset-sub">regular · solid · thick · 皮革 · 不适用 · <code>#6B4A2F</code></p></article>
+        <article class="preset"><h4>黑色皮带</h4><p class="preset-line"><span>配饰</span><span>accessory</span><span>正式度 3</span></p><p class="preset-sub">regular · solid · medium · 皮革 · 不适用 · <code>#1E1E1E</code></p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHECKLIST ============ -->
+  <section id="checklist">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <h2>10 件清单</h2>
+      <p>覆盖 3 上装 · 2 下装 · 2 鞋 · 1 外套 · 1 中层 · 1 配饰</p>
+    </div>
+
+    <div class="card">
+      <div class="progress-row">
+        <span id="progressText">已勾选 0 / 10</span>
+        <div class="bar" aria-hidden="true"><i id="progressBar"></i></div>
+      </div>
+      <ul class="checklist">
+        <li><label><input type="checkbox" data-check="1"><span class="check-body"><b>上装 1 · 白色短袖T恤</b><small>薄 · 圆领 · 棉 · 正式度 2</small></span><span class="slot">inner</span></label></li>
+        <li><label><input type="checkbox" data-check="2"><span class="check-body"><b>上装 2 · 藏青衬衫</b><small>薄 · 翻领 · 棉 · 正式度 3</small></span><span class="slot">inner/mid</span></label></li>
+        <li><label><input type="checkbox" data-check="3"><span class="check-body"><b>上装 3 · 浅灰针织衫</b><small>薄 · 圆领 · 针织 · 正式度 3</small></span><span class="slot">inner/mid</span></label></li>
+        <li><label><input type="checkbox" data-check="4"><span class="check-body"><b>中层 1 · 灰色连帽卫衣</b><small>中 · 连帽 · 棉 · 正式度 2</small></span><span class="slot">inner/mid</span></label></li>
+        <li><label><input type="checkbox" data-check="5"><span class="check-body"><b>外套 1 · 深蓝牛仔外套</b><small>中 · 翻领 · 牛仔 · 正式度 3</small></span><span class="slot">outer</span></label></li>
+        <li><label><input type="checkbox" data-check="6"><span class="check-body"><b>下装 1 · 卡其直筒裤</b><small>中 · 棉 · 正式度 3</small></span><span class="slot">bottom</span></label></li>
+        <li><label><input type="checkbox" data-check="7"><span class="check-body"><b>下装 2 · 深蓝牛仔裤</b><small>中 · 牛仔 · 正式度 2</small></span><span class="slot">bottom</span></label></li>
+        <li><label><input type="checkbox" data-check="8"><span class="check-body"><b>鞋 1 · 白色板鞋</b><small>中 · 皮革 · 正式度 2</small></span><span class="slot">shoes</span></label></li>
+        <li><label><input type="checkbox" data-check="9"><span class="check-body"><b>鞋 2 · 棕色皮靴</b><small>厚 · 皮革 · 正式度 3</small></span><span class="slot">shoes</span></label></li>
+        <li><label><input type="checkbox" data-check="10"><span class="check-body"><b>配饰 1 · 帽子 / 围巾 / 包 / 腰带</b><small>没有配饰就换成第 4 件上装</small></span><span class="slot">accessory</span></label></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="../scripts/spike/items_template.xlsx" download>打开属性模板</a>
+        <button class="btn ghost" type="button" id="resetChecks">清空勾选</button>
+      </div>
+      <p class="hint">勾选只存在你自己的浏览器里，不会上传。模板里深蓝色表头是必填，浅蓝色是选填。</p>
+    </div>
+
+    <div class="card">
+      <h3>推荐填写顺序</h3>
+      <ol class="rules">
+        <li><b>名称 + 品类 + 层级。</b>先确定它是什么、放哪个槽位。</li>
+        <li><b>厚度。</b>按手感填，决定温度规则。</li>
+        <li><b>颜色。</b>用取色器或调色板，复制色号。</li>
+        <li><b>版型 + 图案。</b>看上身效果和 1 米测试。</li>
+        <li><b>正式度。</b>按默认表，拿不准填 3。</li>
+        <li><b>材质 + 领型。</b>看洗标；没有就填「不确定」。</li>
+        <li><b>尺寸。</b>上衣 / 外套 4 项，裤子 4 项，鞋填 EU 鞋码，配饰留空。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ RUN ============ -->
+  <section id="run">
+    <div class="sec-head">
+      <span class="sec-no">05</span>
+      <h2>跑干跑</h2>
+      <p>填完直接存 xlsx，不用导 CSV</p>
+    </div>
+
+    <div class="card">
+      <h3>命令</h3>
+      <pre><code id="runCmd">cd ~/claude/个人穿搭助手
+cd scripts/spike
+python3 dryrun.py \
+  --items items_template.xlsx \
+  --occasion 日常 \
+  --feels-like 22 \
+  --height 175 \
+  --out dryrun_real_result.json</code></pre>
+      <button class="btn" type="button" data-copy-target="runCmd">复制命令</button>
+      <p class="hint"><code>--feels-like</code> 填今天的体感温度；<code>--height</code> 填你的身高（cm）。<code>--occasion</code> 可选 <code>日常</code> / <code>旅游</code> / <code>见人</code>。</p>
+    </div>
+
+    <div class="card">
+      <h3>结果先看这 6 个地方</h3>
+      <ol class="rules">
+        <li><b>warnings。</b>有没有行被跳过；常见原因是品类、层级、正式度、HEX、版型 / 图案 / 厚度不完整。</li>
+        <li><b>严格档组合数。</b>≥1 才算跑通；0 套先看库存和阈值，不要先改代码。</li>
+        <li><b>放宽到第 3 档。</b>去重后 ≥10 套。</li>
+        <li><b>锚定测试。</b>可锚定池里随机 5 件，每件 ≥3 套。</li>
+        <li><b>规则健康度。</b>没有任何一条硬规则让 100% 候选失败。</li>
+        <li><b>每档前 10 套。</b>读 reason，记下「第一眼觉得不对」的组合——这是阈值校准的起点。</li>
+      </ol>
+      <p class="hint">跑完把 <code>scripts/spike/dryrun_real_result.json</code> 发我，我来读结果、区分「库存缺口 / 阈值太紧 / 规则 bug」，再决定下一步。</p>
+    </div>
+
+    <div class="callout ok">
+      <strong>这一步的目的不是「跑通」，是「发现不对」。</strong>
+      第一眼觉得不对的组合，比十条通过的规则更有价值。把它们记下来，就是 M1 开工前最真实的校准依据。
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq">
+    <div class="sec-head">
+      <span class="sec-no">06</span>
+      <h2>常见问题</h2>
+      <p>新手最容易卡住的 9 个点</p>
+    </div>
+
+    <details><summary><b>没有洗标，材质怎么填？</b></summary><p>填「不确定」。R-MAT-01 和 R-SHO-03 会跳过这一项，不会误判，也不会让整行作废。</p></details>
+
+    <details><summary><b>照片偏色，取到的颜色不准怎么办？</b></summary><p>用 16 色调色板肉眼选最接近的，备注写「未校正」。这轮干跑只用颜色算色差，差一点不影响组合是否成立；要精确，等标定卡验证通过后再拍。</p></details>
+
+    <details><summary><b>量错 1–2cm 要不要重来？</b></summary><p>不用。M1 的尺寸判断是软规则，差 1–2cm 影响很小；量法错了（比如腰围乘了 2）才需要重来。</p></details>
+    <details><summary><b>一件衣服要拍几张照片？</b></summary><p>M1 录入页最多 6 张，第一张作为封面；多拍几张只用于留档和以后回看，不估尺寸、也不给属性建议。已存照片不会删除，编辑时只能继续追加。</p></details>
+
+    <details><summary><b>必须一次填完 10 件吗？</b></summary><p>不用。先填 3 件（1 上装 + 1 下装 + 1 鞋）也能跑，只是结果少、锚定测试样本不足。建议按清单一次填完，省得反复开表。</p></details>
+
+    <details><summary><b>正式度真的不用我判断？</b></summary><p>这轮按「常见单品默认值」填，拿不准填 3。M1 录入页也是全部手填，照片只留档、不给建议值；规则只看 10 件之间的相对差。</p></details>
+
+    <details><summary><b>这轮要拍照吗？</b></summary><p>不用。取色器只是可选的省事工具。照片是 M1 录入时留档用的，不估尺寸、也不给属性建议；这轮用调色板就能填完颜色。</p></details>
+
+    <details><summary><b>插肩袖怎么量肩宽和袖长？</b></summary><p>肩宽留空，备注写「插肩」；袖长从后领中点量到袖口，备注写「插肩袖长」。不要硬找一条不存在的肩缝。</p></details>
+
+    <details><summary><b>松紧腰怎么量平铺腰围？</b></summary><p>自然平放，不要拉直。量腰头两端，备注写「松紧腰」。拉直量会偏大，穿上反而不准。</p></details>
+
+    <details><summary><b>为什么黑要填 #1E1E1E，不填 #000000？</b></summary><p>真实衣服几乎没有纯黑纯白。纯黑、纯白会把阴影和高光一起算成极端值，让色差规则误判。用 <code>#1E1E1E</code> / <code>#F2F2F2</code> 更接近实物。</p></details>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>个人穿搭助手 · M1 开工前教程 · 对应 <code>docs/07-开工前检查.md</code> 第 2 节</p>
+  <p>文件：<code>docs/08-量衣与填表教程.html</code> · 生成于 2026-10-25 · 本页可离线使用</p>
+  <p>所有照片取色都在浏览器本地完成，不会上传到任何服务。</p>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<noscript>
+  <div class="wrap"><div class="callout warm">取色器和清单勾选需要 JavaScript；测量图、字段说明和默认值表不受影响。</div></div>
+</noscript>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+  /* ---------- toast ---------- */
+  let toastTimer = null;
+  function toast(msg) {
+    const el = $('#toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 1900);
+  }
+
+  /* ---------- copy ---------- */
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (err) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.top = '-1000px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return ok;
+      } catch (err2) {
+        return false;
+      }
+    }
+  }
+
+  $$('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = btn.getAttribute('data-copy') || '';
+      const ok = await copyText(text);
+      toast(ok ? `已复制 ${text}` : '复制失败，请手动选中');
+    });
+  });
+
+  $$('[data-copy-target]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const target = document.getElementById(btn.getAttribute('data-copy-target'));
+      if (!target) return;
+      const ok = await copyText(target.textContent.trim());
+      toast(ok ? '命令已复制' : '复制失败，请手动选中');
+    });
+  });
+
+  /* ---------- color ---------- */
+  const NAMED = [
+    { name: '黑', hex: '#1E1E1E' },
+    { name: '深灰', hex: '#4A4A4A' },
+    { name: '中灰', hex: '#808080' },
+    { name: '浅灰', hex: '#B8B8B8' },
+    { name: '白', hex: '#F2F2F2' },
+    { name: '米色', hex: '#D9CBB3' },
+    { name: '卡其', hex: '#C3B091' },
+    { name: '棕', hex: '#6B4A2F' },
+    { name: '深棕', hex: '#4A3020' },
+    { name: '藏青', hex: '#2F4156' },
+    { name: '深蓝', hex: '#1F3A5F' },
+    { name: '牛仔蓝', hex: '#3A4A63' },
+    { name: '浅蓝', hex: '#7FA6C8' },
+    { name: '军绿', hex: '#4A5A3A' },
+    { name: '墨绿', hex: '#2F4F3F' },
+    { name: '酒红', hex: '#6B1F2A' },
+    { name: '橙', hex: '#C25A2A' },
+    { name: '红', hex: '#A8352F' }
+  ];
+
+  function hexToRgb(hex) {
+    let h = String(hex || '').trim().replace(/^#/, '');
+    if (h.length === 3) h = h.split('').map(c => c + c).join('');
+    if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+    return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+  }
+
+  function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('').toUpperCase();
+  }
+
+  function nearestNamed(hex) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return NAMED[0];
+    let best = NAMED[0];
+    let bestD = Infinity;
+    for (const c of NAMED) {
+      const n = hexToRgb(c.hex);
+      const d = 2 * Math.pow(rgb[0] - n[0], 2) + 4 * Math.pow(rgb[1] - n[1], 2) + 3 * Math.pow(rgb[2] - n[2], 2);
+      if (d < bestD) { bestD = d; best = c; }
+    }
+    return best;
+  }
+
+  const el = {
+    swatch: $('#resultSwatch'),
+    hex: $('#resultHex'),
+    name: $('#resultName'),
+    copy: $('#copyHex'),
+    picker: $('#picker')
+  };
+  let currentHex = '#2F4156';
+
+  function setColor(hex, name) {
+    const normalized = String(hex || '').toUpperCase();
+    if (!hexToRgb(normalized)) return;
+    currentHex = normalized.length === 4
+      ? '#' + normalized.slice(1).split('').map(c => c + c).join('')
+      : normalized;
+    const exact = NAMED.find(c => c.hex.toUpperCase() === currentHex);
+    const label = name || (exact ? exact.name : `接近${nearestNamed(currentHex).name}`);
+    if (el.swatch) {
+      el.swatch.style.background = currentHex;
+      el.swatch.setAttribute('aria-label', `当前颜色 ${label} ${currentHex}`);
+    }
+    if (el.hex) el.hex.textContent = currentHex;
+    if (el.name) el.name.textContent = label;
+    if (el.copy) el.copy.setAttribute('data-copy', currentHex);
+    if (el.picker) el.picker.value = currentHex;
+  }
+
+  $$('.swatch').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const hex = btn.getAttribute('data-hex');
+      const name = btn.getAttribute('data-name');
+      setColor(hex, name);
+      copyText(hex).then(ok => {
+        toast(ok ? `已选 ${name}，色号已复制` : `已选 ${name} ${hex}`);
+      });
+    });
+  });
+
+  if (el.picker) {
+    el.picker.addEventListener('input', () => {
+      setColor(el.picker.value, null);
+    });
+  }
+
+  setColor('#2F4156', '藏青');
+
+  /* ---------- photo sampler ---------- */
+  const fileInput = $('#photoInput');
+  const canvas = $('#photoCanvas');
+  const canvasWrap = $('#canvasWrap');
+  const photoHint = $('#photoHint');
+  const ctx = canvas ? canvas.getContext('2d', { willReadFrequently: true }) : null;
+  const work = document.createElement('canvas');
+  const wctx = work.getContext('2d', { willReadFrequently: true });
+  let photoLoaded = false;
+
+  if (fileInput && canvas && ctx) {
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) return;
+      if (!/^image\//.test(file.type) && !/\.(jpe?g|png|webp|gif|bmp)$/i.test(file.name)) {
+        toast('请选择 JPG / PNG / WebP 图片');
+        return;
+      }
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        const maxW = 1000;
+        const scale = Math.min(1, maxW / img.naturalWidth);
+        const w = Math.max(1, Math.round(img.naturalWidth * scale));
+        const h = Math.max(1, Math.round(img.naturalHeight * scale));
+        work.width = w;
+        work.height = h;
+        wctx.clearRect(0, 0, w, h);
+        wctx.drawImage(img, 0, 0, w, h);
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(work, 0, 0);
+        canvasWrap.hidden = false;
+        photoLoaded = true;
+        if (photoHint) photoHint.textContent = '在照片上点一下衣服中间平整的地方。点错了再点一次。';
+        URL.revokeObjectURL(url);
+        try { canvas.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { /* ignore */ }
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        toast('这张照片浏览器打不开，换 JPG / PNG 试试');
+      };
+      img.src = url;
+    });
+
+    canvas.addEventListener('click', (e) => {
+      if (!photoLoaded) return;
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const x = Math.max(0, Math.min(canvas.width - 1, Math.round((e.clientX - rect.left) * canvas.width / rect.width)));
+      const y = Math.max(0, Math.min(canvas.height - 1, Math.round((e.clientY - rect.top) * canvas.height / rect.height)));
+      const size = 9;
+      const half = Math.floor(size / 2);
+      const sx = Math.max(0, x - half);
+      const sy = Math.max(0, y - half);
+      const sw = Math.max(1, Math.min(size, work.width - sx));
+      const sh = Math.max(1, Math.min(size, work.height - sy));
+      let data;
+      try {
+        data = wctx.getImageData(sx, sy, sw, sh).data;
+      } catch (err) {
+        toast('取色失败，换一张照片试试');
+        return;
+      }
+      let r = 0, g = 0, b = 0, n = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        if (data[i + 3] < 40) continue;
+        r += data[i]; g += data[i + 1]; b += data[i + 2]; n++;
+      }
+      if (!n) { toast('这块区域没有有效像素，换个位置'); return; }
+      const hex = rgbToHex(r / n, g / n, b / n);
+      setColor(hex, null);
+
+      ctx.drawImage(work, 0, 0);
+      ctx.beginPath();
+      ctx.arc(x, y, 14, 0, Math.PI * 2);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = 'rgba(255,255,255,.95)';
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(x, y, 14, 0, Math.PI * 2);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#B4552D';
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#B4552D';
+      ctx.fill();
+
+      toast(`取到 ${hex}（${nearestNamed(hex).name}系）`);
+    });
+  }
+
+  /* ---------- checklist ---------- */
+  const CHECK_KEY = 'wardrobe-tutorial-checks-v1';
+  const boxes = $$('[data-check]');
+  const progressText = $('#progressText');
+  const progressBar = $('#progressBar');
+
+  function updateProgress() {
+    const done = boxes.filter(b => b.checked).length;
+    if (progressText) progressText.textContent = `已勾选 ${done} / ${boxes.length}`;
+    if (progressBar) progressBar.style.width = `${boxes.length ? (done / boxes.length) * 100 : 0}%`;
+  }
+
+  function saveChecks() {
+    try {
+      const ids = boxes.filter(b => b.checked).map(b => b.getAttribute('data-check'));
+      localStorage.setItem(CHECK_KEY, JSON.stringify(ids));
+    } catch (err) { /* localStorage 不可用时静默 */ }
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(CHECK_KEY) || '[]');
+    if (Array.isArray(saved)) {
+      boxes.forEach(b => {
+        if (saved.includes(b.getAttribute('data-check'))) b.checked = true;
+      });
+    }
+  } catch (err) { /* ignore */ }
+
+  boxes.forEach(b => {
+    b.addEventListener('change', () => {
+      saveChecks();
+      updateProgress();
+    });
+  });
+
+  const resetBtn = $('#resetChecks');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      boxes.forEach(b => { b.checked = false; });
+      saveChecks();
+      updateProgress();
+      toast('已清空勾选');
+    });
+  }
+  updateProgress();
+
+  /* ---------- toc scrollspy ---------- */
+  const tocLinks = $$('.toc a');
+  const tocSections = tocLinks
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  let activeId = '';
+  function updateToc() {
+    if (!tocSections.length) return;
+    const y = window.scrollY + 140;
+    let current = tocSections[0];
+    for (const s of tocSections) {
+      if (s.getBoundingClientRect().top + window.scrollY <= y) current = s;
+    }
+    if (current.id === activeId) return;
+    activeId = current.id;
+    tocLinks.forEach(a => {
+      const on = a.getAttribute('href') === '#' + activeId;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+    const activeLink = tocLinks.find(a => a.getAttribute('href') === '#' + activeId);
+    const inner = activeLink && activeLink.closest('.toc-inner');
+    if (inner) {
+      const lr = activeLink.getBoundingClientRect();
+      const ir = inner.getBoundingClientRect();
+      if (lr.left < ir.left + 20) inner.scrollBy({ left: lr.left - ir.left - 20, behavior: 'smooth' });
+      else if (lr.right > ir.right - 40) inner.scrollBy({ left: lr.right - ir.right + 40, behavior: 'smooth' });
+    }
+  }
+  window.addEventListener('scroll', updateToc, { passive: true });
+  window.addEventListener('resize', updateToc);
+  updateToc();
+
+  /* ---------- print ---------- */
+  const printBtn = $('#printBtn');
+  if (printBtn) printBtn.addEventListener('click', () => window.print());
+  window.addEventListener('beforeprint', () => {
+    $$('details').forEach(d => { d.open = true; });
+  });
+})();
+</script>
+</body>
+</html>

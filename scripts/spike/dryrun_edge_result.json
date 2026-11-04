@@ -1,0 +1,2177 @@
+{
+  "generated_at": "2026-10-25T16:36:51",
+  "input": "scripts/spike/items_edge.csv",
+  "context": {
+    "occasion": "日常",
+    "feels_like": 8.0,
+    "is_rainy": true,
+    "height_cm": 160.0
+  },
+  "items": [
+    {
+      "id": 1,
+      "name": "灰绿薄T恤",
+      "category": "T恤",
+      "layers": [
+        "inner"
+      ],
+      "formality": 2,
+      "color_hex": "#4A5A5A",
+      "hue_family": "青",
+      "saturation": 17.8,
+      "lightness": 36.9,
+      "is_neutral": false,
+      "fit": "regular",
+      "pattern": "solid",
+      "material": "棉",
+      "collar": "圆领",
+      "weight": "thin",
+      "length_cm": 68.0,
+      "shoulder_cm": 44.0,
+      "chest_cm": 50.0,
+      "sleeve_cm": 20.0,
+      "waist_cm": null
+    },
+    {
+      "id": 2,
+      "name": "墨绿针织衫",
+      "category": "针织",
+      "layers": [
+        "mid"
+      ],
+      "formality": 3,
+      "color_hex": "#4A5A4A",
+      "hue_family": "绿",
+      "saturation": 17.8,
+      "lightness": 36.5,
+      "is_neutral": false,
+      "fit": "regular",
+      "pattern": "solid",
+      "material": "针织",
+      "collar": "圆领",
+      "weight": "medium",
+      "length_cm": 66.0,
+      "shoulder_cm": 44.0,
+      "chest_cm": 51.0,
+      "sleeve_cm": 60.0,
+      "waist_cm": null
+    },
+    {
+      "id": 3,
+      "name": "黑色修身衬衫",
+      "category": "衬衫",
+      "layers": [
+        "inner"
+      ],
+      "formality": 3,
+      "color_hex": "#1A1A1A",
+      "hue_family": "中性",
+      "saturation": 0.0,
+      "lightness": 9.3,
+      "is_neutral": true,
+      "fit": "slim",
+      "pattern": "solid",
+      "material": "棉",
+      "collar": "翻领",
+      "weight": "thin",
+      "length_cm": 72.0,
+      "shoulder_cm": 43.0,
+      "chest_cm": 48.0,
+      "sleeve_cm": 60.0,
+      "waist_cm": null
+    },
+    {
+      "id": 4,
+      "name": "米色修身裤",
+      "category": "裤子",
+      "layers": [
+        "bottom"
+      ],
+      "formality": 3,
+      "color_hex": "#C3B091",
+      "hue_family": "橙",
+      "saturation": 25.6,
+      "lightness": 72.7,
+      "is_neutral": true,
+      "fit": "slim",
+      "pattern": "solid",
+      "material": "棉",
+      "collar": null,
+      "weight": "medium",
+      "length_cm": 100.0,
+      "shoulder_cm": null,
+      "chest_cm": null,
+      "sleeve_cm": null,
+      "waist_cm": 38.0
+    },
+    {
+      "id": 5,
+      "name": "黑底大花西装",
+      "category": "西装",
+      "layers": [
+        "outer"
+      ],
+      "formality": 4,
+      "color_hex": "#1E1E1E",
+      "hue_family": "中性",
+      "saturation": 0.0,
+      "lightness": 11.3,
+      "is_neutral": true,
+      "fit": "regular",
+      "pattern": "bold",
+      "material": "羊毛",
+      "collar": "翻领",
+      "weight": "medium",
+      "length_cm": 72.0,
+      "shoulder_cm": 45.0,
+      "chest_cm": 52.0,
+      "sleeve_cm": 62.0,
+      "waist_cm": null
+    },
+    {
+      "id": 6,
+      "name": "卡其格纹直筒裤",
+      "category": "裤子",
+      "layers": [
+        "bottom"
+      ],
+      "formality": 3,
+      "color_hex": "#C3B091",
+      "hue_family": "橙",
+      "saturation": 25.6,
+      "lightness": 72.7,
+      "is_neutral": true,
+      "fit": "regular",
+      "pattern": "bold",
+      "material": "棉",
+      "collar": null,
+      "weight": "medium",
+      "length_cm": 100.0,
+      "shoulder_cm": null,
+      "chest_cm": null,
+      "sleeve_cm": null,
+      "waist_cm": 40.0
+    },
+    {
+      "id": 7,
+      "name": "白色帆布鞋",
+      "category": "鞋",
+      "layers": [
+        "shoes"
+      ],
+      "formality": 2,
+      "color_hex": "#EDEDED",
+      "hue_family": "中性",
+      "saturation": 0.0,
+      "lightness": 93.7,
+      "is_neutral": true,
+      "fit": "regular",
+      "pattern": "solid",
+      "material": "帆布",
+      "collar": null,
+      "weight": "medium",
+      "length_cm": null,
+      "shoulder_cm": null,
+      "chest_cm": null,
+      "sleeve_cm": null,
+      "waist_cm": null
+    },
+    {
+      "id": 8,
+      "name": "黑色橡胶靴",
+      "category": "鞋",
+      "layers": [
+        "shoes"
+      ],
+      "formality": 3,
+      "color_hex": "#1E1E1E",
+      "hue_family": "中性",
+      "saturation": 0.0,
+      "lightness": 11.3,
+      "is_neutral": true,
+      "fit": "regular",
+      "pattern": "solid",
+      "material": "橡胶",
+      "collar": null,
+      "weight": "medium",
+      "length_cm": null,
+      "shoulder_cm": null,
+      "chest_cm": null,
+      "sleeve_cm": null,
+      "waist_cm": null
+    },
+    {
+      "id": 9,
+      "name": "米色长风衣",
+      "category": "外套",
+      "layers": [
+        "outer"
+      ],
+      "formality": 3,
+      "color_hex": "#C9B79C",
+      "hue_family": "橙",
+      "saturation": 22.4,
+      "lightness": 75.3,
+      "is_neutral": true,
+      "fit": "regular",
+      "pattern": "solid",
+      "material": "棉",
+      "collar": "翻领",
+      "weight": "thin",
+      "length_cm": 100.0,
+      "shoulder_cm": 46.0,
+      "chest_cm": 56.0,
+      "sleeve_cm": 62.0,
+      "waist_cm": null
+    },
+    {
+      "id": 10,
+      "name": "亮橙宽松卫衣",
+      "category": "卫衣",
+      "layers": [
+        "inner"
+      ],
+      "formality": 2,
+      "color_hex": "#FF6B1A",
+      "hue_family": "橙",
+      "saturation": 89.8,
+      "lightness": 63.2,
+      "is_neutral": false,
+      "fit": "oversize",
+      "pattern": "solid",
+      "material": "棉",
+      "collar": "连帽",
+      "weight": "thin",
+      "length_cm": 70.0,
+      "shoulder_cm": 50.0,
+      "chest_cm": 58.0,
+      "sleeve_cm": 62.0,
+      "waist_cm": null
+    },
+    {
+      "id": 11,
+      "name": "宝蓝宽松衬衫",
+      "category": "衬衫",
+      "layers": [
+        "outer"
+      ],
+      "formality": 2,
+      "color_hex": "#2255CC",
+      "hue_family": "蓝",
+      "saturation": 83.3,
+      "lightness": 39.9,
+      "is_neutral": false,
+      "fit": "oversize",
+      "pattern": "solid",
+      "material": "棉",
+      "collar": "翻领",
+      "weight": "thin",
+      "length_cm": 74.0,
+      "shoulder_cm": 48.0,
+      "chest_cm": 56.0,
+      "sleeve_cm": 61.0,
+      "waist_cm": null
+    },
+    {
+      "id": 12,
+      "name": "红色休闲裤",
+      "category": "裤子",
+      "layers": [
+        "bottom"
+      ],
+      "formality": 2,
+      "color_hex": "#A02020",
+      "hue_family": "红",
+      "saturation": 80.0,
+      "lightness": 35.2,
+      "is_neutral": false,
+      "fit": "regular",
+      "pattern": "solid",
+      "material": "棉",
+      "collar": null,
+      "weight": "medium",
+      "length_cm": 100.0,
+      "shoulder_cm": null,
+      "chest_cm": null,
+      "sleeve_cm": null,
+      "waist_cm": 40.0
+    },
+    {
+      "id": 13,
+      "name": "厚黑羽绒外套",
+      "category": "外套",
+      "layers": [
+        "outer"
+      ],
+      "formality": 2,
+      "color_hex": "#2A2A2A",
+      "hue_family": "中性",
+      "saturation": 0.0,
+      "lightness": 17.1,
+      "is_neutral": true,
+      "fit": "regular",
+      "pattern": "solid",
+      "material": "尼龙",
+      "collar": "翻领",
+      "weight": "thick",
+      "length_cm": 78.0,
+      "shoulder_cm": 48.0,
+      "chest_cm": 58.0,
+      "sleeve_cm": 63.0,
+      "waist_cm": null
+    }
+  ],
+  "candidate_count": 180,
+  "level_counts": {
+    "0": {
+      "new_candidates": 29,
+      "new_deduped": 3,
+      "cumulative_candidates": 29,
+      "cumulative_deduped": 3
+    },
+    "1": {
+      "new_candidates": 1,
+      "new_deduped": 1,
+      "cumulative_candidates": 30,
+      "cumulative_deduped": 3
+    },
+    "2": {
+      "new_candidates": 0,
+      "new_deduped": 0,
+      "cumulative_candidates": 30,
+      "cumulative_deduped": 3
+    },
+    "3": {
+      "new_candidates": 80,
+      "new_deduped": 10,
+      "cumulative_candidates": 110,
+      "cumulative_deduped": 10
+    }
+  },
+  "rule_stats": {
+    "R-COL-01": {
+      "pass": 176,
+      "fail": 4,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-COL-02": {
+      "pass": 30,
+      "fail": 0,
+      "skip": 150,
+      "value": -60.0
+    },
+    "R-COL-03": {
+      "pass": 10,
+      "fail": 0,
+      "skip": 170,
+      "value": 20.0
+    },
+    "R-COL-04": {
+      "pass": 160,
+      "fail": 20,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-COL-05": {
+      "pass": 10,
+      "fail": 0,
+      "skip": 170,
+      "value": -15.0
+    },
+    "R-COL-06": {
+      "pass": 180,
+      "fail": 0,
+      "skip": 0,
+      "value": 270.0
+    },
+    "R-FRM-01": {
+      "pass": 168,
+      "fail": 12,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-FRM-02": {
+      "pass": 180,
+      "fail": 0,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-PRP-01": {
+      "pass": 180,
+      "fail": 0,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-PRP-02": {
+      "pass": 176,
+      "fail": 4,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-PRP-03": {
+      "pass": 16,
+      "fail": 0,
+      "skip": 164,
+      "value": 32.0
+    },
+    "R-PRP-04": {
+      "pass": 36,
+      "fail": 0,
+      "skip": 144,
+      "value": -36.0
+    },
+    "R-LYR-01": {
+      "pass": 126,
+      "fail": 36,
+      "skip": 18,
+      "value": 0.0
+    },
+    "R-LYR-02": {
+      "pass": 24,
+      "fail": 0,
+      "skip": 156,
+      "value": 36.0
+    },
+    "R-LYR-03": {
+      "pass": 0,
+      "fail": 0,
+      "skip": 180,
+      "value": 0.0
+    },
+    "R-MAT-01": {
+      "pass": 72,
+      "fail": 0,
+      "skip": 108,
+      "value": 108.0
+    },
+    "R-PAT-01": {
+      "pass": 168,
+      "fail": 12,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-PAT-02": {
+      "pass": 72,
+      "fail": 0,
+      "skip": 108,
+      "value": 72.0
+    },
+    "R-SHO-01": {
+      "pass": 176,
+      "fail": 4,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-SHO-02": {
+      "pass": 54,
+      "fail": 0,
+      "skip": 126,
+      "value": 81.0
+    },
+    "R-SHO-03": {
+      "pass": 180,
+      "fail": 0,
+      "skip": 0,
+      "value": -45.0
+    },
+    "R-OCC-01": {
+      "pass": 36,
+      "fail": 144,
+      "skip": 0,
+      "value": 0.0
+    },
+    "R-OCC-02": {
+      "pass": 176,
+      "fail": 0,
+      "skip": 4,
+      "value": 352.0
+    },
+    "R-OCC-03": {
+      "pass": 0,
+      "fail": 0,
+      "skip": 180,
+      "value": 0.0
+    }
+  },
+  "levels": {
+    "0": {
+      "new": [
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 12,
+              "name": "红色休闲裤",
+              "category": "裤子"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            5,
+            8,
+            12
+          ],
+          "score": 10.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 6cm，层次拉得开；外层羊毛挺括、内层针织柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            6,
+            8,
+            10,
+            13
+          ],
+          "score": 8.5,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "厚黑羽绒外套 是中性色，能压住全身；外层尼龙挺括、内层针织柔软，有材质对比；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；黑色橡胶靴 与 厚黑羽绒外套 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            4,
+            7,
+            13
+          ],
+          "score": 5.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 12cm，层次拉得开；外层尼龙挺括、内层针织柔软，有材质对比；降水天穿 白色帆布鞋（帆布），容易湿"
+        }
+      ],
+      "cumulative": [
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 12,
+              "name": "红色休闲裤",
+              "category": "裤子"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            5,
+            8,
+            12
+          ],
+          "score": 10.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 6cm，层次拉得开；外层羊毛挺括、内层针织柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            6,
+            8,
+            10,
+            13
+          ],
+          "score": 8.5,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "厚黑羽绒外套 是中性色，能压住全身；外层尼龙挺括、内层针织柔软，有材质对比；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；黑色橡胶靴 与 厚黑羽绒外套 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            4,
+            7,
+            13
+          ],
+          "score": 5.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 12cm，层次拉得开；外层尼龙挺括、内层针织柔软，有材质对比；降水天穿 白色帆布鞋（帆布），容易湿"
+        }
+      ]
+    },
+    "1": {
+      "new": [
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            4,
+            5,
+            7
+          ],
+          "score": 5.0,
+          "relaxed": 1,
+          "relaxed_rules": [
+            "R-SHO-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "放宽 1 档（R-SHO-01：白色帆布鞋 正式度 2，全身均值 3.2，差 1.2 > 1）：黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 6cm，层次拉得开；外层羊毛挺括、内层针织柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次"
+        }
+      ],
+      "cumulative": [
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 12,
+              "name": "红色休闲裤",
+              "category": "裤子"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            5,
+            8,
+            12
+          ],
+          "score": 10.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 6cm，层次拉得开；外层羊毛挺括、内层针织柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            6,
+            8,
+            10,
+            13
+          ],
+          "score": 8.5,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "厚黑羽绒外套 是中性色，能压住全身；外层尼龙挺括、内层针织柔软，有材质对比；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；黑色橡胶靴 与 厚黑羽绒外套 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            4,
+            7,
+            13
+          ],
+          "score": 5.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 12cm，层次拉得开；外层尼龙挺括、内层针织柔软，有材质对比；降水天穿 白色帆布鞋（帆布），容易湿"
+        }
+      ]
+    },
+    "2": {
+      "new": [],
+      "cumulative": [
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 12,
+              "name": "红色休闲裤",
+              "category": "裤子"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            5,
+            8,
+            12
+          ],
+          "score": 10.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 6cm，层次拉得开；外层羊毛挺括、内层针织柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            6,
+            8,
+            10,
+            13
+          ],
+          "score": 8.5,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "厚黑羽绒外套 是中性色，能压住全身；外层尼龙挺括、内层针织柔软，有材质对比；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；黑色橡胶靴 与 厚黑羽绒外套 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            4,
+            7,
+            13
+          ],
+          "score": 5.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 12cm，层次拉得开；外层尼龙挺括、内层针织柔软，有材质对比；降水天穿 白色帆布鞋（帆布），容易湿"
+        }
+      ]
+    },
+    "3": {
+      "new": [
+        {
+          "garments": [
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 12,
+              "name": "红色休闲裤",
+              "category": "裤子"
+            }
+          ],
+          "garment_ids": [
+            3,
+            5,
+            8,
+            12
+          ],
+          "score": 4.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 medium 不兼容）：黑色修身衬衫 是中性色，能压住全身；外层羊毛挺括、内层棉柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次；黑色橡胶靴 与 黑色修身衬衫 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 11,
+              "name": "宝蓝宽松衬衫",
+              "category": "衬衫"
+            }
+          ],
+          "garment_ids": [
+            3,
+            4,
+            8,
+            11
+          ],
+          "score": 4.0,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PRP-03",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：黑色修身衬衫 是中性色，能压住全身；上装宽松、下装修身，有宽窄对比；黑色橡胶靴 与 黑色修身衬衫 同色系，整套有呼应；降水天穿 黑色橡胶靴（橡胶），能应付"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            6,
+            8
+          ],
+          "score": 3.0,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 中 medium 不兼容）：黑色修身衬衫 是中性色，能压住全身；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；黑色橡胶靴 与 黑色修身衬衫 同色系，整套有呼应；降水天穿 黑色橡胶靴（橡胶），能应付"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            }
+          ],
+          "garment_ids": [
+            2,
+            4,
+            8,
+            10
+          ],
+          "score": 2.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PRP-03",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 中 medium 不兼容）：米色修身裤 是中性色，能压住全身；上装宽松、下装修身，有宽窄对比；降水天穿 黑色橡胶靴（橡胶），能应付；场合「日常」，正式度均值 2.8，落在 2–3"
+        },
+        {
+          "garments": [
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 9,
+              "name": "米色长风衣",
+              "category": "外套"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            }
+          ],
+          "garment_ids": [
+            6,
+            8,
+            9,
+            10
+          ],
+          "score": 2.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-03",
+            "R-COL-06",
+            "R-PAT-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-PRP-04"
+          ],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：亮橙宽松卫衣 与 米色长风衣 同色系，ΔE00=26.8，深浅有层次；米色长风衣 是中性色，能压住全身；身高 160cm，米色长风衣 长 100cm，下摆压身高；图案在卡其格纹直筒裤上，其余纯色，视觉有主次"
+        },
+        {
+          "garments": [
+            {
+              "id": 1,
+              "name": "灰绿薄T恤",
+              "category": "T恤"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 11,
+              "name": "宝蓝宽松衬衫",
+              "category": "衬衫"
+            }
+          ],
+          "garment_ids": [
+            1,
+            6,
+            8,
+            11
+          ],
+          "score": 1.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PAT-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：卡其格纹直筒裤 是中性色，能压住全身；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；降水天穿 黑色橡胶靴（橡胶），能应付；场合「日常」，正式度均值 2.5，落在 2–3"
+        },
+        {
+          "garments": [
+            {
+              "id": 1,
+              "name": "灰绿薄T恤",
+              "category": "T恤"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            }
+          ],
+          "garment_ids": [
+            1,
+            4,
+            5,
+            8
+          ],
+          "score": 0.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-FRM-01",
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-FRM-01：灰绿薄T恤（2）与 黑底大花西装（4）正式度差 2；R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 medium 不兼容）：黑底大花西装 是中性色，能压住全身；外层羊毛挺括、内层棉柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次；黑色橡胶靴 与 黑底大花西装 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 1,
+              "name": "灰绿薄T恤",
+              "category": "T恤"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 11,
+              "name": "宝蓝宽松衬衫",
+              "category": "衬衫"
+            }
+          ],
+          "garment_ids": [
+            1,
+            4,
+            7,
+            11
+          ],
+          "score": 0.0,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PRP-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：米色修身裤 是中性色，能压住全身；上装宽松、下装修身，有宽窄对比；降水天穿 白色帆布鞋（帆布），容易湿；场合「日常」，正式度均值 2.2，落在 2–3"
+        },
+        {
+          "garments": [
+            {
+              "id": 1,
+              "name": "灰绿薄T恤",
+              "category": "T恤"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 9,
+              "name": "米色长风衣",
+              "category": "外套"
+            },
+            {
+              "id": 12,
+              "name": "红色休闲裤",
+              "category": "裤子"
+            }
+          ],
+          "garment_ids": [
+            1,
+            8,
+            9,
+            12
+          ],
+          "score": -0.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-PRP-04"
+          ],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：米色长风衣 是中性色，能压住全身；身高 160cm，米色长风衣 长 100cm，下摆压身高；降水天穿 黑色橡胶靴（橡胶），能应付；场合「日常」，正式度均值 2.5，落在 2–3"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            }
+          ],
+          "garment_ids": [
+            2,
+            6,
+            7,
+            10
+          ],
+          "score": -1.0,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PAT-02",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 中 medium 不兼容）：卡其格纹直筒裤 是中性色，能压住全身；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；降水天穿 白色帆布鞋（帆布），容易湿；场合「日常」，正式度均值 2.5，落在 2–3"
+        }
+      ],
+      "cumulative": [
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 12,
+              "name": "红色休闲裤",
+              "category": "裤子"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            5,
+            8,
+            12
+          ],
+          "score": 10.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 6cm，层次拉得开；外层羊毛挺括、内层针织柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            6,
+            8,
+            10,
+            13
+          ],
+          "score": 8.5,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "厚黑羽绒外套 是中性色，能压住全身；外层尼龙挺括、内层针织柔软，有材质对比；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；黑色橡胶靴 与 厚黑羽绒外套 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 2,
+              "name": "墨绿针织衫",
+              "category": "针织"
+            },
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 13,
+              "name": "厚黑羽绒外套",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            2,
+            3,
+            4,
+            7,
+            13
+          ],
+          "score": 5.0,
+          "relaxed": 0,
+          "relaxed_rules": [],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-LYR-02",
+            "R-MAT-01",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "黑色修身衬衫 是中性色，能压住全身；三层长度差 6cm / 12cm，层次拉得开；外层尼龙挺括、内层针织柔软，有材质对比；降水天穿 白色帆布鞋（帆布），容易湿"
+        },
+        {
+          "garments": [
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 11,
+              "name": "宝蓝宽松衬衫",
+              "category": "衬衫"
+            }
+          ],
+          "garment_ids": [
+            3,
+            4,
+            8,
+            11
+          ],
+          "score": 4.0,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PRP-03",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：黑色修身衬衫 是中性色，能压住全身；上装宽松、下装修身，有宽窄对比；黑色橡胶靴 与 黑色修身衬衫 同色系，整套有呼应；降水天穿 黑色橡胶靴（橡胶），能应付"
+        },
+        {
+          "garments": [
+            {
+              "id": 3,
+              "name": "黑色修身衬衫",
+              "category": "衬衫"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 9,
+              "name": "米色长风衣",
+              "category": "外套"
+            }
+          ],
+          "garment_ids": [
+            3,
+            6,
+            8,
+            9
+          ],
+          "score": 2.0,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-PRP-04"
+          ],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：黑色修身衬衫 是中性色，能压住全身；身高 160cm，米色长风衣 长 100cm，下摆压身高；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；黑色橡胶靴 与 黑色修身衬衫 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 1,
+              "name": "灰绿薄T恤",
+              "category": "T恤"
+            },
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 11,
+              "name": "宝蓝宽松衬衫",
+              "category": "衬衫"
+            }
+          ],
+          "garment_ids": [
+            1,
+            6,
+            8,
+            11
+          ],
+          "score": 1.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PAT-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：卡其格纹直筒裤 是中性色，能压住全身；图案在卡其格纹直筒裤上，其余纯色，视觉有主次；降水天穿 黑色橡胶靴（橡胶），能应付；场合「日常」，正式度均值 2.5，落在 2–3"
+        },
+        {
+          "garments": [
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            },
+            {
+              "id": 9,
+              "name": "米色长风衣",
+              "category": "外套"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            }
+          ],
+          "garment_ids": [
+            4,
+            8,
+            9,
+            10
+          ],
+          "score": 1.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-03",
+            "R-COL-06",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-PRP-04"
+          ],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：亮橙宽松卫衣 与 米色长风衣 同色系，ΔE00=26.8，深浅有层次；米色长风衣 是中性色，能压住全身；身高 160cm，米色长风衣 长 100cm，下摆压身高；降水天穿 黑色橡胶靴（橡胶），能应付"
+        },
+        {
+          "garments": [
+            {
+              "id": 1,
+              "name": "灰绿薄T恤",
+              "category": "T恤"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 5,
+              "name": "黑底大花西装",
+              "category": "西装"
+            },
+            {
+              "id": 8,
+              "name": "黑色橡胶靴",
+              "category": "鞋"
+            }
+          ],
+          "garment_ids": [
+            1,
+            4,
+            5,
+            8
+          ],
+          "score": 0.5,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-FRM-01",
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-MAT-01",
+            "R-PAT-02",
+            "R-SHO-02",
+            "R-SHO-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [],
+          "reason": "放宽 3 档（R-FRM-01：灰绿薄T恤（2）与 黑底大花西装（4）正式度差 2；R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 medium 不兼容）：黑底大花西装 是中性色，能压住全身；外层羊毛挺括、内层棉柔软，有材质对比；图案在黑底大花西装上，其余纯色，视觉有主次；黑色橡胶靴 与 黑底大花西装 同色系，整套有呼应"
+        },
+        {
+          "garments": [
+            {
+              "id": 1,
+              "name": "灰绿薄T恤",
+              "category": "T恤"
+            },
+            {
+              "id": 4,
+              "name": "米色修身裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 11,
+              "name": "宝蓝宽松衬衫",
+              "category": "衬衫"
+            }
+          ],
+          "garment_ids": [
+            1,
+            4,
+            7,
+            11
+          ],
+          "score": 0.0,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-06",
+            "R-PRP-03",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-SHO-03"
+          ],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：米色修身裤 是中性色，能压住全身；上装宽松、下装修身，有宽窄对比；降水天穿 白色帆布鞋（帆布），容易湿；场合「日常」，正式度均值 2.2，落在 2–3"
+        },
+        {
+          "garments": [
+            {
+              "id": 6,
+              "name": "卡其格纹直筒裤",
+              "category": "裤子"
+            },
+            {
+              "id": 7,
+              "name": "白色帆布鞋",
+              "category": "鞋"
+            },
+            {
+              "id": 9,
+              "name": "米色长风衣",
+              "category": "外套"
+            },
+            {
+              "id": 10,
+              "name": "亮橙宽松卫衣",
+              "category": "卫衣"
+            }
+          ],
+          "garment_ids": [
+            6,
+            7,
+            9,
+            10
+          ],
+          "score": 0.0,
+          "relaxed": 3,
+          "relaxed_rules": [
+            "R-OCC-01"
+          ],
+          "thumbs_up": [
+            "R-COL-03",
+            "R-COL-06",
+            "R-PAT-02",
+            "R-OCC-02"
+          ],
+          "thumbs_down": [
+            "R-PRP-04",
+            "R-SHO-03"
+          ],
+          "reason": "放宽 3 档（R-OCC-01：体感 8.0°C（<10°C 三层），当前 内 thin / 外 thin 不兼容）：亮橙宽松卫衣 与 米色长风衣 同色系，ΔE00=26.8，深浅有层次；米色长风衣 是中性色，能压住全身；身高 160cm，米色长风衣 长 100cm，下摆压身高；图案在卡其格纹直筒裤上，其余纯色，视觉有主次"
+        }
+      ]
+    }
+  },
+  "anchors": [
+    {
+      "anchor": {
+        "id": 11,
+        "name": "宝蓝宽松衬衫",
+        "category": "衬衫"
+      },
+      "counts": [
+        0,
+        0,
+        0,
+        4
+      ],
+      "best_level": 3,
+      "ok": true
+    },
+    {
+      "anchor": {
+        "id": 2,
+        "name": "墨绿针织衫",
+        "category": "针织"
+      },
+      "counts": [
+        3,
+        3,
+        3,
+        6
+      ],
+      "best_level": 0,
+      "ok": true
+    },
+    {
+      "anchor": {
+        "id": 1,
+        "name": "灰绿薄T恤",
+        "category": "T恤"
+      },
+      "counts": [
+        2,
+        2,
+        2,
+        6
+      ],
+      "best_level": 3,
+      "ok": true
+    },
+    {
+      "anchor": {
+        "id": 5,
+        "name": "黑底大花西装",
+        "category": "西装"
+      },
+      "counts": [
+        2,
+        2,
+        2,
+        4
+      ],
+      "best_level": 3,
+      "ok": true
+    },
+    {
+      "anchor": {
+        "id": 4,
+        "name": "米色修身裤",
+        "category": "裤子"
+      },
+      "counts": [
+        2,
+        2,
+        2,
+        6
+      ],
+      "best_level": 3,
+      "ok": true
+    }
+  ],
+  "anchor_pool_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "anchor_excluded": [],
+  "timing_ms": {
+    "enumerate": 1.6,
+    "assess": 11.6,
+    "anchor": 19.9
+  },
+  "checks": {
+    "strict_ge_1": true,
+    "relaxed3_dedup_ge_10": true,
+    "anchors_ge_3": true,
+    "no_rule_100pct_fail": true,
+    "under_200ms": true
+  },
+  "warnings": []
+}
